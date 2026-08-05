@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { PackageRequestDialog } from "@/components/PackageRequestDialog";
 import type { Pkg } from "@/data/site";
+
 
 export function SectionHeading({
   eyebrow,

@@ -22,10 +22,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Logo />
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="order-2 min-w-0">
+          <Logo />
+        </div>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="order-1 hidden items-center gap-1 lg:flex">
+          {navLinks.slice(0, 2).map((l) => (
+            <Link
           {navLinks.slice(0, 2).map((l) => (
             <Link
               key={l.to}

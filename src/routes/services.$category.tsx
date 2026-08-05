@@ -47,7 +47,7 @@ function CategoryPage() {
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {category.items.map((item) => (
+            {category.items.map((item: string) => (
               <div key={item} className="card-elevated flex items-start gap-3 p-6">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
                   <Check className="h-4 w-4" aria-hidden />

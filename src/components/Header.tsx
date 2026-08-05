@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
@@ -87,7 +87,7 @@ export function Header() {
           aria-label="القائمة"
           className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border lg:hidden"
         >
-          {open ? <Menu className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <Menu className="h-5 w-5" />
         </button>
       </div>
 
@@ -128,9 +128,6 @@ export function Header() {
           </div>
         </div>
       )}
-      <span className="hidden">
-        <X />
-      </span>
     </header>
   );
 }

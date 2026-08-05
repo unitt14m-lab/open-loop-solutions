@@ -71,9 +71,8 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         )}
       </div>
 
-      <Button asChild className="mt-4 w-full rounded-full font-bold">
-        <Link to="/booking">اطلب الباقة</Link>
-      </Button>
+      <PackageRequestDialog packageName={`${pkg.title} — ${pkg.subtitle}`} />
+
     </article>
   );
 }

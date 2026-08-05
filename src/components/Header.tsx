@@ -1,0 +1,135 @@
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { ChevronDown, Menu } from "lucide-react";
+import { Logo } from "./Logo";
+import { Button } from "@/components/ui/button";
+import { serviceCategories } from "@/data/site";
+
+const navLinks = [
+  { to: "/", label: "الرئيسية" },
+  { to: "/about", label: "عن أوبن لوب" },
+  { to: "/packages", label: "الباقات" },
+  { to: "/volunteer", label: "تطوع معانا" },
+  { to: "/careers", label: "انضم إلينا" },
+] as const;
+
+const linkClass =
+  "rounded-full px-3 py-2 text-sm font-semibold text-foreground/75 transition-colors hover:bg-secondary hover:text-foreground";
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="order-2 min-w-0">
+          <Logo />
+        </div>
+
+        <nav className="order-1 hidden items-center gap-1 lg:flex">
+          {navLinks.slice(0, 2).map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={linkClass}
+              activeProps={{ className: "bg-secondary text-foreground" }}
+              activeOptions={{ exact: l.to === "/" }}
+            >
+              {l.label}
+            </Link>
+          ))}
+
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+          >
+            <Link to="/services" className={`${linkClass} inline-flex items-center gap-1`}>
+              الخدمات
+              <ChevronDown className="h-4 w-4" aria-hidden />
+            </Link>
+            {servicesOpen && (
+              <div className="absolute end-0 top-full w-80 pt-2">
+                <div className="overflow-hidden rounded-3xl border border-border bg-popover p-2 shadow-xl">
+                  {serviceCategories.map((c) => (
+                    <Link
+                      key={c.slug}
+                      to="/services/$category"
+                      params={{ category: c.slug }}
+                      className="block rounded-2xl px-4 py-3 transition-colors hover:bg-secondary"
+                    >
+                      <span className="block text-sm font-bold">
+                        {c.order}: {c.title}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-muted-foreground">
+                        {c.items.length} خدمة متاحة
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {navLinks.slice(2).map((l) => (
+            <Link key={l.to} to={l.to} className={linkClass} activeProps={{ className: "bg-secondary text-foreground" }}>
+              {l.label}
+            </Link>
+          ))}
+
+          <Button asChild size="sm" className="ms-2 rounded-full px-5">
+            <Link to="/booking">احجز استشارتك</Link>
+          </Button>
+        </nav>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="القائمة"
+          className="order-1 grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border lg:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+
+      {open && (
+        <div className="border-t border-border bg-background lg:hidden">
+          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
+            {navLinks.slice(0, 2).map((l) => (
+              <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
+                {l.label}
+              </Link>
+            ))}
+            <Link to="/services" className={linkClass} onClick={() => setOpen(false)}>
+              الخدمات
+            </Link>
+            <div className="mb-1 flex flex-col ps-4">
+              {serviceCategories.map((c) => (
+                <Link
+                  key={c.slug}
+                  to="/services/$category"
+                  params={{ category: c.slug }}
+                  className="rounded-full px-3 py-1.5 text-sm text-muted-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  — {c.title}
+                </Link>
+              ))}
+            </div>
+            {navLinks.slice(2).map((l) => (
+              <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
+                {l.label}
+              </Link>
+            ))}
+            <Button asChild className="mt-2 rounded-full">
+              <Link to="/booking" onClick={() => setOpen(false)}>
+                احجز استشارتك
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}

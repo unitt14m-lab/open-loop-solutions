@@ -30,8 +30,6 @@ export function Header() {
         <nav className="order-1 hidden items-center gap-1 lg:flex">
           {navLinks.slice(0, 2).map((l) => (
             <Link
-          {navLinks.slice(0, 2).map((l) => (
-            <Link
               key={l.to}
               to={l.to}
               className={linkClass}

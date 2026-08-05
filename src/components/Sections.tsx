@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { PackageRequestDialog } from "@/components/PackageRequestDialog";
 import type { Pkg } from "@/data/site";
+
 
 export function SectionHeading({
   eyebrow,
@@ -71,9 +71,8 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         )}
       </div>
 
-      <Button asChild className="mt-4 w-full rounded-full font-bold">
-        <Link to="/booking">اطلب الباقة</Link>
-      </Button>
+      <PackageRequestDialog packageName={`${pkg.title} — ${pkg.subtitle}`} />
+
     </article>
   );
 }

@@ -81,9 +81,10 @@ function Index() {
             شريك القطاع غير الربحي نحو رؤية السعودية 2030
           </span>
           <h1 className="mt-6 max-w-4xl text-3xl font-extrabold leading-[1.35] sm:text-4xl lg:text-5xl lg:leading-[1.3]">
-            أوبن لوب : مؤسسة تسويق واستشارات متكاملة، تمكّن الجمعيات والقطاع غير الربحي من تحقيق
-            الاستدامة المالية والحوكمة المؤسسية وتعميق الأثر، لمواكبة تطلعات رؤية السعودية 2030
+            أوبن لوب: مؤسسة تسويق واستشارات تمكّن القطاع غير الربحي من الاستدامة وبناء الأثر، وفق
+            رؤية 2030.
           </h1>
+
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
               <a href="/open-loop-profile.pdf" download>

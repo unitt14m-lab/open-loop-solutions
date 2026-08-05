@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check } from "lucide-react";
 import { SectionHeading } from "@/components/Sections";
 import { VolunteerBanner } from "@/components/Footer";
+import { ServiceRequestForm } from "@/components/ServiceRequestForm";
 import { serviceCategories } from "@/data/site";
+
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -64,8 +66,20 @@ function ServicesIndex() {
               </article>
             ))}
           </div>
+
+          <div className="mt-16 space-y-8">
+            {serviceCategories.map((c) => (
+              <ServiceRequestForm
+                key={c.slug}
+                categoryTitle={c.title}
+                items={c.items}
+                idPrefix={`idx-${c.slug}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
+
 
       <VolunteerBanner />
     </>

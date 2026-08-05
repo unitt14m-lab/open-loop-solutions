@@ -2,7 +2,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VolunteerBanner } from "@/components/Footer";
+import { ServiceRequestForm } from "@/components/ServiceRequestForm";
 import { serviceCategories } from "@/data/site";
+
 
 export const Route = createFileRoute("/services/$category")({
   loader: ({ params }) => {
@@ -57,6 +59,14 @@ function CategoryPage() {
             ))}
           </div>
 
+          <div className="mt-12">
+            <ServiceRequestForm
+              categoryTitle={category.title}
+              items={category.items}
+              idPrefix={category.slug}
+            />
+          </div>
+
           <div className="mt-12 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full px-7 font-bold">
               <Link to="/booking">احجز استشارتك</Link>
@@ -67,6 +77,7 @@ function CategoryPage() {
           </div>
         </div>
       </section>
+
 
       <VolunteerBanner />
     </>

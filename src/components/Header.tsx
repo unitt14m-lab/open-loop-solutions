@@ -87,7 +87,7 @@ export function Header() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label="القائمة"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border lg:hidden"
+          className="order-1 grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </button>

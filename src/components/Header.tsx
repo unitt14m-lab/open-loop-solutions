@@ -14,17 +14,17 @@ const navLinks = [
 ] as const;
 
 const linkClass =
-  "rounded-full px-3 py-2 text-sm font-semibold text-foreground/75 transition-colors hover:bg-secondary hover:text-foreground";
+  "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-primary-foreground/10 bg-primary text-primary-foreground shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <div className="order-2 min-w-0">
-          <Logo />
+          <Logo light />
         </div>
 
         <nav className="order-1 hidden items-center gap-1 lg:flex">
@@ -33,7 +33,7 @@ export function Header() {
               key={l.to}
               to={l.to}
               className={linkClass}
-              activeProps={{ className: "bg-secondary text-foreground" }}
+              activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}
               activeOptions={{ exact: l.to === "/" }}
             >
               {l.label}
@@ -73,12 +73,12 @@ export function Header() {
           </div>
 
           {navLinks.slice(2).map((l) => (
-            <Link key={l.to} to={l.to} className={linkClass} activeProps={{ className: "bg-secondary text-foreground" }}>
+            <Link key={l.to} to={l.to} className={linkClass} activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}>
               {l.label}
             </Link>
           ))}
 
-          <Button asChild size="sm" className="ms-2 rounded-full px-5">
+          <Button asChild size="sm" className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90">
             <Link to="/booking">احجز استشارتك</Link>
           </Button>
         </nav>
@@ -87,14 +87,14 @@ export function Header() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label="القائمة"
-          className="order-1 grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border lg:hidden"
+          className="order-1 grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-primary-foreground/25 lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="border-t border-primary-foreground/15 bg-primary lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
             {navLinks.slice(0, 2).map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
@@ -110,7 +110,7 @@ export function Header() {
                   key={c.slug}
                   to="/services/$category"
                   params={{ category: c.slug }}
-                  className="rounded-full px-3 py-1.5 text-sm text-muted-foreground"
+                  className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70"
                   onClick={() => setOpen(false)}
                 >
                   — {c.title}
@@ -122,7 +122,7 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
-            <Button asChild className="mt-2 rounded-full">
+            <Button asChild className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">
               <Link to="/booking" onClick={() => setOpen(false)}>
                 احجز استشارتك
               </Link>

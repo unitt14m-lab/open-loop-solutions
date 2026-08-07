@@ -4,6 +4,7 @@ import heroImage from "@/assets/hero.jpg";
 import { Button } from "@/components/ui/button";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
+import { CateringSection } from "@/components/CateringSection";
 import { VolunteerBanner } from "@/components/Footer";
 import { packages, serviceCategories } from "@/data/site";
 
@@ -155,6 +156,9 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* CATERING */}
+      <CateringSection />
 
       {/* IMPACT */}
       <section className="section-pad">

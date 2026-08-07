@@ -51,7 +51,7 @@ export function Header() {
             </Link>
             {servicesOpen && (
               <div className="absolute end-0 top-full w-80 pt-2">
-                <div className="overflow-hidden rounded-3xl border border-border bg-popover p-2 shadow-xl">
+                <div className="overflow-hidden rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
                   {serviceCategories.map((c) => (
                     <Link
                       key={c.slug}

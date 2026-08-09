@@ -8,10 +8,12 @@ import { serviceCategories } from "@/data/site";
 const navLinks = [
   { to: "/", label: "الرئيسية" },
   { to: "/about", label: "عن أوبن لوب" },
+  { to: "/library", label: "مكتبة أوبن لوب" },
   { to: "/packages", label: "الباقات" },
   { to: "/volunteer", label: "تطوع معانا" },
   { to: "/careers", label: "انضم إلينا" },
 ] as const;
+
 
 const linkClass =
   "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";

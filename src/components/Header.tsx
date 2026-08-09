@@ -128,6 +128,11 @@ export function Header() {
             {navLinks.slice(2).map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
+                {"tagline" in l && (
+                  <span className="mt-0.5 block text-xs font-normal text-primary-foreground/60">
+                    {l.tagline}
+                  </span>
+                )}
               </Link>
             ))}
             <Button asChild className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">

@@ -11,7 +11,7 @@ const navLinks = [
   { to: "/library", label: "مكتبة أوبن لوب" },
   { to: "/packages", label: "الباقات" },
   { to: "/volunteer", label: "تطوع معانا" },
-  { to: "/careers", label: "انضم إلينا" },
+  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
 ] as const;
 
 
@@ -75,7 +75,13 @@ export function Header() {
           </div>
 
           {navLinks.slice(2).map((l) => (
-            <Link key={l.to} to={l.to} className={linkClass} activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}>
+            <Link
+              key={l.to}
+              to={l.to}
+              title={"tagline" in l ? l.tagline : undefined}
+              className={linkClass}
+              activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}
+            >
               {l.label}
             </Link>
           ))}
@@ -122,6 +128,11 @@ export function Header() {
             {navLinks.slice(2).map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
+                {"tagline" in l && (
+                  <span className="mt-0.5 block text-xs font-normal text-primary-foreground/60">
+                    {l.tagline}
+                  </span>
+                )}
               </Link>
             ))}
             <Button asChild className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">

@@ -88,7 +88,7 @@ function Index() {
 
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
-              <a href="/open-loop-profile.pdf" download>
+              <a href="/open-loop-profile.pdf" target="_blank" rel="noopener noreferrer">
                 <Download className="h-5 w-5" aria-hidden />
                 حمل الملف التعريفي
               </a>

@@ -57,7 +57,7 @@ function Careers() {
                   <p className="mt-1 text-sm text-muted-foreground">{r.type}</p>
                 </div>
                 <Button asChild variant="outline" className="rounded-full font-bold">
-                  <a href="mailto:careers@openloop.sa">تقديم</a>
+                  <a href="mailto:openloop2030@gmail.com">تقديم</a>
                 </Button>
               </div>
             ))}

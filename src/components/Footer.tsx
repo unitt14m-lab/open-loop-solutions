@@ -1,8 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Linkedin, Mail, Phone, MapPin, Twitter, HeartHandshake } from "lucide-react";
+import { Instagram, Mail, Phone, MapPin, Twitter, HeartHandshake } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
+
+function TikTok(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M16.5 3c.3 2.1 1.6 3.6 3.5 3.9v2.6c-1.4.1-2.7-.3-3.9-1.1v5.9c0 3.4-2.6 5.7-5.7 5.7A5.6 5.6 0 0 1 4.8 14c0-3.2 2.8-5.8 6.3-5.4v2.7c-.4-.1-.8-.2-1.2-.2-1.6 0-2.9 1.3-2.9 2.9 0 1.6 1.3 2.9 2.9 2.9 1.6 0 2.9-1.2 2.9-3V3h3.7z" />
+    </svg>
+  );
+}
+
+const socials = [
+  { label: "Instagram @openloopsa", href: "https://instagram.com/openloopsa", Icon: Instagram },
+  { label: "X @openloopsa", href: "https://x.com/openloopsa", Icon: Twitter },
+  { label: "TikTok @open.loop2023", href: "https://www.tiktok.com/@open.loop2023", Icon: TikTok },
+];
 
 export function VolunteerBanner() {
   return (
@@ -40,11 +54,13 @@ export function Footer() {
             والحوكمة المؤسسية.
           </p>
           <div className="mt-5 flex gap-2">
-            {[Twitter, Instagram, Linkedin].map((Icon, i) => (
+            {socials.map(({ label, href, Icon }) => (
               <a
-                key={i}
-                href="#"
-                aria-label="حساب التواصل الاجتماعي"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="grid h-10 w-10 place-items-center rounded-2xl border border-primary-foreground/20 text-primary-foreground/80 transition-colors hover:bg-gold hover:text-gold-foreground"
               >
                 <Icon className="h-4 w-4" />
@@ -106,19 +122,19 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-primary-foreground/75">
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-gold" />
-              <a href="mailto:info@openloop.sa" className="hover:text-gold">
-                info@openloop.sa
+              <a href="mailto:openloop2030@gmail.com" className="hover:text-gold">
+                openloop2030@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-gold" />
-              <a href="tel:+966500000000" dir="ltr" className="hover:text-gold">
-                +966 50 000 0000
+              <a href="https://wa.me/966556006142" target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:text-gold">
+                0556006142
               </a>
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-gold" />
-              الرياض، المملكة العربية السعودية
+              الطائف، المملكة العربية السعودية
             </li>
           </ul>
         </div>

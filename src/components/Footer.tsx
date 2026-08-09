@@ -106,19 +106,19 @@ export function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-primary-foreground/75">
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-gold" />
-              <a href="mailto:info@openloop.sa" className="hover:text-gold">
-                info@openloop.sa
+              <a href="mailto:openloop2030@gmail.com" className="hover:text-gold">
+                openloop2030@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-gold" />
-              <a href="tel:+966500000000" dir="ltr" className="hover:text-gold">
-                +966 50 000 0000
+              <a href="https://wa.me/966556006142" target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:text-gold">
+                0556006142
               </a>
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-gold" />
-              الرياض، المملكة العربية السعودية
+              الطائف، المملكة العربية السعودية
             </li>
           </ul>
         </div>

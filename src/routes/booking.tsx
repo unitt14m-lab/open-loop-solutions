@@ -99,14 +99,14 @@ function Booking() {
             <ul className="mt-5 space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-primary" />
-                <a href="mailto:info@openloop.sa" className="hover:text-primary">
-                  info@openloop.sa
+                <a href="mailto:openloop2030@gmail.com" className="hover:text-primary">
+                  openloop2030@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-primary" />
-                <a href="tel:+966500000000" dir="ltr" className="hover:text-primary">
-                  +966 50 000 0000
+                <a href="https://wa.me/966556006142" target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:text-primary">
+                  0556006142
                 </a>
               </li>
             </ul>

@@ -75,7 +75,13 @@ export function Header() {
           </div>
 
           {navLinks.slice(2).map((l) => (
-            <Link key={l.to} to={l.to} className={linkClass} activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}>
+            <Link
+              key={l.to}
+              to={l.to}
+              title={"tagline" in l ? l.tagline : undefined}
+              className={linkClass}
+              activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}
+            >
               {l.label}
             </Link>
           ))}

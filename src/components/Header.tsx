@@ -11,7 +11,7 @@ const navLinks = [
   { to: "/library", label: "مكتبة أوبن لوب" },
   { to: "/packages", label: "الباقات" },
   { to: "/volunteer", label: "تطوع معانا" },
-  { to: "/careers", label: "انضم إلينا" },
+  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
 ] as const;
 
 

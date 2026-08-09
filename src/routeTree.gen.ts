@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
@@ -37,6 +38,11 @@ const BookingRoute = BookingRouteImport.update({
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PackagesRoute = PackagesRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/services': typeof ServicesRouteWithChildren
   '/volunteer': typeof VolunteerRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/volunteer': typeof VolunteerRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/services': typeof ServicesRouteWithChildren
   '/volunteer': typeof VolunteerRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/booking'
     | '/careers'
+    | '/library'
     | '/packages'
     | '/services'
     | '/volunteer'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/booking'
     | '/careers'
+    | '/library'
     | '/packages'
     | '/volunteer'
     | '/services/$category'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/booking'
     | '/careers'
+    | '/library'
     | '/packages'
     | '/services'
     | '/volunteer'
@@ -138,6 +150,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BookingRoute: typeof BookingRoute
   CareersRoute: typeof CareersRoute
+  LibraryRoute: typeof LibraryRoute
   PackagesRoute: typeof PackagesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   VolunteerRoute: typeof VolunteerRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/packages': {
@@ -230,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BookingRoute: BookingRoute,
   CareersRoute: CareersRoute,
+  LibraryRoute: LibraryRoute,
   PackagesRoute: PackagesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   VolunteerRoute: VolunteerRoute,

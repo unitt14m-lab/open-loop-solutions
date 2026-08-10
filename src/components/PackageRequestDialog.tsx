@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { openWhatsApp } from "@/lib/whatsapp";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth";
+import { submitRequest } from "@/lib/requests";
 
 const schema = z.object({
   name: z.string().trim().min(2, "الرجاء إدخال الاسم الكامل").max(100, "الاسم طويل جداً"),
@@ -25,11 +28,13 @@ const schema = z.object({
 });
 
 export function PackageRequestDialog({ packageName }: { packageName: string }) {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [values, setValues] = useState({ name: "", org: "", phone: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(values);
     if (!parsed.success) {
@@ -39,11 +44,27 @@ export function PackageRequestDialog({ packageName }: { packageName: string }) {
       return;
     }
     setErrors({});
-    const d = parsed.data;
-    openWhatsApp(
-      `مرحباً أوبن لوب، أرغب في طلب: ${packageName}\nالاسم: ${d.name}\nاسم الجهة: ${d.org}\nرقم الجوال: ${d.phone}`,
-    );
-    setOpen(false);
+    if (!user) return;
+    setBusy(true);
+    try {
+      await submitRequest({
+        userId: user.id,
+        type: "package",
+        title: packageName,
+        details: {
+          "الاسم": parsed.data.name,
+          "الجهة": parsed.data.org,
+          "الجوال": parsed.data.phone,
+        },
+      });
+      toast.success("تم إرسال طلبك بنجاح", { description: "يمكنك متابعته من لوحة حسابك." });
+      setOpen(false);
+      setValues({ name: "", org: "", phone: "" });
+    } catch {
+      toast.error("تعذر إرسال الطلب، حاول مرة أخرى");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const field = (key: keyof typeof values, label: string, type = "text") => (
@@ -71,14 +92,16 @@ export function PackageRequestDialog({ packageName }: { packageName: string }) {
           <DialogTitle>طلب الباقة</DialogTitle>
           <DialogDescription>{packageName}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={submit} className="space-y-4">
-          {field("name", "الاسم الكامل")}
-          {field("org", "اسم الجهة / الجمعية")}
-          {field("phone", "رقم الجوال", "tel")}
-          <Button type="submit" className="w-full rounded-full font-bold">
-            إرسال الطلب عبر الواتساب
-          </Button>
-        </form>
+        <AuthGate>
+          <form onSubmit={submit} className="space-y-4">
+            {field("name", "الاسم الكامل")}
+            {field("org", "اسم الجهة / الجمعية")}
+            {field("phone", "رقم الجوال", "tel")}
+            <Button type="submit" disabled={busy} className="w-full rounded-full font-bold">
+              إرسال الطلب
+            </Button>
+          </form>
+        </AuthGate>
       </DialogContent>
     </Dialog>
   );

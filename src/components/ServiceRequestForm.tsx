@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { openWhatsApp } from "@/lib/whatsapp";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth";
+import { submitRequest } from "@/lib/requests";
 
 const schema = z.object({
   name: z.string().trim().min(2, "الرجاء إدخال الاسم").max(100, "الاسم طويل جداً"),
@@ -26,14 +29,16 @@ export function ServiceRequestForm({
   items: string[];
   idPrefix: string;
 }) {
+  const { user } = useAuth();
   const [selected, setSelected] = useState<string[]>([]);
+  const [busy, setBusy] = useState(false);
   const [values, setValues] = useState({ name: "", org: "", phone: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const toggle = (item: string) =>
     setSelected((s) => (s.includes(item) ? s.filter((i) => i !== item) : [...s, item]));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(values);
     const next: Record<string, string> = {};
@@ -46,12 +51,29 @@ export function ServiceRequestForm({
       return;
     }
     setErrors({});
-    const d = parsed.data!;
-    openWhatsApp(
-      `مرحباً أوبن لوب، أرغب في طلب خدمة مخصصة ضمن: ${categoryTitle}\nالخدمات المطلوبة:\n${selected
-        .map((s) => `• ${s}`)
-        .join("\n")}\nالاسم: ${d.name}\nاسم الجهة: ${d.org}\nرقم الجوال: ${d.phone}`,
-    );
+    if (!user) return;
+    setBusy(true);
+    try {
+      const d = parsed.data!;
+      await submitRequest({
+        userId: user.id,
+        type: "service",
+        title: `طلب خدمة مخصصة — ${categoryTitle}`,
+        details: {
+          "الخدمات المطلوبة": selected,
+          "الاسم": d.name,
+          "الجهة": d.org,
+          "الجوال": d.phone,
+        },
+      });
+      toast.success("تم إرسال طلبك بنجاح", { description: "يمكنك متابعته من لوحة حسابك." });
+      setSelected([]);
+      setValues({ name: "", org: "", phone: "" });
+    } catch {
+      toast.error("تعذر إرسال الطلب، حاول مرة أخرى");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const field = (key: keyof typeof values, label: string, type = "text") => (
@@ -73,7 +95,7 @@ export function ServiceRequestForm({
     <form onSubmit={submit} className="card-elevated p-7 sm:p-8">
       <h3 className="text-xl font-extrabold">طلب خدمة مخصصة</h3>
       <p className="mt-2 text-sm text-muted-foreground">
-        اختر الخدمات التي تحتاجها ضمن {categoryTitle}، وسنصلك عبر الواتساب مباشرة.
+        اختر الخدمات التي تحتاجها ضمن {categoryTitle}، وسيصلك فريقنا بعد مراجعة الطلب.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -100,15 +122,23 @@ export function ServiceRequestForm({
         <p className="mt-3 text-xs font-semibold text-destructive">{errors["services"]}</p>
       )}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        {field("name", "الاسم")}
-        {field("org", "اسم الجهة")}
-        {field("phone", "رقم الجوال", "tel")}
+      <div className="mt-6">
+        <AuthGate>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {field("name", "الاسم")}
+            {field("org", "اسم الجهة")}
+            {field("phone", "رقم الجوال", "tel")}
+          </div>
+          <Button
+            type="submit"
+            size="lg"
+            disabled={busy}
+            className="mt-6 rounded-full px-7 font-bold"
+          >
+            إرسال الطلب
+          </Button>
+        </AuthGate>
       </div>
-
-      <Button type="submit" size="lg" className="mt-6 rounded-full px-7 font-bold">
-        ارسال الطلب عبر الواتساب
-      </Button>
     </form>
   );
 }

@@ -57,21 +57,9 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         ))}
       </ul>
 
-      <div className="mt-6 rounded-2xl bg-secondary p-4">
-        {pkg.price && <p className="text-xl font-extrabold text-secondary-foreground">{pkg.price}</p>}
-        {pkg.tiers && (
-          <div className="space-y-3">
-            {pkg.tiers.map((t) => (
-              <div key={t.label}>
-                <p className="text-xs font-bold text-muted-foreground">{t.label}</p>
-                <p className="mt-1 text-sm font-extrabold text-secondary-foreground">{t.price}</p>
-              </div>
-            ))}
-          </div>
-        )}
+      <div className="mt-6">
+        <PackageRequestDialog packageName={`${pkg.title} — ${pkg.subtitle}`} />
       </div>
-
-      <PackageRequestDialog packageName={`${pkg.title} — ${pkg.subtitle}`} />
 
     </article>
   );

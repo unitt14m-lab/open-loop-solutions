@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 import { FileCheck2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { openWhatsApp } from "@/lib/whatsapp";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth";
+import { submitRequest } from "@/lib/requests";
 
 const schema = z.object({
   name: z.string().trim().min(2, "الرجاء إدخال الاسم الكامل").max(100, "الاسم طويل جداً"),
@@ -35,35 +38,33 @@ type Values = z.infer<typeof schema>;
 
 const initial: Values = { name: "", field: "", phone: "", email: "", portfolio: "" };
 
-export function FreelancerJoinDialog({
-  trigger,
-}: {
-  trigger?: React.ReactNode;
-}) {
+export function FreelancerJoinDialog({ trigger }: { trigger?: React.ReactNode }) {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [values, setValues] = useState<Values>(initial);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [cvName, setCvName] = useState("");
+  const [cv, setCv] = useState<File | null>(null);
   const [cvError, setCvError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
-      setCvName("");
+      setCv(null);
       return;
     }
     if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
       setCvError("يُسمح بملفات PDF فقط");
-      setCvName("");
+      setCv(null);
       e.target.value = "";
       return;
     }
     setCvError("");
-    setCvName(file.name);
+    setCv(file);
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(values);
     if (!parsed.success) {
@@ -72,19 +73,37 @@ export function FreelancerJoinDialog({
       setErrors(next);
       return;
     }
+    if (!cv) {
+      setCvError("الرجاء رفع السيرة الذاتية بصيغة PDF");
+      return;
+    }
     setErrors({});
-    const d = parsed.data;
-    const lines = [
-      "مرحباً أوبن لوب، أود الانضمام إلى شبكة المستقلين لديكم:",
-      `الاسم: ${d.name}`,
-      `التخصص: ${d.field}`,
-      `الجوال: ${d.phone}`,
-      `البريد: ${d.email}`,
-      `رابط الأعمال: ${d.portfolio || "غير متوفر"}`,
-    ];
-    if (cvName) lines.push("(ملاحظة: تمت إضافة السيرة الذاتية بصيغة PDF)");
-    openWhatsApp(lines.join("\n"));
-    setOpen(false);
+    if (!user) return;
+    setBusy(true);
+    try {
+      const d = parsed.data;
+      await submitRequest({
+        userId: user.id,
+        type: "freelancer",
+        title: `طلب انضمام مستقل — ${d.field}`,
+        details: {
+          "الاسم": d.name,
+          "التخصص": d.field,
+          "الجوال": d.phone,
+          "البريد": d.email,
+          "رابط الأعمال": d.portfolio || "غير متوفر",
+        },
+        file: cv,
+      });
+      toast.success("تم إرسال طلب الانضمام", { description: "يمكنك متابعته من لوحة حسابك." });
+      setOpen(false);
+      setValues(initial);
+      setCv(null);
+    } catch {
+      toast.error("تعذر إرسال الطلب، حاول مرة أخرى");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const field = (key: keyof Values, label: string, type = "text", placeholder?: string) => (
@@ -106,60 +125,65 @@ export function FreelancerJoinDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger ?? (
-          <Button className="rounded-full font-bold">انضم كمستقل إلى شبكتنا</Button>
-        )}
+        {trigger ?? <Button className="rounded-full font-bold">انضم كمستقل إلى شبكتنا</Button>}
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader className="text-start">
           <DialogTitle>انضم كـ مستعد/مستقل إلى شبكة أوبن لوب</DialogTitle>
           <DialogDescription>فرص للعمل الحر والشراكة مع أوبن لوب</DialogDescription>
         </DialogHeader>
-        <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2">
-          <div className="sm:col-span-2">{field("name", "الاسم الكامل")}</div>
-          <div className="sm:col-span-2">
-            {field("field", "التخصص / مجال العمل", "text", "مثال: كتابة محتوى، تصميم، حوكمة")}
-          </div>
-          {field("phone", "رقم الجوال", "tel")}
-          {field("email", "البريد الإلكتروني", "email")}
-          <div className="sm:col-span-2">
-            {field("portfolio", "رابط معرض الأعمال (اختياري)", "url", "https://")}
-          </div>
+        <AuthGate>
+          <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">{field("name", "الاسم الكامل")}</div>
+            <div className="sm:col-span-2">
+              {field("field", "التخصص / مجال العمل", "text", "مثال: كتابة محتوى، تصميم، حوكمة")}
+            </div>
+            {field("phone", "رقم الجوال", "tel")}
+            {field("email", "البريد الإلكتروني", "email")}
+            <div className="sm:col-span-2">
+              {field("portfolio", "رابط معرض الأعمال (اختياري)", "url", "https://")}
+            </div>
 
-          <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="fl-cv">رفع السيرة الذاتية (PDF فقط)</Label>
-            <input
-              ref={fileRef}
-              id="fl-cv"
-              type="file"
-              accept="application/pdf,.pdf"
-              className="sr-only"
-              onChange={onFile}
-            />
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="flex w-full items-center gap-3 rounded-2xl border border-dashed border-border bg-secondary/40 px-4 py-3 text-start transition-colors hover:bg-secondary"
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="fl-cv">رفع السيرة الذاتية (PDF فقط)</Label>
+              <input
+                ref={fileRef}
+                id="fl-cv"
+                type="file"
+                accept="application/pdf,.pdf"
+                className="sr-only"
+                onChange={onFile}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-start rounded-2xl font-bold"
+                onClick={() => fileRef.current?.click()}
+              >
+                {cv ? (
+                  <>
+                    <FileCheck2 className="h-4 w-4 text-primary" aria-hidden />
+                    {cv.name}
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4" aria-hidden />
+                    اختر ملف PDF
+                  </>
+                )}
+              </Button>
+              {cvError && <p className="text-xs font-semibold text-destructive">{cvError}</p>}
+            </div>
+
+            <Button
+              type="submit"
+              disabled={busy}
+              className="rounded-full font-bold sm:col-span-2"
             >
-              {cvName ? (
-                <FileCheck2 className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-              ) : (
-                <Upload className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
-              )}
-              <span className="min-w-0 flex-1 truncate text-sm font-semibold">
-                {cvName || "اختر ملف PDF من جهازك"}
-              </span>
-            </button>
-            {cvError && <p className="text-xs font-semibold text-destructive">{cvError}</p>}
-          </div>
-
-          <Button type="submit" className="w-full rounded-full font-bold sm:col-span-2">
-            إرسال طلب الانضمام
-          </Button>
-          <p className="text-xs leading-relaxed text-muted-foreground sm:col-span-2">
-            بعد الإرسال سيتم تحويلك إلى واتساب لإكمال الطلب — يرجى إرفاق ملف السيرة الذاتية هناك.
-          </p>
-        </form>
+              إرسال طلب الانضمام
+            </Button>
+          </form>
+        </AuthGate>
       </DialogContent>
     </Dialog>
   );

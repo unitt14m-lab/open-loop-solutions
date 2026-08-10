@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { z } from "zod";
+import { toast } from "sonner";
 import { UtensilsCrossed, Truck, ShieldCheck, Soup } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -12,11 +20,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { openWhatsApp } from "@/lib/whatsapp";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth";
+import { submitRequest } from "@/lib/requests";
+
+const projectTypes = [
+  "إفطار صائم",
+  "سقيا ماء",
+  "وجبات ساخنة / جافة",
+  "سلال غذائية",
+  "مشروع إعاشة آخر",
+];
 
 const schema = z.object({
   org: z.string().trim().min(2, "الرجاء إدخال اسم الجمعية / الجهة").max(120, "الاسم طويل جداً"),
-  project: z.string().trim().min(2, "الرجاء إدخال اسم المشروع").max(120, "الاسم طويل جداً"),
+  projectType: z.string().trim().min(2, "الرجاء اختيار نوع المشروع"),
+  quantity: z.string().trim().min(1, "الرجاء إدخال العدد المستهدف").max(60),
+  city: z.string().trim().min(2, "الرجاء إدخال المدينة / نطاق التوزيع").max(120),
   contact: z.string().trim().min(2, "الرجاء إدخال اسم مسؤول التواصل").max(100, "الاسم طويل جداً"),
   phone: z
     .string()
@@ -26,18 +46,43 @@ const schema = z.object({
     .regex(/^[0-9+\s-]+$/, "رقم الجوال يجب أن يحتوي أرقاماً فقط"),
 });
 
+type Values = z.infer<typeof schema>;
+
+const initial: Values = {
+  org: "",
+  projectType: "",
+  quantity: "",
+  city: "",
+  contact: "",
+  phone: "",
+};
+
 const highlights = [
-  { icon: ShieldCheck, title: "سلامة غذائية", text: "التزام بمعايير الجودة والاشتراطات الصحية المعتمدة." },
-  { icon: Truck, title: "توزيع ميداني", text: "خطط لوجستية دقيقة لإيصال الوجبات في وقتها." },
-  { icon: Soup, title: "وجبات متنوعة", text: "قوائم مرنة تناسب طبيعة كل مشروع ومستفيديه." },
+  {
+    icon: ShieldCheck,
+    title: "مشاريع موسمية ومستدامة",
+    text: "إدارة وتأمين مشاريع إفطار صائم، سقيا الماء، السلال الغذائية، وإطعام الطعام.",
+  },
+  {
+    icon: Truck,
+    title: "سلامة وتوزيع ميداني",
+    text: "خطط لوجستية دقيقة واشتراطات صحية معتمدة لضمان الوصول الميداني السريع.",
+  },
+  {
+    icon: Soup,
+    title: "وجبات وقوائم متنوعة",
+    text: "حلول مطبوخة وجافة مرنة تتناسب مع احتياج وطبيعة كل مشروع ومستفيديه.",
+  },
 ];
 
 export function CateringSection() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState({ org: "", project: "", contact: "", phone: "" });
+  const [busy, setBusy] = useState(false);
+  const [values, setValues] = useState<Values>(initial);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(values);
     if (!parsed.success) {
@@ -47,14 +92,34 @@ export function CateringSection() {
       return;
     }
     setErrors({});
-    const d = parsed.data;
-    openWhatsApp(
-      `مرحباً أوبن لوب، نود طلب تنفيذ مشروع إعاشة:\nالجهة / الجمعية: ${d.org}\nاسم المشروع: ${d.project}\nمسؤول التواصل: ${d.contact}\nرقم الجوال: ${d.phone}`,
-    );
-    setOpen(false);
+    if (!user) return;
+    setBusy(true);
+    try {
+      const d = parsed.data;
+      await submitRequest({
+        userId: user.id,
+        type: "catering",
+        title: `مشروع إعاشة — ${d.projectType}`,
+        details: {
+          "الجهة / الجمعية": d.org,
+          "نوع المشروع": d.projectType,
+          "العدد المستهدف": d.quantity,
+          "المدينة / نطاق التوزيع": d.city,
+          "مسؤول التواصل": d.contact,
+          "رقم الجوال": d.phone,
+        },
+      });
+      toast.success("تم إرسال طلبك بنجاح", { description: "يمكنك متابعته من لوحة حسابك." });
+      setOpen(false);
+      setValues(initial);
+    } catch {
+      toast.error("تعذر إرسال الطلب، حاول مرة أخرى");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const field = (key: keyof typeof values, label: string, type = "text") => (
+  const field = (key: keyof Values, label: string, type = "text") => (
     <div className="space-y-2">
       <Label htmlFor={`catering-${key}`}>{label}</Label>
       <Input
@@ -84,33 +149,66 @@ export function CateringSection() {
                 خدمات الإعاشة
               </span>
               <h2 className="mt-5 text-3xl font-extrabold leading-tight sm:text-4xl">
-                مشاريع الإعاشة وتأمين الوجبات
+                مشاريع الإعاشة والحلول الغذائية المتكاملة
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed opacity-80">
-                نضمن لجمعيتكم تنفيذ مشاريع الإعاشة والإطعام الميداني وفق أعلى معايير الجودة والسلامة
-                الغذائية، لتصل مساهماتكم ومبادراتكم المجتمعية إلى مستحقيها بأفضل صورة.
+                نضمن لجمعيتكم تنفيذ وتأمين كافة مشاريع الإعاشة والإطعام الميداني (من مشاريع إفطار
+                صائم، سقيا الماء، الوجبات الساخنة والجافة، والسلال الغذائية) وفق أعلى معايير الجودة
+                والسلامة، لتصل مبادراتكم المجتمعية إلى مستحقيها بكفاءة عالية.
               </p>
 
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button size="lg" className="mt-8 rounded-full px-7 text-base font-bold">
-                    اطلب خدمة الإعاشة الآن
+                    اطلب الخدمة الآن
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
                   <DialogHeader className="text-start">
                     <DialogTitle>طلب خدمة الإعاشة</DialogTitle>
-                    <DialogDescription>مشاريع الإعاشة وتأمين الوجبات</DialogDescription>
+                    <DialogDescription>
+                      مشاريع الإعاشة والحلول الغذائية المتكاملة
+                    </DialogDescription>
                   </DialogHeader>
-                  <form onSubmit={submit} className="space-y-4">
-                    {field("org", "اسم الجمعية / الجهة")}
-                    {field("project", "اسم المشروع")}
-                    {field("contact", "اسم مسؤول التواصل")}
-                    {field("phone", "رقم الجوال", "tel")}
-                    <Button type="submit" className="w-full rounded-full font-bold">
-                      إرسال الطلب عبر الواتساب
-                    </Button>
-                  </form>
+                  <AuthGate>
+                    <form onSubmit={submit} className="space-y-4">
+                      {field("org", "اسم الجمعية / الجهة")}
+                      <div className="space-y-2">
+                        <Label htmlFor="catering-project-type">نوع المشروع</Label>
+                        <Select
+                          value={values.projectType}
+                          onValueChange={(v) => setValues((s) => ({ ...s, projectType: v }))}
+                        >
+                          <SelectTrigger id="catering-project-type">
+                            <SelectValue placeholder="اختر نوع المشروع" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {projectTypes.map((t) => (
+                              <SelectItem key={t} value={t}>
+                                {t}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors["projectType"] && (
+                          <p className="text-xs font-semibold text-destructive">
+                            {errors["projectType"]}
+                          </p>
+                        )}
+                      </div>
+                      {field("quantity", "العدد المستهدف / الكمية")}
+                      {field("city", "المدينة / نطاق التوزيع")}
+                      {field("contact", "اسم مسؤول التواصل")}
+                      {field("phone", "رقم الجوال", "tel")}
+                      <Button
+                        type="submit"
+                        disabled={busy}
+                        className="w-full rounded-full font-bold"
+                      >
+                        إرسال الطلب
+                      </Button>
+                    </form>
+                  </AuthGate>
                 </DialogContent>
               </Dialog>
             </div>

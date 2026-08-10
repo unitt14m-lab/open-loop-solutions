@@ -15,7 +15,7 @@ export const Route = createFileRoute("/packages")({
       { property: "og:title", content: "باقات أوبن لوب للقطاع غير الربحي" },
       {
         property: "og:description",
-        content: "قارن بين باقات التسويق والاستشارات بأسعار شاملة ضريبة القيمة المضافة.",
+        content: "قارن بين باقات التسويق والاستشارات المتكاملة.",
       },
     ],
   }),

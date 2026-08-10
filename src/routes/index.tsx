@@ -147,7 +147,7 @@ function Index() {
           <SectionHeading
             eyebrow="مصفوفة الباقات"
             title="باقات مصممة لاحتياجات الكيانات غير الربحية"
-            description="قارن بين الباقات واختر ما يناسب مرحلة نمو جمعيتك. جميع الأسعار شاملة ضريبة القيمة المضافة."
+            description="قارن بين الباقات واختر ما يناسب مرحلة نمو جمعيتك."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {packages.map((p) => (

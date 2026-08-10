@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogIn, Menu } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
+import { useAuth } from "@/lib/auth";
 
 const navLinks = [
   { to: "/", label: "الرئيسية" },

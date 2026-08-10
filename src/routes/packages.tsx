@@ -29,8 +29,8 @@ function Packages() {
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-extrabold sm:text-5xl">مصفوفة الباقات</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed opacity-80">
-            باقات متكاملة تغطي التسويق الرقمي، تنمية الموارد، الاسترداد الضريبي، والحوكمة — جميع
-            الأسعار شاملة ضريبة القيمة المضافة.
+            باقات متكاملة تغطي التسويق الرقمي، تنمية الموارد، الاسترداد الضريبي، والحوكمة
+            المؤسسية.
           </p>
         </div>
       </section>

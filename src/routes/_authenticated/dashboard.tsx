@@ -1,0 +1,162 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { FileText, LogOut, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
+import { REQUEST_TYPES, STATUS_LABELS, type RequestType } from "@/lib/requests";
+
+export const Route = createFileRoute("/_authenticated/dashboard")({
+  head: () => ({
+    meta: [
+      { title: "لوحة حسابي | أوبن لوب" },
+      { name: "description", content: "تابع طلباتك ومستنداتك وحالتها لدى أوبن لوب." },
+      { property: "og:title", content: "لوحة حسابي | أوبن لوب" },
+      { property: "og:description", content: "إدارة الطلبات والمستندات والبيانات الشخصية." },
+    ],
+  }),
+  component: Dashboard,
+});
+
+function Dashboard() {
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const profile = useQuery({
+    queryKey: ["profile", user?.id],
+    enabled: Boolean(user?.id),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user!.id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const requests = useQuery({
+    queryKey: ["my-requests", user?.id],
+    enabled: Boolean(user?.id),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const openDocument = async (path: string) => {
+    const { data, error } = await supabase.storage.from("documents").createSignedUrl(path, 60);
+    if (error || !data) {
+      toast.error("تعذر فتح المستند");
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    navigate({ to: "/auth", replace: true });
+  };
+
+  return (
+    <>
+      <section className="surface-ink">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-4 px-4 py-14 sm:px-6 lg:px-8">
+          <div className="min-w-0">
+            <h1 className="text-3xl font-extrabold sm:text-4xl">لوحة حسابي</h1>
+            <p className="mt-3 text-base opacity-80">
+              مرحباً {profile.data?.full_name || user?.email}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {isAdmin && (
+              <Button asChild variant="secondary" className="rounded-full font-bold">
+                <Link to="/admin">
+                  <ShieldCheck className="h-4 w-4" aria-hidden />
+                  لوحة الإدارة
+                </Link>
+              </Button>
+            )}
+            <Button onClick={handleSignOut} variant="outline" className="rounded-full font-bold">
+              <LogOut className="h-4 w-4" aria-hidden />
+              تسجيل الخروج
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-pad">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.35fr)_minmax(0,0.65fr)] lg:px-8">
+          <div className="card-elevated h-fit p-7">
+            <h2 className="text-lg font-extrabold">بياناتي</h2>
+            <dl className="mt-5 space-y-4 text-sm">
+              {[
+                ["الاسم", profile.data?.full_name],
+                ["البريد الإلكتروني", profile.data?.email ?? user?.email],
+                ["رقم الجوال", profile.data?.phone],
+                ["الجهة / الجمعية", profile.data?.organization],
+              ].map(([label, value]) => (
+                <div key={String(label)}>
+                  <dt className="text-xs font-bold text-muted-foreground">{label}</dt>
+                  <dd className="mt-1 font-semibold">{value || "—"}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-extrabold">طلباتي</h2>
+            {requests.isLoading && <p className="mt-4 text-sm text-muted-foreground">جارٍ التحميل...</p>}
+            {requests.data?.length === 0 && (
+              <p className="mt-4 text-sm text-muted-foreground">لا توجد طلبات حتى الآن.</p>
+            )}
+            <div className="mt-4 space-y-4">
+              {requests.data?.map((r) => (
+                <article key={r.id} className="card-elevated p-6">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-primary">
+                        {REQUEST_TYPES[r.type as RequestType] ?? r.type}
+                      </p>
+                      <h3 className="mt-1 text-base font-extrabold leading-snug">{r.title}</h3>
+                    </div>
+                    <Badge className="rounded-full">{STATUS_LABELS[r.status] ?? r.status}</Badge>
+                  </div>
+                  <pre className="mt-4 whitespace-pre-wrap break-words rounded-2xl bg-secondary p-4 text-xs leading-relaxed text-secondary-foreground">
+                    {Object.entries(r.details as Record<string, unknown>)
+                      .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join("، ") : String(v)}`)
+                      .join("\n")}
+                  </pre>
+                  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                    <span>{new Date(r.created_at).toLocaleString("ar-SA")}</span>
+                    {r.document_path && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="rounded-full font-bold"
+                        onClick={() => openDocument(r.document_path!)}
+                      >
+                        <FileText className="h-4 w-4" aria-hidden />
+                        عرض المستند
+                      </Button>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

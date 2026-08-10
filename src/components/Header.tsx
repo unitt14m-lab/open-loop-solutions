@@ -20,6 +20,7 @@ const linkClass =
   "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
 
 export function Header() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
@@ -87,6 +88,20 @@ export function Header() {
             </Link>
           ))}
 
+          <Link to={user ? "/dashboard" : "/auth"} className={linkClass}>
+            {user ? (
+              <span className="inline-flex items-center gap-1">
+                <LayoutDashboard className="h-4 w-4" aria-hidden />
+                لوحة حسابي
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1">
+                <LogIn className="h-4 w-4" aria-hidden />
+                تسجيل الدخول
+              </span>
+            )}
+          </Link>
+
           <Button asChild size="sm" className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90">
             <Link to="/booking">احجز استشارتك</Link>
           </Button>
@@ -136,6 +151,9 @@ export function Header() {
                 )}
               </Link>
             ))}
+            <Link to={user ? "/dashboard" : "/auth"} className={linkClass} onClick={() => setOpen(false)}>
+              {user ? "لوحة حسابي" : "تسجيل الدخول / إنشاء حساب"}
+            </Link>
             <Button asChild className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">
               <Link to="/booking" onClick={() => setOpen(false)}>
                 احجز استشارتك

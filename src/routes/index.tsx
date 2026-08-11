@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Target, TrendingUp, Megaphone } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { HeroSlider } from "@/components/HeroSlider";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";

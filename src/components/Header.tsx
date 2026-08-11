@@ -1,20 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, LayoutDashboard, LogIn, Menu } from "lucide-react";
+import { ChevronDown, LogIn, Menu, UserRound } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
 import { useAuth } from "@/lib/auth";
 
-const navLinks = [
+const beforeServices = [
   { to: "/", label: "الرئيسية" },
   { to: "/about", label: "عن أوبن لوب" },
-  { to: "/library", label: "مكتبة أوبن لوب" },
-  { to: "/packages", label: "الباقات" },
-  { to: "/volunteer", label: "تطوع معانا" },
-  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
 ] as const;
 
+const afterServices = [
+  { to: "/packages", label: "الباقات" },
+  { to: "/portfolio", label: "سابقة الأعمال" },
+  { to: "/library", label: "مكتبة أوبن لوب" },
+  { to: "/volunteer", label: "تطوع معانا" },
+  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
+  { to: "/booking", label: "احجز استشارتك" },
+] as const;
 
 const linkClass =
   "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
@@ -24,6 +28,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
+  const displayName =
+    (user?.user_metadata as { full_name?: string } | undefined)?.full_name ||
+    user?.email?.split("@")[0] ||
+    "";
+
   return (
     <header className="sticky top-0 z-50 border-b border-primary-foreground/10 bg-primary text-primary-foreground shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -32,7 +41,7 @@ export function Header() {
         </div>
 
         <nav className="order-1 hidden items-center gap-1 lg:flex">
-          {navLinks.slice(0, 2).map((l) => (
+          {beforeServices.map((l) => (
             <Link
               key={l.to}
               to={l.to}
@@ -76,7 +85,7 @@ export function Header() {
             )}
           </div>
 
-          {navLinks.slice(2).map((l) => (
+          {afterServices.map((l) => (
             <Link
               key={l.to}
               to={l.to}
@@ -88,22 +97,24 @@ export function Header() {
             </Link>
           ))}
 
-          <Link to={user ? "/dashboard" : "/auth"} className={linkClass}>
-            {user ? (
-              <span className="inline-flex items-center gap-1">
-                <LayoutDashboard className="h-4 w-4" aria-hidden />
-                لوحة حسابي
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1">
-                <LogIn className="h-4 w-4" aria-hidden />
-                تسجيل الدخول
-              </span>
-            )}
-          </Link>
-
-          <Button asChild size="sm" className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90">
-            <Link to="/booking">احجز استشارتك</Link>
+          <Button
+            asChild
+            size="sm"
+            className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90"
+          >
+            <Link to={user ? "/dashboard" : "/auth"}>
+              {user ? (
+                <>
+                  <UserRound className="h-4 w-4" aria-hidden />
+                  أهلاً، {displayName}
+                </>
+              ) : (
+                <>
+                  <LogIn className="h-4 w-4" aria-hidden />
+                  تسجيل الدخول
+                </>
+              )}
+            </Link>
           </Button>
         </nav>
 
@@ -120,7 +131,7 @@ export function Header() {
       {open && (
         <div className="border-t border-primary-foreground/15 bg-primary lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
-            {navLinks.slice(0, 2).map((l) => (
+            {beforeServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
               </Link>
@@ -141,7 +152,7 @@ export function Header() {
                 </Link>
               ))}
             </div>
-            {navLinks.slice(2).map((l) => (
+            {afterServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
                 {"tagline" in l && (
@@ -151,12 +162,22 @@ export function Header() {
                 )}
               </Link>
             ))}
-            <Link to={user ? "/dashboard" : "/auth"} className={linkClass} onClick={() => setOpen(false)}>
-              {user ? "لوحة حسابي" : "تسجيل الدخول / إنشاء حساب"}
-            </Link>
-            <Button asChild className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">
-              <Link to="/booking" onClick={() => setOpen(false)}>
-                احجز استشارتك
+            <Button
+              asChild
+              className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90"
+            >
+              <Link to={user ? "/dashboard" : "/auth"} onClick={() => setOpen(false)}>
+                {user ? (
+                  <>
+                    <UserRound className="h-4 w-4" aria-hidden />
+                    أهلاً، {displayName}
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-4 w-4" aria-hidden />
+                    تسجيل الدخول
+                  </>
+                )}
               </Link>
             </Button>
           </div>

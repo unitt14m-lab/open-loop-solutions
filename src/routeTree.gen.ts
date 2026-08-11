@@ -17,6 +17,7 @@ import { Route as BookingRouteImport } from './routes/booking'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -63,6 +64,11 @@ const PackagesRoute = PackagesRouteImport.update({
   path: '/packages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
   '/volunteer': typeof VolunteerRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
   '/volunteer': typeof VolunteerRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
   '/volunteer': typeof VolunteerRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/library'
     | '/packages'
+    | '/portfolio'
     | '/services'
     | '/volunteer'
     | '/admin'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/library'
     | '/packages'
+    | '/portfolio'
     | '/volunteer'
     | '/admin'
     | '/dashboard'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/library'
     | '/packages'
+    | '/portfolio'
     | '/services'
     | '/volunteer'
     | '/_authenticated/admin'
@@ -197,6 +209,7 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   LibraryRoute: typeof LibraryRoute
   PackagesRoute: typeof PackagesRoute
+  PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   VolunteerRoute: typeof VolunteerRoute
 }
@@ -257,6 +270,13 @@ declare module '@tanstack/react-router' {
       path: '/packages'
       fullPath: '/packages'
       preLoaderRoute: typeof PackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -340,19 +360,10 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   LibraryRoute: LibraryRoute,
   PackagesRoute: PackagesRoute,
+  PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRouteWithChildren,
   VolunteerRoute: VolunteerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

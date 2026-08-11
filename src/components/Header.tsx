@@ -102,7 +102,7 @@ export function Header() {
             size="sm"
             className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90"
           >
-            <Link to={user ? "/dashboard" : "/auth"}>
+            <Link {...(user ? { to: "/dashboard" as const } : { to: "/auth" as const, search: { redirect: undefined } })}>
               {user ? (
                 <>
                   <UserRound className="h-4 w-4" aria-hidden />
@@ -166,7 +166,10 @@ export function Header() {
               asChild
               className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90"
             >
-              <Link to={user ? "/dashboard" : "/auth"} onClick={() => setOpen(false)}>
+              <Link
+                {...(user ? { to: "/dashboard" as const } : { to: "/auth" as const, search: { redirect: undefined } })}
+                onClick={() => setOpen(false)}
+              >
                 {user ? (
                   <>
                     <UserRound className="h-4 w-4" aria-hidden />

@@ -115,45 +115,45 @@ function Dashboard() {
           </div>
 
           <div>
-            <h2 className="text-lg font-extrabold">طلباتي</h2>
-            {requests.isLoading && <p className="mt-4 text-sm text-muted-foreground">جارٍ التحميل...</p>}
-            {requests.data?.length === 0 && (
-              <p className="mt-4 text-sm text-muted-foreground">لا توجد طلبات حتى الآن.</p>
-            )}
-            <div className="mt-4 space-y-4">
-              {requests.data?.map((r) => (
-                <article key={r.id} className="card-elevated p-6">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-primary">
-                        {REQUEST_TYPES[r.type as RequestType] ?? r.type}
-                      </p>
-                      <h3 className="mt-1 text-base font-extrabold leading-snug">{r.title}</h3>
-                    </div>
-                    <Badge className="rounded-full">{STATUS_LABELS[r.status] ?? r.status}</Badge>
-                  </div>
-                  <pre className="mt-4 whitespace-pre-wrap break-words rounded-2xl bg-secondary p-4 text-xs leading-relaxed text-secondary-foreground">
-                    {Object.entries(r.details as Record<string, unknown>)
-                      .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join("، ") : String(v)}`)
-                      .join("\n")}
-                  </pre>
-                  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                    <span>{new Date(r.created_at).toLocaleString("ar-SA")}</span>
-                    {r.document_path && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="rounded-full font-bold"
-                        onClick={() => openDocument(r.document_path!)}
-                      >
-                        <FileText className="h-4 w-4" aria-hidden />
-                        عرض المستند
-                      </Button>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <Tabs defaultValue="orders">
+              <TabsList className="rounded-full">
+                <TabsTrigger value="orders" className="rounded-full font-bold">
+                  الطلبات والخدمات
+                </TabsTrigger>
+                <TabsTrigger value="applications" className="rounded-full font-bold">
+                  طلبات الانضمام والتطوع
+                </TabsTrigger>
+              </TabsList>
+
+              {requests.isLoading && (
+                <p className="mt-4 text-sm text-muted-foreground">جارٍ التحميل...</p>
+              )}
+
+              <TabsContent value="orders" className="mt-5 space-y-4">
+                {orders.length === 0 && !requests.isLoading && (
+                  <p className="text-sm text-muted-foreground">لا توجد طلبات حتى الآن.</p>
+                )}
+                {orders.map((r) => (
+                  <RequestCard key={r.id} request={r} onOpenDocument={openDocument} />
+                ))}
+              </TabsContent>
+
+              <TabsContent value="applications" className="mt-5 space-y-4">
+                {applications.length === 0 && !requests.isLoading && (
+                  <p className="text-sm text-muted-foreground">
+                    لا توجد طلبات انضمام أو تطوع حتى الآن.
+                  </p>
+                )}
+                {applications.map((r) => (
+                  <RequestCard
+                    key={r.id}
+                    request={r}
+                    onOpenDocument={openDocument}
+                    tracker
+                  />
+                ))}
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </section>

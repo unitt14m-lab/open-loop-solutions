@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Download, ArrowLeft, Target, TrendingUp, Megaphone, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero.jpg";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Target, TrendingUp, Megaphone } from "lucide-react";
+import { HeroSlider } from "@/components/HeroSlider";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
 import { CateringSection } from "@/components/CateringSection";
@@ -66,44 +65,7 @@ const segments = [
 function Index() {
   return (
     <>
-      {/* HERO — to change the background, replace src/assets/hero.jpg or swap the import above */}
-      <section className="relative isolate overflow-hidden">
-        <img
-          src={heroImage}
-          alt="فريق أوبن لوب أثناء جلسة عمل استشارية"
-          width={1920}
-          height={1088}
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-l from-ink/95 via-ink/85 to-ink/60" aria-hidden />
-        <div className="mx-auto max-w-7xl px-4 py-24 text-ink-foreground sm:px-6 lg:px-8 lg:py-36">
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
-            <Sparkles className="h-4 w-4" aria-hidden />
-            شريك القطاع غير الربحي نحو رؤية السعودية 2030
-          </span>
-          <h1 className="mt-6 max-w-4xl text-3xl font-extrabold leading-[1.35] sm:text-4xl lg:text-5xl lg:leading-[1.3]">
-            أوبن لوب: مؤسسة تسويق واستشارات تمكّن القطاع غير الربحي من الاستدامة وبناء الأثر، وفق
-            رؤية 2030.
-          </h1>
-
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
-              <a href="/open-loop-profile.pdf" target="_blank" rel="noopener noreferrer">
-                <Download className="h-5 w-5" aria-hidden />
-                حمل الملف التعريفي
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="secondary"
-              className="rounded-full px-7 text-base font-bold"
-            >
-              <Link to="/booking">احجز استشارتك</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* ABOUT BRIEF */}
       <section className="section-pad">

@@ -26,7 +26,7 @@ export function AuthGate({
         <LogIn className="mx-auto h-6 w-6 text-primary" aria-hidden />
         <p className="mt-3 text-sm font-bold">{message}</p>
         <Button asChild className="mt-4 rounded-full font-bold">
-          <Link to="/auth">تسجيل الدخول / إنشاء حساب</Link>
+          <Link to="/auth" search={{ redirect: undefined }}>تسجيل الدخول / إنشاء حساب</Link>
         </Button>
       </div>
     );

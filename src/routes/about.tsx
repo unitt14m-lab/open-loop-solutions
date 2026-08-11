@@ -22,21 +22,21 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const impact2029 = [
+const targets = [
   {
     icon: Target,
     label: "تمكين",
-    text: "أكثر من ٥٠ جمعية ومؤسسة أهلية من الوصول إلى الاستدامة المالية ورفع مؤشرات الحوكمة الشاملة.",
+    text: "تمكين أكثر من 250 جمعية ومؤسسة أهلية من الوصول إلى الاستدامة المالية ورفع مؤشرات الحوكمة الشاملة.",
   },
   {
     icon: TrendingUp,
     label: "تنمية",
-    text: "واسترداد أكثر من ٥٠ مليون ريال لصالح القطاع غير الربحي عبر منصات المنح (إحسان، اعتماد) وبرامج الاسترداد الضريبي.",
+    text: "تنمية واسترداد أكثر من ٥٠ مليون ريال لصالح القطاع غير الربحي عبر منصات المنح (إحسان، اعتماد) وبرامج الاسترداد الضريبي.",
   },
   {
     icon: Megaphone,
-    label: "إدارة",
-    text: "وتنفيذ أكثر من ٣٠٠ حملة تسويقية تستهدف تعميق الأثر المجتمعي ومضاعفة التفاعل الرقمي للكيانات الشريكة.",
+    label: "حملات",
+    text: "إدارة وتنفيذ أكثر من ٣٠٠ حملة تسويقية تستهدف تعميق الأثر المجتمعي ومضاعفة التفاعل الرقمي للكيانات الشريكة.",
   },
 ];
 
@@ -92,9 +92,9 @@ function About() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="الأثر" title="الأثر الذي نستهدفه حتى 2029" />
+          <SectionHeading eyebrow="المستهدف" title="المستهدف حتى 2030" />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {impact2029.map((i) => (
+            {targets.map((i) => (
               <div key={i.label} className="card-elevated p-8">
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent text-accent-foreground">
                   <i.icon className="h-6 w-6" aria-hidden />

@@ -94,9 +94,9 @@ export function HeroSlider() {
 
         <div key={active} className="animate-fade-in">
           <h1 className="mt-6 max-w-4xl text-3xl font-extrabold leading-[1.35] sm:text-4xl lg:text-5xl lg:leading-[1.3]">
-            {slides[active].text}
+            {slides[active]?.text}
           </h1>
-          <div className="mt-9 flex flex-wrap gap-3">{slides[active].actions}</div>
+          <div className="mt-9 flex flex-wrap gap-3">{slides[active]?.actions}</div>
         </div>
 
         <div className="mt-12 flex items-center gap-2">

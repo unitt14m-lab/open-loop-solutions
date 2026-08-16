@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Download, FileText, ShieldCheck, LayoutTemplate, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/Sections";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 
 export const Route = createFileRoute("/library")({
   head: () => ({
@@ -104,7 +104,7 @@ function LibraryPage() {
         </div>
       </section>
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

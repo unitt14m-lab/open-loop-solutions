@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Eye, Compass, Target, TrendingUp, Megaphone } from "lucide-react";
 import { SectionHeading } from "@/components/Sections";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -107,7 +107,7 @@ function About() {
         </div>
       </section>
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

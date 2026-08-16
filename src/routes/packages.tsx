@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PackageCard, SectionHeading } from "@/components/Sections";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 
 export const Route = createFileRoute("/packages")({
@@ -50,7 +50,7 @@ function Packages() {
         </div>
       </section>
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

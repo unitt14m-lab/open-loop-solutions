@@ -19,7 +19,6 @@ import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesRouteImport } from './routes/services'
-import { Route as VolunteerRouteImport } from './routes/volunteer'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
@@ -74,11 +73,6 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VolunteerRoute = VolunteerRouteImport.update({
-  id: '/volunteer',
-  path: '/volunteer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -110,7 +104,6 @@ export interface FileRoutesByFullPath {
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
-  '/volunteer': typeof VolunteerRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -125,7 +118,6 @@ export interface FileRoutesByTo {
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
-  '/volunteer': typeof VolunteerRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -143,7 +135,6 @@ export interface FileRoutesById {
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
-  '/volunteer': typeof VolunteerRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -161,7 +152,6 @@ export interface FileRouteTypes {
     | '/packages'
     | '/portfolio'
     | '/services'
-    | '/volunteer'
     | '/admin'
     | '/dashboard'
     | '/services/$category'
@@ -176,7 +166,6 @@ export interface FileRouteTypes {
     | '/library'
     | '/packages'
     | '/portfolio'
-    | '/volunteer'
     | '/admin'
     | '/dashboard'
     | '/services/$category'
@@ -193,7 +182,6 @@ export interface FileRouteTypes {
     | '/packages'
     | '/portfolio'
     | '/services'
-    | '/volunteer'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/services/$category'
@@ -211,7 +199,6 @@ export interface RootRouteChildren {
   PackagesRoute: typeof PackagesRoute
   PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRouteWithChildren
-  VolunteerRoute: typeof VolunteerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -286,13 +273,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/volunteer': {
-      id: '/volunteer'
-      path: '/volunteer'
-      fullPath: '/volunteer'
-      preLoaderRoute: typeof VolunteerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -362,7 +342,6 @@ const rootRouteChildren: RootRouteChildren = {
   PackagesRoute: PackagesRoute,
   PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRouteWithChildren,
-  VolunteerRoute: VolunteerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

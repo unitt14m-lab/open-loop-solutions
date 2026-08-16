@@ -18,7 +18,7 @@ const socials = [
   { label: "TikTok @open.loop2023", href: "https://www.tiktok.com/@open.loop2023", Icon: TikTok },
 ];
 
-export function VolunteerBanner() {
+export function JoinBanner() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
       <div className="surface-ink grid gap-6 rounded-[2rem] p-8 sm:p-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">

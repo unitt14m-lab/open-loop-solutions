@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check } from "lucide-react";
 import { SectionHeading } from "@/components/Sections";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 import { ServiceRequestForm } from "@/components/ServiceRequestForm";
 import { serviceCategories } from "@/data/site";
 
@@ -81,7 +81,7 @@ function ServicesIndex() {
       </section>
 
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Briefcase, CheckCircle2 } from "lucide-react";
 import { SectionHeading } from "@/components/Sections";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
@@ -110,7 +110,7 @@ function Portfolio() {
         </div>
       </section>
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

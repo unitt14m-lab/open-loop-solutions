@@ -2,6 +2,9 @@ import annualReportImg from "@/assets/work-annual-report.jpg";
 import reportCoverImg from "@/assets/work-report-cover.jpg";
 import socialPostsImg from "@/assets/work-social-posts.jpg";
 import carouselPostsImg from "@/assets/work-carousel-posts.jpg";
+import aiVideoPoster from "@/assets/work-ai-video-poster.jpg";
+import aiVideoAsset from "@/assets/work-ai-video.mp4.asset.json";
+
 
 /** أنواع الوسائط المدعومة — أضف نوعاً جديداً هنا لتوسعة المعرض مستقبلاً */
 export type PortfolioMedia =
@@ -27,9 +30,11 @@ export type PortfolioItem = {
 
 /** التصنيفات — يمكن إضافة تصنيفات جديدة (فيديو، هوية، مستندات...) لاحقاً */
 export const portfolioCategories: PortfolioCategory[] = [
-  { slug: "annual-reports", label: "تصميم التقارير السنوية" },
-  { slug: "social-posts", label: "تصميم المنشورات والبوستات" },
+  { slug: "social-posts", label: "تصميم بوستات" },
+  { slug: "ai-videos", label: "تصميم فيديوهات بالذكاء الاصطناعي" },
+  { slug: "annual-reports", label: "تصميم تقرير سنوي" },
 ];
+
 
 export const mediaLabel: Record<PortfolioMedia["kind"], string> = {
   image: "صورة عالية الدقة",
@@ -89,4 +94,15 @@ export const portfolioItems: PortfolioItem[] = [
     cover: carouselPostsImg,
     media: { kind: "image", src: carouselPostsImg },
   },
+  {
+    id: "ai-video-campaign",
+    category: "ai-videos",
+    title: "فيديو حملة تعريفية بالذكاء الاصطناعي",
+    client: "جمعيات ومبادرات أهلية",
+    text: "إنتاج مقاطع مرئية بالذكاء الاصطناعي تعرّف بالحملة أو المشروع بهوية بصرية متناسقة وبوقت تنفيذ قصير وتكلفة أقل.",
+    tags: ["ذكاء اصطناعي", "موشن جرافيك", "فيديو حملة"],
+    cover: aiVideoPoster,
+    media: { kind: "video", src: aiVideoAsset.url, poster: aiVideoPoster },
+  },
 ];
+

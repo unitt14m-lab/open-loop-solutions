@@ -15,12 +15,14 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesCategoryRouteImport } from './routes/services.$category'
 
@@ -53,6 +55,11 @@ const CareersRoute = CareersRouteImport.update({
   path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
@@ -83,6 +90,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -100,12 +112,14 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/messages': typeof AuthenticatedMessagesRoute
   '/services/$category': typeof ServicesCategoryRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -115,11 +129,13 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/messages': typeof AuthenticatedMessagesRoute
   '/services/$category': typeof ServicesCategoryRoute
   '/services': typeof ServicesIndexRoute
 }
@@ -131,12 +147,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
   '/services/$category': typeof ServicesCategoryRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -148,12 +166,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/community'
     | '/library'
     | '/packages'
     | '/portfolio'
     | '/services'
     | '/admin'
     | '/dashboard'
+    | '/messages'
     | '/services/$category'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
@@ -163,11 +183,13 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/community'
     | '/library'
     | '/packages'
     | '/portfolio'
     | '/admin'
     | '/dashboard'
+    | '/messages'
     | '/services/$category'
     | '/services'
   id:
@@ -178,12 +200,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/community'
     | '/library'
     | '/packages'
     | '/portfolio'
     | '/services'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/messages'
     | '/services/$category'
     | '/services/'
   fileRoutesById: FileRoutesById
@@ -195,6 +219,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BookingRoute: typeof BookingRoute
   CareersRoute: typeof CareersRoute
+  CommunityRoute: typeof CommunityRoute
   LibraryRoute: typeof LibraryRoute
   PackagesRoute: typeof PackagesRoute
   PortfolioRoute: typeof PortfolioRoute
@@ -245,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -287,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages': {
+      id: '/_authenticated/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthenticatedMessagesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/services/': {
       id: '/services/'
       path: '/'
@@ -307,11 +346,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -338,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BookingRoute: BookingRoute,
   CareersRoute: CareersRoute,
+  CommunityRoute: CommunityRoute,
   LibraryRoute: LibraryRoute,
   PackagesRoute: PackagesRoute,
   PortfolioRoute: PortfolioRoute,

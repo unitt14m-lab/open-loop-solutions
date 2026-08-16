@@ -15,6 +15,8 @@ const afterServices = [
   { to: "/packages", label: "الباقات" },
   { to: "/portfolio", label: "سابقة الأعمال" },
   { to: "/library", label: "مكتبة أوبن لوب" },
+  { to: "/community", label: "مجتمع أوبن لوب" },
+
   
   { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
   { to: "/booking", label: "احجز استشارتك" },

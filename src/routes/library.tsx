@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Download, FileText, ShieldCheck, LayoutTemplate, BookOpen } from "lucide-react";
+import { Download, ShieldCheck, BookOpen, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
@@ -28,33 +28,8 @@ export const Route = createFileRoute("/library")({
 const resources = [
   {
     icon: ShieldCheck,
-    title: "لائحة الحوكمة النموذجية",
-    text: "نموذج جاهز للائحة الحوكمة يتوافق مع متطلبات المركز الوطني لتنمية القطاع غير الربحي.",
-  },
-  {
-    icon: FileText,
-    title: "نموذج خطة تشغيلية سنوية",
-    text: "قالب لبناء الخطة التشغيلية مع مؤشرات الأداء والميزانية التقديرية.",
-  },
-  {
-    icon: LayoutTemplate,
-    title: "قالب ملف مشروع للمانحين",
-    text: "هيكل احترافي لعرض المشاريع على المؤسسات المانحة وصناديق الدعم.",
-  },
-  {
-    icon: BookOpen,
-    title: "دليل الاستدامة المالية",
-    text: "إطار عملي لتنويع مصادر الدخل وبناء أوقاف واستثمارات للجمعية.",
-  },
-  {
-    icon: FileText,
-    title: "نموذج تقرير الأثر الاجتماعي",
-    text: "قالب لقياس الأثر وتوثيقه بلغة مقنعة للشركاء والمانحين.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "حزمة سياسات الموارد البشرية",
-    text: "سياسات جاهزة للتوظيف والتطوع والانضباط الوظيفي داخل الكيانات غير الربحية.",
+    title: "فهرس اللوائح والسياسات الأساسية للجمعيات الأهلية",
+    text: "فهرس شامل يحصر اللوائح والسياسات الأساسية التي تحتاجها الجمعيات والمؤسسات الأهلية لرفع جاهزيتها المؤسسية ومؤشرات الحوكمة والامتثال.",
   },
 ];
 
@@ -84,7 +59,7 @@ function LibraryPage() {
             title="أحدث الملفات والنماذج"
             description="اختر الملف المناسب لجمعيتك وحمّله مباشرة دون تسجيل."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
             {resources.map((r) => (
               <article key={r.title} className="card-elevated flex flex-col p-7">
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent text-accent-foreground">
@@ -92,17 +67,24 @@ function LibraryPage() {
                 </span>
                 <h2 className="mt-5 text-base font-extrabold leading-snug">{r.title}</h2>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{r.text}</p>
-                <Button asChild variant="outline" className="mt-6 rounded-full font-bold">
-                  <a href="/open-loop-profile.pdf" target="_blank" rel="noopener noreferrer">
-                    <Download className="h-4 w-4" aria-hidden />
-                    تحميل الملف
-                  </a>
-                </Button>
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <Button asChild variant="outline" className="rounded-full font-bold">
+                    <a href="/open-loop-profile.pdf" target="_blank" rel="noopener noreferrer">
+                      <Download className="h-4 w-4" aria-hidden />
+                      تحميل الملف
+                    </a>
+                  </Button>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1.5 text-xs font-extrabold text-gold-foreground">
+                    <BadgeCheck className="h-4 w-4" aria-hidden />
+                    تحميل مجاني
+                  </span>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
+
 
       <JoinBanner />
     </>

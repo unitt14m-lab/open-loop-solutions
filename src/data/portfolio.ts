@@ -30,9 +30,11 @@ export type PortfolioItem = {
 
 /** التصنيفات — يمكن إضافة تصنيفات جديدة (فيديو، هوية، مستندات...) لاحقاً */
 export const portfolioCategories: PortfolioCategory[] = [
-  { slug: "annual-reports", label: "تصميم التقارير السنوية" },
-  { slug: "social-posts", label: "تصميم المنشورات والبوستات" },
+  { slug: "social-posts", label: "تصميم بوستات" },
+  { slug: "ai-videos", label: "تصميم فيديوهات بالذكاء الاصطناعي" },
+  { slug: "annual-reports", label: "تصميم تقرير سنوي" },
 ];
+
 
 export const mediaLabel: Record<PortfolioMedia["kind"], string> = {
   image: "صورة عالية الدقة",

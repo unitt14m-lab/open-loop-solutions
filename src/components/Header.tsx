@@ -18,7 +18,7 @@ const afterServices = [
   { to: "/community", label: "مجتمع أوبن لوب" },
 
   
-  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
+  { to: "/careers", label: "انضم إلى" },
   { to: "/booking", label: "احجز استشارتك" },
 ] as const;
 

@@ -142,39 +142,34 @@ function Portfolio() {
         <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-4xl">
           <DialogHeader className="text-start">
             <DialogTitle>{active?.title}</DialogTitle>
-            <DialogDescription>{active?.client}</DialogDescription>
+            <DialogDescription className="sr-only">معاينة العمل</DialogDescription>
           </DialogHeader>
           {active && (
-            <div className="space-y-4">
-              <div className="overflow-hidden rounded-2xl bg-secondary">
-                {active.media.kind === "image" && (
-                  <img
-                    src={active.media.src}
-                    alt={active.title}
-                    width={1280}
-                    height={854}
-                    className="h-auto w-full object-contain"
-                  />
-                )}
-                {active.media.kind === "video" && (
-                  <video
-                    src={active.media.src}
-                    poster={active.media.poster}
-                    controls
-                    className="h-auto w-full"
-                  />
-                )}
-                {active.media.kind === "pdf" && (
-                  <iframe
-                    src={active.media.src}
-                    title={active.title}
-                    className="h-[70vh] w-full"
-                  />
-                )}
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">{active.text}</p>
+            <div className="overflow-hidden rounded-2xl bg-secondary">
+              {active.media.kind === "image" && (
+                <img
+                  src={active.media.src}
+                  alt={active.title}
+                  width={1280}
+                  height={854}
+                  className="h-auto w-full object-contain"
+                />
+              )}
+              {active.media.kind === "video" && (
+                <video
+                  src={active.media.src}
+                  poster={active.media.poster}
+                  controls
+                  autoPlay
+                  className="h-auto w-full"
+                />
+              )}
+              {active.media.kind === "pdf" && (
+                <iframe src={active.media.src} title={active.title} className="h-[75vh] w-full" />
+              )}
             </div>
           )}
+
         </DialogContent>
       </Dialog>
 

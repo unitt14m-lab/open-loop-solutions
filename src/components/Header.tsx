@@ -18,7 +18,7 @@ const afterServices = [
   { to: "/community", label: "مجتمع أوبن لوب" },
 
   
-  { to: "/careers", label: "انضم إلينا", tagline: "فرص للعمل الحر والشراكة مع أوبن لوب" },
+  { to: "/careers", label: "انضم إلى" },
   { to: "/booking", label: "احجز استشارتك" },
 ] as const;
 
@@ -91,7 +91,6 @@ export function Header() {
             <Link
               key={l.to}
               to={l.to}
-              title={"tagline" in l ? l.tagline : undefined}
               className={linkClass}
               activeProps={{ className: "bg-primary-foreground/15 text-primary-foreground" }}
             >
@@ -157,11 +156,6 @@ export function Header() {
             {afterServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
-                {"tagline" in l && (
-                  <span className="mt-0.5 block text-xs font-normal text-primary-foreground/60">
-                    {l.tagline}
-                  </span>
-                )}
               </Link>
             ))}
             <Button

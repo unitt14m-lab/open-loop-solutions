@@ -53,9 +53,23 @@ function Dashboard() {
     },
   });
 
+  const projectApplications = useQuery({
+    queryKey: ["my-project-applications", user?.id],
+    enabled: Boolean(user?.id),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("project_applications")
+        .select("id,status,note,created_at,projects(title,field)")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const all = requests.data ?? [];
   const applications = all.filter((r) => r.type === "freelancer");
   const orders = all.filter((r) => r.type !== "freelancer");
+
 
 
   const openDocument = async (path: string) => {

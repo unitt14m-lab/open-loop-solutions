@@ -96,18 +96,22 @@ function About() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="المستهدف" title="المستهدف حتى 2030" />
+          <SectionHeading
+            eyebrow="المستهدف والأثر"
+            title="أثرنا المستهدف حتى 2030"
+            description="أرقام نعمل عليها مع شركائنا في القطاع الثالث لتحويل الفرص إلى استدامة حقيقية."
+          />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {targets.map((i) => (
-              <div key={i.label} className="card-elevated p-8">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent text-accent-foreground">
-                  <i.icon className="h-6 w-6" aria-hidden />
-                </span>
-                <h3 className="mt-5 text-xl font-extrabold text-primary">{i.label}</h3>
-                <p className="mt-2 text-sm leading-[2] text-muted-foreground">{i.text}</p>
+            {impact.map((i) => (
+              <div key={i.title} className="surface-ink rounded-[2rem] p-8">
+                <i.icon className="h-8 w-8 opacity-90" aria-hidden />
+                <p className="mt-5 text-3xl font-extrabold">{i.value}</p>
+                <p className="mt-1 text-sm font-bold opacity-90">{i.title}</p>
+                <p className="mt-4 text-sm leading-relaxed opacity-75">{i.text}</p>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 

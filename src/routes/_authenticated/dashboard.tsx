@@ -99,7 +99,14 @@ function Dashboard() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <Button asChild variant="secondary" className="rounded-full font-bold">
+              <Link to="/messages" search={{ c: undefined }}>
+                <MessagesSquare className="h-4 w-4" aria-hidden />
+                محادثات المجتمع
+              </Link>
+            </Button>
             {isAdmin && (
+
               <Button asChild variant="secondary" className="rounded-full font-bold">
                 <Link to="/admin">
                   <ShieldCheck className="h-4 w-4" aria-hidden />

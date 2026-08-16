@@ -1,9 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import { Check, FilePlus2, FileX2, ReceiptText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { JoinBanner } from "@/components/Footer";
 import { ServiceRequestForm } from "@/components/ServiceRequestForm";
+import { ServiceRequestDialog } from "@/components/ServiceRequestDialog";
 import { serviceCategories } from "@/data/site";
+
 
 
 export const Route = createFileRoute("/services/$category")({
@@ -48,16 +50,41 @@ function CategoryPage() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {category.items.map((item: string) => (
-              <div key={item} className="card-elevated flex items-start gap-3 p-6">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
-                  <Check className="h-4 w-4" aria-hidden />
-                </span>
-                <p className="min-w-0 text-sm font-bold leading-relaxed">{item}</p>
-              </div>
-            ))}
-          </div>
+          {category.details ? (
+            <div className="grid gap-6 lg:grid-cols-3">
+              {category.details.map((d, i) => {
+                const Icon = [ReceiptText, FilePlus2, FileX2][i % 3] ?? ReceiptText;
+                return (
+                  <article key={d.title} className="card-elevated flex h-full flex-col p-7">
+                    <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent text-accent-foreground">
+                      <Icon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h2 className="mt-4 text-lg font-extrabold leading-snug">{d.title}</h2>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                      {d.description}
+                    </p>
+                    <ServiceRequestDialog
+                      serviceName={d.title}
+                      categoryTitle={category.title}
+                      idPrefix={`${category.slug}-${i}`}
+                    />
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {category.items.map((item: string) => (
+                <div key={item} className="card-elevated flex items-start gap-3 p-6">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
+                    <Check className="h-4 w-4" aria-hidden />
+                  </span>
+                  <p className="min-w-0 text-sm font-bold leading-relaxed">{item}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
 
           <div className="mt-12">
             <ServiceRequestForm

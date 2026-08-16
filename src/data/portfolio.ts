@@ -94,4 +94,15 @@ export const portfolioItems: PortfolioItem[] = [
     cover: carouselPostsImg,
     media: { kind: "image", src: carouselPostsImg },
   },
+  {
+    id: "ai-video-campaign",
+    category: "ai-videos",
+    title: "فيديو حملة تعريفية بالذكاء الاصطناعي",
+    client: "جمعيات ومبادرات أهلية",
+    text: "إنتاج مقاطع مرئية بالذكاء الاصطناعي تعرّف بالحملة أو المشروع بهوية بصرية متناسقة وبوقت تنفيذ قصير وتكلفة أقل.",
+    tags: ["ذكاء اصطناعي", "موشن جرافيك", "فيديو حملة"],
+    cover: aiVideoPoster,
+    media: { kind: "video", src: aiVideoAsset.url, poster: aiVideoPoster },
+  },
 ];
+

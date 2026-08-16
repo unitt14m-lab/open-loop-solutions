@@ -14,6 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
+      community_entities: {
+        Row: {
+          created_at: string
+          entity_name: string
+          entity_type: string
+          field: string
+          id: string
+          is_verified: boolean
+          job_title: string
+          license_number: string
+          official_email: string
+          phone: string
+          region: string
+          representative_name: string
+          updated_at: string
+          user_id: string
+          verification_note: string
+        }
+        Insert: {
+          created_at?: string
+          entity_name: string
+          entity_type: string
+          field?: string
+          id?: string
+          is_verified?: boolean
+          job_title: string
+          license_number: string
+          official_email: string
+          phone: string
+          region?: string
+          representative_name: string
+          updated_at?: string
+          user_id: string
+          verification_note?: string
+        }
+        Update: {
+          created_at?: string
+          entity_name?: string
+          entity_type?: string
+          field?: string
+          id?: string
+          is_verified?: boolean
+          job_title?: string
+          license_number?: string
+          official_email?: string
+          phone?: string
+          region?: string
+          representative_name?: string
+          updated_at?: string
+          user_id?: string
+          verification_note?: string
+        }
+        Relationships: []
+      }
+      conversation_participants: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          last_message_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          last_message_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          last_message_at?: string
+        }
+        Relationships: []
+      }
       experts: {
         Row: {
           avatar_url: string | null
@@ -52,6 +153,47 @@ export type Database = {
           years_experience?: number
         }
         Relationships: []
+      }
+      messages: {
+        Row: {
+          attachment_name: string | null
+          attachment_path: string | null
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          body?: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          attachment_name?: string | null
+          attachment_path?: string | null
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -232,6 +374,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_conversation_participant: {
+        Args: { _conversation_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_verified_member: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"

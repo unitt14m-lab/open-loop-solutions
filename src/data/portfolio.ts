@@ -2,6 +2,9 @@ import annualReportImg from "@/assets/work-annual-report.jpg";
 import reportCoverImg from "@/assets/work-report-cover.jpg";
 import socialPostsImg from "@/assets/work-social-posts.jpg";
 import carouselPostsImg from "@/assets/work-carousel-posts.jpg";
+import aiVideoPoster from "@/assets/work-ai-video-poster.jpg";
+import aiVideoAsset from "@/assets/work-ai-video.mp4.asset.json";
+
 
 /** أنواع الوسائط المدعومة — أضف نوعاً جديداً هنا لتوسعة المعرض مستقبلاً */
 export type PortfolioMedia =

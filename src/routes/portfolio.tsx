@@ -35,10 +35,6 @@ export const Route = createFileRoute("/portfolio")({
   component: Portfolio,
 });
 
-function MediaIcon({ kind }: { kind: PortfolioMedia["kind"] }) {
-  const Icon = kind === "pdf" ? FileText : kind === "video" ? Play : ImageIcon;
-  return <Icon className="h-4 w-4" aria-hidden />;
-}
 
 const filters = [{ slug: "all", label: "الكل" }, ...portfolioCategories];
 

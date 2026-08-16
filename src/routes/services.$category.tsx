@@ -53,7 +53,7 @@ function CategoryPage() {
           {category.details ? (
             <div className="grid gap-6 lg:grid-cols-3">
               {category.details.map((d, i) => {
-                const Icon = [ReceiptText, FilePlus2, FileX2][i % 3];
+                const Icon = [ReceiptText, FilePlus2, FileX2][i % 3] ?? ReceiptText;
                 return (
                   <article key={d.title} className="card-elevated flex h-full flex-col p-7">
                     <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent text-accent-foreground">

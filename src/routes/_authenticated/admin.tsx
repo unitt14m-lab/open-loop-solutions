@@ -14,6 +14,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { REQUEST_TYPES, STATUS_LABELS, type RequestType } from "@/lib/requests";
+import { AdminProjects } from "@/components/AdminProjects";
+
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -80,7 +82,15 @@ function AdminPanel() {
             </p>
           )}
 
+          {isAdmin && (
+            <div className="mb-12">
+              <AdminProjects />
+            </div>
+          )}
+
+          <h2 className="mb-4 text-lg font-extrabold">طلبات الموقع</h2>
           <div className="space-y-4">
+
             {requests.data?.map((r) => (
               <article key={r.id} className="card-elevated p-6">
                 <div className="flex flex-wrap items-start justify-between gap-3">

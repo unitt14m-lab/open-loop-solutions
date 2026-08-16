@@ -5,7 +5,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
 import { CateringSection } from "@/components/CateringSection";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 import { packages, serviceCategories } from "@/data/site";
 
 export const Route = createFileRoute("/")({
@@ -170,7 +170,7 @@ function Index() {
       </section>
 
       <div className="pt-16">
-        <VolunteerBanner />
+        <JoinBanner />
       </div>
     </>
   );

@@ -4,9 +4,9 @@ export const REQUEST_TYPES = {
   package: "طلب باقة",
   catering: "مشروع إعاشة",
   service: "خدمة مخصصة",
-  volunteer: "تطوع",
   freelancer: "انضمام مستقل",
 } as const;
+
 
 export type RequestType = keyof typeof REQUEST_TYPES;
 

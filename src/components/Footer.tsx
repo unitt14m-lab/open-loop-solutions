@@ -18,30 +18,31 @@ const socials = [
   { label: "TikTok @open.loop2023", href: "https://www.tiktok.com/@open.loop2023", Icon: TikTok },
 ];
 
-export function VolunteerBanner() {
+export function JoinBanner() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
       <div className="surface-ink grid gap-6 rounded-[2rem] p-8 sm:p-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
         <div className="min-w-0">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold">
             <HeartHandshake className="h-4 w-4" aria-hidden />
-            تطوع معانا
+            شبكة المستقلين
           </span>
           <h2 className="mt-4 text-2xl font-extrabold sm:text-3xl">
-            وقتك وخبرتك قادرة على مضاعفة أثر القطاع غير الربحي
+            خبرتك قادرة على مضاعفة أثر القطاع غير الربحي
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed opacity-80 sm:text-base">
-            انضم إلى شبكة متطوعي أوبن لوب من المسوّقين والمصممين وكتّاب المحتوى والاستشاريين،
-            وشارك في تمكين الجمعيات من الاستدامة المالية والحوكمة المؤسسية.
+            انضم إلى شبكة مستقلي أوبن لوب من المسوّقين والمصممين وكتّاب المحتوى والاستشاريين،
+            وتقدّم على المشاريع المفتوحة مباشرة من حسابك.
           </p>
         </div>
         <Button asChild size="lg" className="rounded-full bg-gold px-8 text-base font-bold text-gold-foreground hover:bg-gold/90">
-          <Link to="/volunteer">سجّل كمتطوع</Link>
+          <Link to="/careers">انضم كمستقل</Link>
         </Button>
       </div>
     </section>
   );
 }
+
 
 export function Footer() {
   return (
@@ -100,10 +101,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/volunteer" className="transition-colors hover:text-gold">
-                تطوع معانا
+              <Link to="/portfolio" className="transition-colors hover:text-gold">
+                سابقة الأعمال
               </Link>
             </li>
+
             <li>
               <Link to="/careers" className="transition-colors hover:text-gold">
                 انضم إلينا

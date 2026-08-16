@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { VolunteerBanner } from "@/components/Footer";
+import { JoinBanner } from "@/components/Footer";
 import { ServiceRequestForm } from "@/components/ServiceRequestForm";
 import { serviceCategories } from "@/data/site";
 
@@ -79,7 +79,7 @@ function CategoryPage() {
       </section>
 
 
-      <VolunteerBanner />
+      <JoinBanner />
     </>
   );
 }

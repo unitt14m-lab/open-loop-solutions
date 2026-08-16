@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      experts: {
+        Row: {
+          avatar_url: string | null
+          bio: string
+          created_at: string
+          full_name: string
+          id: string
+          is_published: boolean
+          is_verified: boolean
+          specialty: string
+          updated_at: string
+          years_experience: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string
+          created_at?: string
+          full_name: string
+          id?: string
+          is_published?: boolean
+          is_verified?: boolean
+          specialty: string
+          updated_at?: string
+          years_experience?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          is_published?: boolean
+          is_verified?: boolean
+          specialty?: string
+          updated_at?: string
+          years_experience?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -40,6 +79,89 @@ export type Database = {
           id?: string
           organization?: string | null
           phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      project_applications: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          portfolio_url: string | null
+          project_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string
+          portfolio_url?: string | null
+          project_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          portfolio_url?: string | null
+          project_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_applications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          brief: string
+          budget: string | null
+          created_at: string
+          deliverables: string
+          duration: string | null
+          field: string
+          id: string
+          is_open: boolean
+          requirements: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          brief: string
+          budget?: string | null
+          created_at?: string
+          deliverables?: string
+          duration?: string | null
+          field?: string
+          id?: string
+          is_open?: boolean
+          requirements?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          brief?: string
+          budget?: string | null
+          created_at?: string
+          deliverables?: string
+          duration?: string | null
+          field?: string
+          id?: string
+          is_open?: boolean
+          requirements?: string
+          title?: string
           updated_at?: string
         }
         Relationships: []

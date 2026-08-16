@@ -141,9 +141,13 @@ function Dashboard() {
                   الطلبات والخدمات
                 </TabsTrigger>
                 <TabsTrigger value="applications" className="rounded-full font-bold">
-                  طلبات الانضمام والتطوع
+                  طلبات الانضمام
+                </TabsTrigger>
+                <TabsTrigger value="projects" className="rounded-full font-bold">
+                  تقديماتي على المشاريع
                 </TabsTrigger>
               </TabsList>
+
 
               {requests.isLoading && (
                 <p className="mt-4 text-sm text-muted-foreground">جارٍ التحميل...</p>

@@ -37,6 +37,7 @@ const schema = z.object({
   projectType: z.string().trim().min(2, "الرجاء اختيار نوع المشروع"),
   quantity: z.string().trim().min(1, "الرجاء إدخال العدد المستهدف").max(60),
   city: z.string().trim().min(2, "الرجاء إدخال المدينة / نطاق التوزيع").max(120),
+  budget: z.string().trim().min(1, "الرجاء إدخال الميزانية التقديرية").max(60, "النص طويل جداً"),
   contact: z.string().trim().min(2, "الرجاء إدخال اسم مسؤول التواصل").max(100, "الاسم طويل جداً"),
   phone: z
     .string()
@@ -53,9 +54,11 @@ const initial: Values = {
   projectType: "",
   quantity: "",
   city: "",
+  budget: "",
   contact: "",
   phone: "",
 };
+
 
 const highlights = [
   {

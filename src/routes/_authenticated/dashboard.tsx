@@ -54,8 +54,9 @@ function Dashboard() {
   });
 
   const all = requests.data ?? [];
-  const applications = all.filter((r) => r.type === "volunteer" || r.type === "freelancer");
-  const orders = all.filter((r) => r.type !== "volunteer" && r.type !== "freelancer");
+  const applications = all.filter((r) => r.type === "freelancer");
+  const orders = all.filter((r) => r.type !== "freelancer");
+
 
   const openDocument = async (path: string) => {
     const { data, error } = await supabase.storage.from("documents").createSignedUrl(path, 60);

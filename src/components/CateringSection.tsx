@@ -108,7 +108,9 @@ export function CateringSection() {
           "نوع المشروع": d.projectType,
           "العدد المستهدف": d.quantity,
           "المدينة / نطاق التوزيع": d.city,
+          "ميزانية المشروع التقديرية": d.budget,
           "مسؤول التواصل": d.contact,
+
           "رقم الجوال": d.phone,
         },
       });
@@ -201,7 +203,9 @@ export function CateringSection() {
                       </div>
                       {field("quantity", "العدد المستهدف / الكمية")}
                       {field("city", "المدينة / نطاق التوزيع")}
+                      {field("budget", "ميزانية المشروع التقديرية")}
                       {field("contact", "اسم مسؤول التواصل")}
+
                       {field("phone", "رقم الجوال", "tel")}
                       <Button
                         type="submit"

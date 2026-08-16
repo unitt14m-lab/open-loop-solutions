@@ -113,13 +113,17 @@ export const packages: Pkg[] = [
   },
 ];
 
+export type ServiceDetail = { title: string; description: string };
+
 export type ServiceCategory = {
   slug: string;
   order: string;
   title: string;
   description: string;
   items: string[];
+  details?: ServiceDetail[];
 };
+
 
 export const serviceCategories: ServiceCategory[] = [
   {

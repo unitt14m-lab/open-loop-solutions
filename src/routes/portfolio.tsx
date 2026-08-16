@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Briefcase, FileText, ImageIcon, Play } from "lucide-react";
+import { Briefcase, Play } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
-import {
-  mediaLabel,
-  portfolioCategories,
-  portfolioItems,
-  type PortfolioItem,
-  type PortfolioMedia,
-} from "@/data/portfolio";
+import { portfolioCategories, portfolioItems, type PortfolioItem } from "@/data/portfolio";
+
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({

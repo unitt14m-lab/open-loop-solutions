@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Briefcase, FileText, ImageIcon, Play } from "lucide-react";
 import {
@@ -10,26 +10,27 @@ import {
 } from "@/components/ui/dialog";
 import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
-import heroImg from "@/assets/hero.jpg";
-import marketingImg from "@/assets/hero-marketing.jpg";
-import reliefImg from "@/assets/hero-relief.jpg";
-import governanceImg from "@/assets/work-governance.jpg";
-import brandingImg from "@/assets/work-branding.jpg";
-import fundraisingImg from "@/assets/work-fundraising.jpg";
+import {
+  mediaLabel,
+  portfolioCategories,
+  portfolioItems,
+  type PortfolioItem,
+  type PortfolioMedia,
+} from "@/data/portfolio";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
     meta: [
-      { title: "سابقة الأعمال | معرض مشاريع أوبن لوب" },
+      { title: "سابقة الأعمال | تصاميم التقارير السنوية والمنشورات" },
       {
         name: "description",
         content:
-          "معرض تفاعلي لأعمال أوبن لوب: صور ومستندات ومقاطع من الحملات التسويقية، تأهيل منصات المنح، الحوكمة، ومشاريع الإعاشة الميدانية.",
+          "معرض أعمال أوبن لوب: تصميم التقارير السنوية للجمعيات وتصميم المنشورات والبوستات، مع معاينة تفاعلية للصور والمستندات.",
       },
-      { property: "og:title", content: "سابقة الأعمال | معرض مشاريع أوبن لوب" },
+      { property: "og:title", content: "سابقة الأعمال | تصاميم التقارير السنوية والمنشورات" },
       {
         property: "og:description",
-        content: "تصفّح مشاريع وحملات أوبن لوب عبر معرض وسائط تفاعلي داخل الصفحة.",
+        content: "تصفّح تصاميم التقارير السنوية والمنشورات عبر معرض تفاعلي داخل الصفحة.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -38,84 +39,21 @@ export const Route = createFileRoute("/portfolio")({
   component: Portfolio,
 });
 
-type Media =
-  | { kind: "image"; src: string }
-  | { kind: "pdf"; src: string }
-  | { kind: "video"; src: string; poster: string };
-
-type Work = {
-  title: string;
-  client: string;
-  text: string;
-  tags: string[];
-  cover: string;
-  media: Media;
-};
-
-const works: Work[] = [
-  {
-    title: "تأهيل الجمعيات لمنصات المنح",
-    client: "جمعيات ومؤسسات أهلية",
-    text: "إعداد وصياغة مشاريع احترافية ورفعها على منصات (إحسان، اعتماد) مع متابعة الاعتماد والتحصيل.",
-    tags: ["تنمية موارد", "منصات المنح", "استرداد ضريبي"],
-    cover: fundraisingImg,
-    media: { kind: "image", src: fundraisingImg },
-  },
-  {
-    title: "حملات تسويقية رقمية متكاملة",
-    client: "القطاع غير الربحي",
-    text: "تخطيط وتنفيذ حملات إعلانية ممولة وإدارة حسابات التواصل مع محتوى بصري ومرئي عالي الجودة.",
-    tags: ["إعلانات ممولة", "إدارة حسابات", "إنتاج محتوى"],
-    cover: marketingImg,
-    media: { kind: "image", src: marketingImg },
-  },
-  {
-    title: "رفع مؤشرات الحوكمة والامتثال",
-    client: "مؤسسات أهلية",
-    text: "بناء الأدلة واللوائح الداخلية ورفع جاهزية الكيان لمتطلبات الجهات الإشرافية ومؤشرات الحوكمة.",
-    tags: ["حوكمة", "امتثال", "أدلة ولوائح"],
-    cover: governanceImg,
-    media: { kind: "image", src: governanceImg },
-  },
-  {
-    title: "هوية بصرية ومطبوعات مؤسسية",
-    client: "جمعيات ومبادرات",
-    text: "تصميم الهويات البصرية والملفات التعريفية والتقارير السنوية بأسلوب مؤسسي حديث.",
-    tags: ["هوية بصرية", "ملف تعريفي", "تقرير سنوي"],
-    cover: brandingImg,
-    media: { kind: "image", src: brandingImg },
-  },
-  {
-    title: "مشاريع إعاشة وتوزيع ميداني",
-    client: "مبادرات مجتمعية",
-    text: "تنفيذ مشاريع إفطار صائم وسقيا الماء والسلال الغذائية وفق خطط لوجستية واشتراطات سلامة معتمدة.",
-    tags: ["إفطار صائم", "سقيا ماء", "سلال غذائية"],
-    cover: reliefImg,
-    media: { kind: "image", src: reliefImg },
-  },
-  {
-    title: "الملف التعريفي لمؤسسة أوبن لوب",
-    client: "أوبن لوب",
-    text: "مستند تعريفي متكامل يعرض الخدمات والباقات ونماذج الأعمال والشراكات — يمكن تصفحه هنا مباشرة.",
-    tags: ["مستند PDF", "ملف تعريفي", "شراكات"],
-    cover: heroImg,
-    media: { kind: "pdf", src: "/open-loop-profile.pdf" },
-  },
-];
-
-function MediaIcon({ kind }: { kind: Media["kind"] }) {
+function MediaIcon({ kind }: { kind: PortfolioMedia["kind"] }) {
   const Icon = kind === "pdf" ? FileText : kind === "video" ? Play : ImageIcon;
   return <Icon className="h-4 w-4" aria-hidden />;
 }
 
-const mediaLabel: Record<Media["kind"], string> = {
-  image: "صورة",
-  pdf: "مستند PDF",
-  video: "مقطع مرئي",
-};
+const filters = [{ slug: "all", label: "الكل" }, ...portfolioCategories];
 
 function Portfolio() {
-  const [active, setActive] = useState<Work | null>(null);
+  const [active, setActive] = useState<PortfolioItem | null>(null);
+  const [filter, setFilter] = useState("all");
+
+  const items = useMemo(
+    () => (filter === "all" ? portfolioItems : portfolioItems.filter((i) => i.category === filter)),
+    [filter],
+  );
 
   return (
     <>
@@ -127,8 +65,8 @@ function Portfolio() {
           </span>
           <h1 className="mt-5 text-3xl font-extrabold sm:text-5xl">معرض أعمالنا</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed opacity-80">
-            اضغط على أي مشروع لتصفّح الوسائط المرفقة (صور عالية الدقة، مقاطع مرئية، أو مستندات)
-            دون مغادرة الصفحة.
+            نماذج مختارة من تصميم التقارير السنوية وتصميم المنشورات والبوستات — اضغط على أي عمل
+            لمعاينته بجودة عالية داخل الصفحة.
           </p>
         </div>
       </section>
@@ -136,14 +74,37 @@ function Portfolio() {
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="مشاريع مختارة"
-            title="نماذج من أعمالنا"
-            description="خبرات ميدانية ورقمية تجمع بين الاستشارات والتسويق والتنفيذ."
+            eyebrow="أعمال مختارة"
+            title="تصفّح حسب التصنيف"
+            description="اختر التصنيف لعرض الأعمال المرتبطة به."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {works.map((w) => (
+
+          <div className="mt-10 flex flex-wrap gap-2" role="tablist" aria-label="تصنيفات الأعمال">
+            {filters.map((f) => {
+              const isActive = filter === f.slug;
+              return (
+                <button
+                  key={f.slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setFilter(f.slug)}
+                  className={`rounded-full px-5 py-2 text-sm font-bold transition-colors ${
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-secondary-foreground hover:bg-secondary/70"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {items.map((w) => (
               <button
-                key={w.title}
+                key={w.id}
                 type="button"
                 onClick={() => setActive(w)}
                 className="card-elevated group flex flex-col overflow-hidden p-0 text-start transition-transform hover:-translate-y-1"
@@ -154,7 +115,7 @@ function Portfolio() {
                     alt={w.title}
                     loading="lazy"
                     width={1280}
-                    height={853}
+                    height={854}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute end-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold text-gold-foreground">
@@ -199,7 +160,7 @@ function Portfolio() {
                     src={active.media.src}
                     alt={active.title}
                     width={1280}
-                    height={853}
+                    height={854}
                     className="h-auto w-full object-contain"
                   />
                 )}

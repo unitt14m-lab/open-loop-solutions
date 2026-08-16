@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BadgeCheck, Loader2, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
@@ -16,17 +16,30 @@ import {
   fetchMyEntity,
 } from "@/lib/community";
 
-const schema = z.object({
-  entity_type: z.string().min(1, "اختر نوع الكيان"),
-  license_number: z.string().regex(/^[0-9]{10}$/, "رقم الترخيص / السجل يجب أن يكون 10 أرقام"),
-  entity_name: z.string().trim().min(3, "اسم الكيان مطلوب").max(160),
-  representative_name: z.string().trim().min(3, "اسم الممثل مطلوب").max(120),
-  job_title: z.string().trim().min(2, "المسمى الوظيفي مطلوب").max(120),
-  official_email: z.string().trim().email("بريد إلكتروني غير صحيح").max(200),
-  phone: z.string().trim().regex(/^0?5[0-9]{8}$/, "رقم جوال سعودي غير صحيح"),
-  region: z.string().min(1, "اختر المنطقة"),
-  field: z.string().min(1, "اختر مجال العمل"),
-});
+const OTHER_FIELD = "أخرى";
+
+const schema = z
+  .object({
+    entity_type: z.string().min(1, "اختر نوع الكيان"),
+    license_number: z.string().regex(/^[0-9]{10}$/, "رقم الترخيص / السجل يجب أن يكون 10 أرقام"),
+    entity_name: z.string().trim().min(3, "اسم الكيان مطلوب").max(160),
+    representative_name: z.string().trim().min(3, "اسم الممثل مطلوب").max(120),
+    job_title: z.string().trim().min(2, "المسمى الوظيفي مطلوب").max(120),
+    official_email: z.string().trim().email("بريد إلكتروني غير صحيح").max(200),
+    phone: z.string().trim().regex(/^0?5[0-9]{8}$/, "رقم جوال سعودي غير صحيح"),
+    region: z.string().min(1, "اختر المنطقة"),
+    field: z.string().min(1, "اختر مجال العمل"),
+    field_other: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      data.field !== OTHER_FIELD ||
+      (data.field_other && data.field_other.trim().length >= 2),
+    {
+      message: "اذكر مجال العمل",
+      path: ["field_other"],
+    }
+  );
 
 const selectClass =
   "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold";
@@ -36,6 +49,8 @@ export function CommunityRegisterForm() {
   const queryClient = useQueryClient();
   const [license, setLicense] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [fieldValue, setFieldValue] = useState("");
+  const [otherField, setOtherField] = useState("");
 
   const myEntity = useQuery({
     queryKey: ["community-entity", user?.id],
@@ -43,11 +58,29 @@ export function CommunityRegisterForm() {
     queryFn: () => fetchMyEntity(user!.id),
   });
 
+  const entity = myEntity.data;
+
+  useEffect(() => {
+    if (!entity) {
+      setFieldValue("");
+      setOtherField("");
+      return;
+    }
+    if (FIELDS.includes(entity.field as (typeof FIELDS)[number])) {
+      setFieldValue(entity.field);
+      setOtherField("");
+    } else {
+      setFieldValue(OTHER_FIELD);
+      setOtherField(entity.field);
+    }
+  }, [entity]);
+
   const registryCheck = license ? checkRegistryNumber(license) : null;
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
       const fd = new FormData(form);
+      const rawField = String(fd.get("field") ?? "");
       const parsed = schema.safeParse({
         entity_type: String(fd.get("entity_type") ?? ""),
         license_number: String(fd.get("license_number") ?? "").replace(/\s|-/g, ""),
@@ -57,7 +90,8 @@ export function CommunityRegisterForm() {
         official_email: String(fd.get("official_email") ?? ""),
         phone: String(fd.get("phone") ?? ""),
         region: String(fd.get("region") ?? ""),
-        field: String(fd.get("field") ?? ""),
+        field: rawField,
+        field_other: rawField === OTHER_FIELD ? String(fd.get("field_other") ?? "") : "",
       });
       if (!parsed.success) {
         const next: Record<string, string> = {};
@@ -66,9 +100,11 @@ export function CommunityRegisterForm() {
         throw new Error("validation");
       }
       setErrors({});
+      const { field, field_other, ...rest } = parsed.data;
+      const effectiveField = field === OTHER_FIELD ? (field_other ?? "").trim() : field;
       const { error } = await supabase
         .from("community_entities")
-        .upsert({ ...parsed.data, user_id: user!.id }, { onConflict: "user_id" });
+        .upsert({ ...rest, field: effectiveField, user_id: user!.id }, { onConflict: "user_id" });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -80,8 +116,6 @@ export function CommunityRegisterForm() {
       if (e.message !== "validation") toast.error("تعذر حفظ البيانات، حاول مرة أخرى");
     },
   });
-
-  const entity = myEntity.data;
 
   if (entity?.is_verified) {
     return (
@@ -187,7 +221,12 @@ export function CommunityRegisterForm() {
       </Field>
 
       <Field label="مجال العمل" error={errors["field"]}>
-        <select name="field" defaultValue={entity?.field ?? ""} className={selectClass}>
+        <select
+          name="field"
+          value={fieldValue}
+          onChange={(e) => setFieldValue(e.target.value)}
+          className={selectClass}
+        >
           <option value="">اختر المجال</option>
           {FIELDS.map((f) => (
             <option key={f} value={f}>
@@ -196,6 +235,18 @@ export function CommunityRegisterForm() {
           ))}
         </select>
       </Field>
+
+      {fieldValue === OTHER_FIELD && (
+        <Field label="اذكر مجال العمل" error={errors["field_other"]}>
+          <Input
+            name="field_other"
+            value={otherField}
+            onChange={(e) => setOtherField(e.target.value)}
+            maxLength={120}
+            placeholder="اكتب مجال عمل الجهة"
+          />
+        </Field>
+      )}
 
       <div className="md:col-span-2">
         <Button

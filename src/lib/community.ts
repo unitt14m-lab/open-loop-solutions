@@ -31,6 +31,7 @@ export const FIELDS = [
   "الإغاثة والإعاشة",
   "البيئة والاستدامة",
   "الأوقاف وتنمية الموارد",
+  "أخرى",
 ] as const;
 
 export type CommunityEntity = {

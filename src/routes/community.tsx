@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MessagesSquare, ShieldCheck, Users } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { CommunityDirectory } from "@/components/CommunityDirectory";
 import { CommunityRegisterForm } from "@/components/CommunityRegisterForm";
@@ -26,24 +25,6 @@ export const Route = createFileRoute("/community")({
   component: CommunityPage,
 });
 
-const perks = [
-  {
-    icon: ShieldCheck,
-    title: "تحقق آلي من الترخيص",
-    body: "نتحقق من رقم الترخيص أو السجل التجاري ونعتمد ملف الجهة مباشرة عند نجاح التحقق.",
-  },
-  {
-    icon: Users,
-    title: "دليل الجهات المعتمدة",
-    body: "ابحث وفلتر الجهات حسب المنطقة ومجال العمل ونوع الكيان للوصول لشركاء مناسبين.",
-  },
-  {
-    icon: MessagesSquare,
-    title: "محادثات آمنة",
-    body: "راسل ممثلي الجهات وشارك المستندات داخل مساحة محادثة خاصة بالأعضاء المعتمدين فقط.",
-  },
-];
-
 function CommunityPage() {
   return (
     <>
@@ -61,18 +42,6 @@ function CommunityPage() {
               الذهاب إلى المحادثات
             </Link>
           </Button>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-          {perks.map((p) => (
-            <article key={p.title} className="card-elevated p-7">
-              <p.icon className="h-7 w-7 text-gold" aria-hidden />
-              <h2 className="mt-4 text-lg font-extrabold">{p.title}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-            </article>
-          ))}
         </div>
       </section>
 

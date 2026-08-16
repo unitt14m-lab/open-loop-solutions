@@ -120,31 +120,21 @@ function Portfolio() {
                     height={854}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute end-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold text-gold-foreground">
-                    <MediaIcon kind={w.media.kind} />
-                    {mediaLabel[w.media.kind]}
-                  </span>
-                </span>
-                <span className="flex flex-1 flex-col p-6">
-                  <span className="text-lg font-extrabold leading-snug">{w.title}</span>
-                  <span className="mt-1 text-xs font-bold text-muted-foreground">{w.client}</span>
-                  <span className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {w.text}
-                  </span>
-                  <span className="mt-5 flex flex-wrap gap-2">
-                    {w.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground"
-                      >
-                        {t}
+                  {w.media.kind === "video" && (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gold text-gold-foreground shadow-lg">
+                        <Play className="h-6 w-6" aria-hidden />
                       </span>
-                    ))}
-                  </span>
+                    </span>
+                  )}
+                </span>
+                <span className="block p-4 text-center text-base font-extrabold leading-snug">
+                  {w.title}
                 </span>
               </button>
             ))}
           </div>
+
         </div>
       </section>
 

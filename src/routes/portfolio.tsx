@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Briefcase, FileText, ImageIcon, Play } from "lucide-react";
+import { Briefcase, Play } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
-import {
-  mediaLabel,
-  portfolioCategories,
-  portfolioItems,
-  type PortfolioItem,
-  type PortfolioMedia,
-} from "@/data/portfolio";
+import { portfolioCategories, portfolioItems, type PortfolioItem } from "@/data/portfolio";
+
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
@@ -40,10 +35,6 @@ export const Route = createFileRoute("/portfolio")({
   component: Portfolio,
 });
 
-function MediaIcon({ kind }: { kind: PortfolioMedia["kind"] }) {
-  const Icon = kind === "pdf" ? FileText : kind === "video" ? Play : ImageIcon;
-  return <Icon className="h-4 w-4" aria-hidden />;
-}
 
 const filters = [{ slug: "all", label: "الكل" }, ...portfolioCategories];
 
@@ -120,31 +111,21 @@ function Portfolio() {
                     height={854}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute end-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 text-[11px] font-extrabold text-gold-foreground">
-                    <MediaIcon kind={w.media.kind} />
-                    {mediaLabel[w.media.kind]}
-                  </span>
-                </span>
-                <span className="flex flex-1 flex-col p-6">
-                  <span className="text-lg font-extrabold leading-snug">{w.title}</span>
-                  <span className="mt-1 text-xs font-bold text-muted-foreground">{w.client}</span>
-                  <span className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {w.text}
-                  </span>
-                  <span className="mt-5 flex flex-wrap gap-2">
-                    {w.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground"
-                      >
-                        {t}
+                  {w.media.kind === "video" && (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gold text-gold-foreground shadow-lg">
+                        <Play className="h-6 w-6" aria-hidden />
                       </span>
-                    ))}
-                  </span>
+                    </span>
+                  )}
+                </span>
+                <span className="block p-4 text-center text-base font-extrabold leading-snug">
+                  {w.title}
                 </span>
               </button>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -152,39 +133,34 @@ function Portfolio() {
         <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-4xl">
           <DialogHeader className="text-start">
             <DialogTitle>{active?.title}</DialogTitle>
-            <DialogDescription>{active?.client}</DialogDescription>
+            <DialogDescription className="sr-only">معاينة العمل</DialogDescription>
           </DialogHeader>
           {active && (
-            <div className="space-y-4">
-              <div className="overflow-hidden rounded-2xl bg-secondary">
-                {active.media.kind === "image" && (
-                  <img
-                    src={active.media.src}
-                    alt={active.title}
-                    width={1280}
-                    height={854}
-                    className="h-auto w-full object-contain"
-                  />
-                )}
-                {active.media.kind === "video" && (
-                  <video
-                    src={active.media.src}
-                    poster={active.media.poster}
-                    controls
-                    className="h-auto w-full"
-                  />
-                )}
-                {active.media.kind === "pdf" && (
-                  <iframe
-                    src={active.media.src}
-                    title={active.title}
-                    className="h-[70vh] w-full"
-                  />
-                )}
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">{active.text}</p>
+            <div className="overflow-hidden rounded-2xl bg-secondary">
+              {active.media.kind === "image" && (
+                <img
+                  src={active.media.src}
+                  alt={active.title}
+                  width={1280}
+                  height={854}
+                  className="h-auto w-full object-contain"
+                />
+              )}
+              {active.media.kind === "video" && (
+                <video
+                  src={active.media.src}
+                  poster={active.media.poster}
+                  controls
+                  autoPlay
+                  className="h-auto w-full"
+                />
+              )}
+              {active.media.kind === "pdf" && (
+                <iframe src={active.media.src} title={active.title} className="h-[75vh] w-full" />
+              )}
             </div>
           )}
+
         </DialogContent>
       </Dialog>
 

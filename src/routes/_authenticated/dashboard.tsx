@@ -165,7 +165,7 @@ function Dashboard() {
               <TabsContent value="applications" className="mt-5 space-y-4">
                 {applications.length === 0 && !requests.isLoading && (
                   <p className="text-sm text-muted-foreground">
-                    لا توجد طلبات انضمام أو تطوع حتى الآن.
+                    لا توجد طلبات انضمام حتى الآن.
                   </p>
                 )}
                 {applications.map((r) => (
@@ -177,7 +177,38 @@ function Dashboard() {
                   />
                 ))}
               </TabsContent>
+
+              <TabsContent value="projects" className="mt-5 space-y-4">
+                {projectApplications.isLoading && (
+                  <p className="text-sm text-muted-foreground">جارٍ التحميل...</p>
+                )}
+                {projectApplications.data?.length === 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    لم تتقدّم على أي مشروع بعد. تصفّح لوحة المشاريع من صفحة «انضم إلينا».
+                  </p>
+                )}
+                {projectApplications.data?.map((a) => (
+                  <article key={a.id} className="card-elevated p-6">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-primary">
+                          {a.projects?.field || "مشروع"}
+                        </p>
+                        <h3 className="mt-1 text-base font-extrabold leading-snug">
+                          {a.projects?.title ?? "مشروع"}
+                        </h3>
+                      </div>
+                      <Badge className="rounded-full">{STATUS_LABELS[a.status] ?? a.status}</Badge>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.note}</p>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      {new Date(a.created_at).toLocaleString("ar-SA")}
+                    </p>
+                  </article>
+                ))}
+              </TabsContent>
             </Tabs>
+
           </div>
         </div>
       </section>

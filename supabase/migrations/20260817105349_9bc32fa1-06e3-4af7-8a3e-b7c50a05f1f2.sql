@@ -1,0 +1,1 @@
+DELETE FROM public.projects WHERE title = 'إدارة حملة إعلانية لمشروع إفطار صائم';

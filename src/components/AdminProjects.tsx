@@ -24,6 +24,7 @@ const empty = {
   requirements: "",
   budget: "",
   duration: "",
+  image_url: "",
 };
 
 export function AdminProjects() {
@@ -70,6 +71,7 @@ export function AdminProjects() {
       requirements: form.requirements.trim(),
       budget: form.budget.trim() || null,
       duration: form.duration.trim() || null,
+      image_url: form.image_url.trim() || null,
     });
     setBusy(false);
     if (error) {
@@ -79,7 +81,7 @@ export function AdminProjects() {
     toast.success("تم نشر المشروع");
     setForm(empty);
     queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-    queryClient.invalidateQueries({ queryKey: ["open-projects"] });
+    queryClient.invalidateQueries({ queryKey: ["board-projects"] });
   };
 
   const toggleOpen = async (id: string, isOpen: boolean) => {
@@ -89,7 +91,7 @@ export function AdminProjects() {
       return;
     }
     queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
-    queryClient.invalidateQueries({ queryKey: ["open-projects"] });
+    queryClient.invalidateQueries({ queryKey: ["board-projects"] });
   };
 
   const updateApplication = async (id: string, status: string) => {
@@ -134,6 +136,16 @@ export function AdminProjects() {
           {field("field", "المجال / التخصص")}
           {field("budget", "الميزانية")}
           {field("duration", "المدة الزمنية")}
+          <div className="sm:col-span-2">
+            {field("image_url", "رابط صورة المشروع (اختياري)")}
+          </div>
+          {form.image_url.trim() !== "" && (
+            <img
+              src={form.image_url}
+              alt="معاينة صورة المشروع"
+              className="h-32 w-full rounded-2xl object-cover sm:col-span-2"
+            />
+          )}
           <div className="sm:col-span-2">{field("brief", "وصف المشروع", true)}</div>
           <div className="sm:col-span-2">{field("deliverables", "المخرجات المطلوبة", true)}</div>
           <div className="sm:col-span-2">{field("requirements", "المتطلبات", true)}</div>

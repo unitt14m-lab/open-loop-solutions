@@ -5,8 +5,9 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
 import { CateringSection } from "@/components/CateringSection";
+import { ServicesShowcase } from "@/components/ServicesShowcase";
 import { JoinBanner } from "@/components/Footer";
-import { packages, serviceCategories } from "@/data/site";
+import { packages } from "@/data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({

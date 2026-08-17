@@ -129,10 +129,11 @@ export type ServiceCategory = {
 export const serviceCategories: ServiceCategory[] = [
   {
     slug: "resources",
-    order: "أولاً",
+    order: "01",
     title: "خدمات تنمية الموارد",
     description:
-      "تأهيل الكيانات غير الربحية للوصول إلى المنح والفرص التمويلية عبر منصات الدعم الحكومي والأهلي.",
+      "تأهيل الكيانات غير الربحية للوصول إلى المنح والفرص التمويلية عبر منصات الدعم الحكوبي والأهلي.",
+    iconName: "resources",
     items: [
       "تسجيل منصة اعتماد",
       "كتابة منافسة عامة",

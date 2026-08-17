@@ -146,8 +146,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "design",
-    order: "ثانياً",
+    order: "02",
     title: "خدمات التصميم",
+    iconName: "design",
     description: "هوية بصرية ومواد إبداعية تعكس رسالة الكيان وتعمّق أثره لدى الجمهور والمانحين.",
     items: [
       "شعار - نموذج واحد",

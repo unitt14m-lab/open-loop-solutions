@@ -171,8 +171,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "content",
-    order: "ثالثاً",
+    order: "03",
     title: "خدمات المحتوى",
+    iconName: "content",
     description: "محتوى احترافي مكتوب بلغة الأثر، يخاطب المستفيد والمانح والشريك الاستراتيجي.",
     items: [
       "بوست إعلاني",

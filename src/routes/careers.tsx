@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/Sections";
 import { FreelancerJoinDialog } from "@/components/FreelancerJoinDialog";
 import { ProjectsBoard } from "@/components/ProjectsBoard";
-import { ExpertsDirectory } from "@/components/ExpertsDirectory";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -12,7 +11,7 @@ export const Route = createFileRoute("/careers")({
       {
         name: "description",
         content:
-          "لوحة المشاريع المفتوحة ودليل خبراء أوبن لوب: تقدّم على مشاريع القطاع غير الربحي أو تصفّح المستقلين الموثقين في التسويق والمحتوى والتصميم والحوكمة.",
+          "لوحة المشاريع المفتوحة: تقدّم على مشاريع القطاع غير الربحي أو تصفّح المستقلين الموثقين في التسويق والمحتوى والتصميم والحوكمة.",
       },
       { property: "og:title", content: "شبكة المستقلين ولوحة المشاريع | أوبن لوب" },
       {
@@ -29,8 +28,12 @@ export const Route = createFileRoute("/careers")({
 function Careers() {
   return (
     <>
-      <section className="surface-ink">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <section className="surface-ink relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_20%_20%,rgb(195_74_54/25%),transparent_70%),radial-gradient(50%_50%_at_85%_80%,rgb(224_159_72/18%),transparent_70%)]"
+        />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <span className="inline-flex items-center rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold">
             فرص للعمل الحر والشراكة مع أوبن لوب
           </span>
@@ -56,25 +59,17 @@ function Careers() {
 
       <section id="projects" className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] border border-border/60 bg-card/70 p-6 shadow-[inset_0_1px_1px_rgb(255_255_255/10%)] backdrop-blur-xl sm:p-10">
           <SectionHeading
-            eyebrow="لوحة المشاريع والفرص"
-            title="المشاريع المفتوحة للتقديم"
-            description="مشاريع نشطة ينشرها فريق أوبن لوب مع تفاصيل المخرجات والمتطلبات — يمكنك التقديم عليها من حسابك."
+            eyebrow="الانضمام إلينا"
+            title="التقديمات المتاحة"
+            description="ندعو الكفاءات والمستشارين والمستقلين للتسجيل في شبكة أوبن لوب وإكمال ملفاتهم المهنية، والتقديم على المشاريع المفتوحة فور إتاحتها."
           />
           <ProjectsBoard />
+          </div>
         </div>
       </section>
 
-      <section id="experts" className="section-pad bg-surface">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="دليل الخبراء والمستقلين"
-            title="كفاءات موثقة ضمن شبكة أوبن لوب"
-            description="نخبة من المستقلين والمتخصصين المعتمدين لدينا في التسويق والمحتوى والتصميم والحوكمة وتنمية الموارد."
-          />
-          <ExpertsDirectory />
-        </div>
-      </section>
     </>
   );
 }

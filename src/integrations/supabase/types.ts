@@ -275,6 +275,7 @@ export type Database = {
           duration: string | null
           field: string
           id: string
+          image_url: string | null
           is_open: boolean
           requirements: string
           title: string
@@ -288,6 +289,7 @@ export type Database = {
           duration?: string | null
           field?: string
           id?: string
+          image_url?: string | null
           is_open?: boolean
           requirements?: string
           title: string
@@ -301,6 +303,7 @@ export type Database = {
           duration?: string | null
           field?: string
           id?: string
+          image_url?: string | null
           is_open?: boolean
           requirements?: string
           title?: string

@@ -195,8 +195,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "marketing",
-    order: "رابعاً",
+    order: "04",
     title: "خدمات التسويق",
+    iconName: "marketing",
     description: "إدارة تسويقية متكاملة ترفع الحضور الرقمي وتحوّل التفاعل إلى دعم مستدام.",
     items: [
       "إدارة حملات ممولة",

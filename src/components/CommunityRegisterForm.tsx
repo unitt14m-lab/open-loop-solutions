@@ -286,7 +286,7 @@ function Field({
       {error ? (
         <p className="mt-1.5 text-xs font-bold text-destructive">{error}</p>
       ) : hint ? (
-        <p className={`mt-1.5 text-xs font-bold ${hintOk ? "text-primary" : "text-destructive"}`}>
+        <p className={`mt-1.5 text-xs font-bold ${hintOk ? "text-primary dark:text-gold" : "text-destructive"}`}>
           {hint}
         </p>
       ) : null}

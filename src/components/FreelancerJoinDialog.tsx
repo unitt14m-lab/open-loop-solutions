@@ -162,7 +162,7 @@ export function FreelancerJoinDialog({ trigger }: { trigger?: React.ReactNode })
               >
                 {cv ? (
                   <>
-                    <FileCheck2 className="h-4 w-4 text-primary" aria-hidden />
+                    <FileCheck2 className="h-4 w-4 text-primary dark:text-gold" aria-hidden />
                     {cv.name}
                   </>
                 ) : (

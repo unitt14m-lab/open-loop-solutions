@@ -91,21 +91,21 @@ function Booking() {
           </div>
 
           <aside className="card-elevated h-fit p-8">
-            <CalendarClock className="h-8 w-8 text-primary" aria-hidden />
+            <CalendarClock className="h-8 w-8 text-primary dark:text-gold" aria-hidden />
             <h2 className="mt-4 text-lg font-extrabold">تواصل مباشر</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               الأحد – الخميس، 9 صباحاً حتى 5 مساءً.
             </p>
             <ul className="mt-5 space-y-3 text-sm">
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 shrink-0 text-primary" />
-                <a href="mailto:openloop2030@gmail.com" className="hover:text-primary">
+                <Mail className="h-4 w-4 shrink-0 text-primary dark:text-gold" />
+                <a href="mailto:openloop2030@gmail.com" className="hover:text-primary dark:hover:text-gold">
                   openloop2030@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0 text-primary" />
-                <a href="https://wa.me/966556006142" target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:text-primary">
+                <Phone className="h-4 w-4 shrink-0 text-primary dark:text-gold" />
+                <a href="https://wa.me/966556006142" target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:text-primary dark:hover:text-gold">
                   0556006142
                 </a>
               </li>

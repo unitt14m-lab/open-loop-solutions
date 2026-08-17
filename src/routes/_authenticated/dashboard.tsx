@@ -198,7 +198,7 @@ function Dashboard() {
                   <article key={a.id} className="card-elevated p-6">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <p className="text-xs font-bold text-primary">
+                        <p className="text-xs font-bold text-primary dark:text-gold">
                           {a.projects?.field || "مشروع"}
                         </p>
                         <h3 className="mt-1 text-base font-extrabold leading-snug">
@@ -257,7 +257,7 @@ function RequestCard({
     <article className="card-elevated p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs font-bold text-primary">
+          <p className="text-xs font-bold text-primary dark:text-gold">
             {REQUEST_TYPES[r.type as RequestType] ?? r.type}
           </p>
           <h3 className="mt-1 text-base font-extrabold leading-snug">{r.title}</h3>

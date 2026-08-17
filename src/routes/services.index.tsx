@@ -44,13 +44,13 @@ function ServicesIndex() {
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             {serviceCategories.map((c) => (
               <article key={c.slug} className="card-elevated flex h-full flex-col p-8">
-                <span className="text-xs font-extrabold text-primary">{c.order}</span>
+                <span className="text-xs font-extrabold text-primary dark:text-gold">{c.order}</span>
                 <h2 className="mt-1 text-2xl font-extrabold">{c.title}</h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.description}</p>
                 <ul className="mt-5 flex-1 space-y-2">
                   {c.items.slice(0, 6).map((i) => (
                     <li key={i} className="flex gap-2 text-sm text-muted-foreground">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary dark:text-gold" aria-hidden />
                       <span className="min-w-0">{i}</span>
                     </li>
                   ))}
@@ -58,7 +58,7 @@ function ServicesIndex() {
                 <Link
                   to="/services/$category"
                   params={{ category: c.slug }}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-primary"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-primary dark:text-gold"
                 >
                   عرض جميع الخدمات ({c.items.length})
                   <ArrowLeft className="h-4 w-4" aria-hidden />

@@ -95,7 +95,7 @@ function AdminPanel() {
               <article key={r.id} className="card-elevated p-6">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-primary">
+                    <p className="text-xs font-bold text-primary dark:text-gold">
                       {REQUEST_TYPES[r.type as RequestType] ?? r.type}
                     </p>
                     <h2 className="mt-1 text-base font-extrabold leading-snug">{r.title}</h2>

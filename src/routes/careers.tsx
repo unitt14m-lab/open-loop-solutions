@@ -7,16 +7,16 @@ import { ProjectsBoard } from "@/components/ProjectsBoard";
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "انضم إلينا | شبكة المستقلين ولوحة المشاريع — أوبن لوب" },
+      { title: "انضم إلينا | التقديمات المتاحة — أوبن لوب" },
       {
         name: "description",
         content:
           "لوحة المشاريع المفتوحة: تقدّم على مشاريع القطاع غير الربحي أو تصفّح المستقلين الموثقين في التسويق والمحتوى والتصميم والحوكمة.",
       },
-      { property: "og:title", content: "شبكة المستقلين ولوحة المشاريع | أوبن لوب" },
+      { property: "og:title", content: "الانضمام إلينا | أوبن لوب" },
       {
         property: "og:description",
-        content: "مشاريع مفتوحة للتقديم ودليل خبراء موثوقين في القطاع غير الربحي.",
+        content: "مشاريع وفرص مفتوحة للتقديم في القطاع غير الربحي.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Briefcase, CalendarClock, CheckCircle2, Sparkles, Wallet } from "lucide-react";
+import { Briefcase, CalendarClock, CheckCircle2, ClipboardList, Sparkles, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AuthGate } from "@/components/AuthGate";
+import { FreelancerJoinDialog } from "@/components/FreelancerJoinDialog";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
@@ -127,9 +128,20 @@ export function ProjectsBoard() {
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {projects.isLoading && <p className="text-sm text-muted-foreground">جارٍ التحميل...</p>}
         {!projects.isLoading && list.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            {tab === "open" ? "لا توجد مهام مفتوحة حالياً." : "لا توجد مهام منتهية لعرضها بعد."}
-          </p>
+          <div className="md:col-span-2 flex flex-col items-center gap-4 rounded-[2rem] border border-border/60 bg-card/60 px-6 py-14 text-center shadow-[inset_0_1px_1px_rgb(255_255_255/10%)] backdrop-blur-xl">
+            <span className="grid h-16 w-16 place-items-center rounded-2xl bg-gold/10 text-gold shadow-[0_0_40px_-10px_rgb(224_159_72/60%)]">
+              <ClipboardList className="h-7 w-7" aria-hidden />
+            </span>
+            <p className="text-base font-extrabold">لا توجد مهام متاحة لعرضها بعد</p>
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+              سجّل ملفك المهني الآن لنتواصل معك فور إتاحة مهام أو مشاريع تناسب تخصصك.
+            </p>
+            <FreelancerJoinDialog
+              trigger={
+                <Button className="rounded-full px-7 font-bold">سجّل كخبير / مستشار</Button>
+              }
+            />
+          </div>
         )}
         {list.map((p) => (
           <article key={p.id} className="card-elevated flex flex-col overflow-hidden">

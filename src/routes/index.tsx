@@ -5,8 +5,9 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { PackageCard, SectionHeading } from "@/components/Sections";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
 import { CateringSection } from "@/components/CateringSection";
+import { ServicesShowcase } from "@/components/ServicesShowcase";
 import { JoinBanner } from "@/components/Footer";
-import { packages, serviceCategories } from "@/data/site";
+import { packages } from "@/data/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,39 +71,27 @@ function Index() {
 
       {/* ABOUT BRIEF */}
       <section className="section-pad">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:px-8">
-          <div className="min-w-0">
-            <SectionHeading
-              align="start"
-              eyebrow="من نحن"
-              title="عن أوبن لوب (Open Loop)"
-              description="منذ انطلاقتنا، جمعت أوبن لوب نخبة من خبراء التسويق الرقمي، والاستشاريين، وصنّاع الأثر في القطاع الثالث؛ لسد الفجوة بين الأهداف المجتمعية النبيلة والنمو المؤسسي المستدام."
-            />
-            <Button asChild variant="outline" className="mt-6 rounded-full font-bold">
-              <Link to="/about">
-                اقرأ قصتنا
-                <ArrowLeft className="h-4 w-4" aria-hidden />
-              </Link>
-            </Button>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {serviceCategories.map((c) => (
-              <Link
-                key={c.slug}
-                to="/services/$category"
-                params={{ category: c.slug }}
-                className="card-elevated block p-6"
-              >
-                <span className="text-xs font-bold text-primary dark:text-gold">{c.order}</span>
-                <h3 className="mt-1 text-base font-extrabold">{c.title}</h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-                  {c.description}
-                </p>
-              </Link>
-            ))}
-          </div>
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="من نحن"
+            title="عن أوبن لوب (Open Loop)"
+            description="منذ انطلاقتنا، جمعت أوبن لوب نخبة من خبراء التسويق الرقمي، والاستشاريين، وصنّاع الأثر في القطاع الثالث؛ لسد الفجوة بين الأهداف المجتمعية النبيلة والنمو المؤسسي المستدام."
+          />
+          <Button
+            asChild
+            size="lg"
+            className="mt-8 rounded-full bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90 dark:bg-gold dark:text-gold-foreground dark:hover:bg-gold/90"
+          >
+            <Link to="/about">
+              اقرأ قصتنا
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
         </div>
       </section>
+
+      {/* SERVICES SHOWCASE */}
+      <ServicesShowcase />
 
       {/* PACKAGES */}
       <section id="packages" className="section-pad bg-surface">

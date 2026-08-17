@@ -122,16 +122,18 @@ export type ServiceCategory = {
   description: string;
   items: string[];
   details?: ServiceDetail[];
+  iconName?: "resources" | "design" | "content" | "marketing" | "tax";
 };
 
 
 export const serviceCategories: ServiceCategory[] = [
   {
     slug: "resources",
-    order: "أولاً",
+    order: "01",
     title: "خدمات تنمية الموارد",
     description:
       "تأهيل الكيانات غير الربحية للوصول إلى المنح والفرص التمويلية عبر منصات الدعم الحكومي والأهلي.",
+    iconName: "resources",
     items: [
       "تسجيل منصة اعتماد",
       "كتابة منافسة عامة",
@@ -144,8 +146,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "design",
-    order: "ثانياً",
+    order: "02",
     title: "خدمات التصميم",
+    iconName: "design",
     description: "هوية بصرية ومواد إبداعية تعكس رسالة الكيان وتعمّق أثره لدى الجمهور والمانحين.",
     items: [
       "شعار - نموذج واحد",
@@ -168,8 +171,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "content",
-    order: "ثالثاً",
+    order: "03",
     title: "خدمات المحتوى",
+    iconName: "content",
     description: "محتوى احترافي مكتوب بلغة الأثر، يخاطب المستفيد والمانح والشريك الاستراتيجي.",
     items: [
       "بوست إعلاني",
@@ -191,8 +195,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "marketing",
-    order: "رابعاً",
+    order: "04",
     title: "خدمات التسويق",
+    iconName: "marketing",
     description: "إدارة تسويقية متكاملة ترفع الحضور الرقمي وتحوّل التفاعل إلى دعم مستدام.",
     items: [
       "إدارة حملات ممولة",
@@ -202,8 +207,9 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     slug: "tax",
-    order: "خامساً",
+    order: "05",
     title: "خدمات الضريبة والاسترداد الضريبي للجمعيات",
+    iconName: "tax",
     description:
       "خدمات ضريبية متخصصة للكيانات غير الربحية: التأهيل للاسترداد الضريبي، والتسجيل في ضريبة القيمة المضافة، وإلغاء التسجيل بشكل معتمد ومتوافق مع أنظمة هيئة الزكاة والضريبة والجمارك.",
     items: [

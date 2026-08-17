@@ -122,6 +122,7 @@ export type ServiceCategory = {
   description: string;
   items: string[];
   details?: ServiceDetail[];
+  iconName?: "resources" | "design" | "content" | "marketing" | "tax";
 };
 
 

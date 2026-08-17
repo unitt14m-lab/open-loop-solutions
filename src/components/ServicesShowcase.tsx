@@ -35,7 +35,7 @@ export function ServicesShowcase() {
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gold/10 text-sm font-extrabold text-gold">
                     {c.order}
                   </span>
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-foreground">
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-accent-foreground dark:bg-gold/10 dark:text-gold dark:group-hover:bg-gold dark:group-hover:text-gold-foreground">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
                 </div>

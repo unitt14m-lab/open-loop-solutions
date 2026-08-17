@@ -162,7 +162,7 @@ function Index() {
       {/* PARTNERS */}
       <section className="section-pad bg-surface">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="ثقة متبادلة" title="شركاؤنا" />
+          <SectionHeading eyebrow="ثقة متبادلة" title="شركاء النجاح" />
         </div>
         <div className="mt-10">
           <PartnersMarquee />

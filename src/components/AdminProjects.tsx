@@ -221,7 +221,7 @@ export function AdminProjects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   dir="ltr"
-                  className="mt-2 block text-xs font-bold text-primary hover:underline"
+                  className="mt-2 block text-xs font-bold text-primary dark:text-gold hover:underline"
                 >
                   {a.portfolio_url}
                 </a>

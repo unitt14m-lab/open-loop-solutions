@@ -75,7 +75,7 @@ function About() {
       <section className="section-pad bg-surface">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="card-elevated p-8">
-            <Eye className="h-8 w-8 text-primary" aria-hidden />
+            <Eye className="h-8 w-8 text-primary dark:text-gold" aria-hidden />
             <h2 className="mt-5 text-2xl font-extrabold">رؤيتنا</h2>
             <p className="mt-3 text-base leading-[2] text-muted-foreground">
               أن نكون الشريك الاستراتيجي الأول للقطاع غير الربحي في المملكة للوصول إلى كيانات
@@ -83,7 +83,7 @@ function About() {
             </p>
           </div>
           <div className="card-elevated p-8">
-            <Compass className="h-8 w-8 text-primary" aria-hidden />
+            <Compass className="h-8 w-8 text-primary dark:text-gold" aria-hidden />
             <h2 className="mt-5 text-2xl font-extrabold">رسالتنا</h2>
             <p className="mt-3 text-base leading-[2] text-muted-foreground">
               تمكين الجمعيات والمؤسسات الأهلية من خلال صياغة مشاريع احترافية، ورفع كفاءة الحوكمة،

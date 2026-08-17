@@ -64,7 +64,7 @@ export function ExpertsDirectory() {
                 <BadgeCheck className="h-4 w-4 shrink-0 text-gold" aria-label="موثّق" />
               )}
             </h3>
-            <p className="mt-1 text-sm font-bold text-primary">{e.specialty}</p>
+            <p className="mt-1 text-sm font-bold text-primary dark:text-gold">{e.specialty}</p>
             <p className="mt-1 text-xs font-bold text-muted-foreground">
               {e.years_experience} سنوات خبرة
             </p>

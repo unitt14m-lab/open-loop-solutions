@@ -105,7 +105,7 @@ export function CommunityDirectory() {
                 جهة معتمدة
               </span>
             </div>
-            <p className="mt-2 text-sm font-bold text-primary">{e.entity_type}</p>
+            <p className="mt-2 text-sm font-bold text-primary dark:text-gold">{e.entity_type}</p>
             <p className="mt-1 text-xs font-bold text-muted-foreground">
               {e.region} — {e.field}
             </p>

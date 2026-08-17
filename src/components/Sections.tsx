@@ -46,12 +46,12 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         </span>
       )}
       <h3 className="text-lg font-extrabold leading-snug">{pkg.title}</h3>
-      <p className="mt-1 text-sm font-semibold text-primary">{pkg.subtitle}</p>
+      <p className="mt-1 text-sm font-semibold text-primary dark:text-gold">{pkg.subtitle}</p>
 
       <ul className="mt-5 flex-1 space-y-3">
         {pkg.features.map((f) => (
           <li key={f} className="flex gap-2 text-sm leading-relaxed text-muted-foreground">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary dark:text-gold" aria-hidden />
             <span className="min-w-0">{f}</span>
           </li>
         ))}

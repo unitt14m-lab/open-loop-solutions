@@ -23,7 +23,7 @@ export function AuthGate({
   if (!user) {
     return (
       <div className="rounded-2xl border border-dashed border-primary/40 bg-secondary/60 p-6 text-center">
-        <LogIn className="mx-auto h-6 w-6 text-primary" aria-hidden />
+        <LogIn className="mx-auto h-6 w-6 text-primary dark:text-gold" aria-hidden />
         <p className="mt-3 text-sm font-bold">{message}</p>
         <Button asChild className="mt-4 rounded-full font-bold">
           <Link to="/auth" search={{ redirect: undefined }}>تسجيل الدخول / إنشاء حساب</Link>

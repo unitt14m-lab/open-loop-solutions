@@ -93,7 +93,7 @@ function Index() {
                 params={{ category: c.slug }}
                 className="card-elevated block p-6"
               >
-                <span className="text-xs font-bold text-primary">{c.order}</span>
+                <span className="text-xs font-bold text-primary dark:text-gold">{c.order}</span>
                 <h3 className="mt-1 text-base font-extrabold">{c.title}</h3>
                 <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                   {c.description}

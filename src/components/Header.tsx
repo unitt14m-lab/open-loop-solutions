@@ -5,6 +5,7 @@ import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
 import { useAuth } from "@/lib/auth";
+import { ThemeToggle } from "./ThemeToggle";
 
 const beforeServices = [
   { to: "/", label: "الرئيسية" },
@@ -98,6 +99,8 @@ export function Header() {
             </Link>
           ))}
 
+          <ThemeToggle className="ms-2" />
+
           <Button
             asChild
             size="sm"
@@ -119,6 +122,8 @@ export function Header() {
           </Button>
         </nav>
 
+        <div className="order-1 flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -127,6 +132,7 @@ export function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
+        </div>
       </div>
 
       {open && (

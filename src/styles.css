@@ -252,6 +252,9 @@
   width: max-content;
   gap: 20px;
   padding: 0;
+  /* Logical trailing gap mirrors the final flex gap so the duplicated
+     content aligns exactly when the animation translates -50%. */
+  padding-inline-end: 20px;
   margin: 0;
   animation: marquee 30s linear infinite;
   will-change: transform;

@@ -10,41 +10,39 @@ const partnerLogos = [
 ];
 
 export function PartnersMarquee() {
-  const logoCards = partnerLogos.map((p) => ({
-    key: p.name,
-    content: (
-      <div className="group flex h-32 w-[230px] shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
-        <img
-          src={p.src}
-          alt={`شعار ${p.name}`}
-          loading="lazy"
-          className="max-h-[65px] w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 dark:[filter:brightness(0)_invert(1)]"
-        />
-      </div>
-    ),
-  }));
+  const items = [
+    ...partnerLogos.map((partner) => ({
+      key: partner.name,
+      content: (
+        <div className="group flex h-32 items-center justify-center rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
+          <img
+            src={partner.src}
+            alt={`شعار ${partner.name}`}
+            loading="lazy"
+            className="max-h-[65px] w-auto max-w-full object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 dark:[filter:brightness(0)_invert(1)]"
+          />
+        </div>
+      ),
+    })),
+    ...partners.map((partner) => ({
+      key: partner,
+      content: (
+        <div className="flex h-32 items-center justify-center rounded-2xl border border-border bg-card px-6 text-center text-sm font-bold text-muted-foreground shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
+          {partner}
+        </div>
+      ),
+    })),
+  ];
 
-  const textCards = partners.map((p) => ({
-    key: p,
-    content: (
-      <div className="flex h-32 w-[230px] shrink-0 items-center justify-center rounded-2xl border border-border bg-card px-6 text-center text-sm font-bold text-muted-foreground shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
-        {p}
-      </div>
-    ),
-  }));
-
-  const allCards = [...logoCards, ...textCards];
-  // Duplicate once (2 total sets) so the CSS animation can translate exactly -50%
-  // and loop seamlessly without any gap or blank space.
-  const track = [...allCards, ...allCards];
+  const duplicatedItems = [...items, ...items];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-3xl">
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="marquee-container rounded-3xl" dir="ltr">
         <div className="marquee-track">
-          {track.map((card, i) => (
-            <div key={`${card.key}-${i}`} className="shrink-0">
-              {card.content}
+          {duplicatedItems.map((item, index) => (
+            <div className="partner-card" key={`${item.key}-${index}`}>
+              {item.content}
             </div>
           ))}
         </div>

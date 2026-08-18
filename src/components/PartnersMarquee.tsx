@@ -10,29 +10,41 @@ const partnerLogos = [
 ];
 
 export function PartnersMarquee() {
+  const logoCards = partnerLogos.map((p) => ({
+    key: p.name,
+    content: (
+      <div className="group flex h-32 w-[230px] shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
+        <img
+          src={p.src}
+          alt={`شعار ${p.name}`}
+          loading="lazy"
+          className="max-h-[65px] w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 dark:[filter:brightness(0)_invert(1)]"
+        />
+      </div>
+    ),
+  }));
+
+  const textCards = partners.map((p) => ({
+    key: p,
+    content: (
+      <div className="flex h-32 w-[230px] shrink-0 items-center justify-center rounded-2xl border border-border bg-card px-6 text-center text-sm font-bold text-muted-foreground shadow-sm transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10">
+        {p}
+      </div>
+    ),
+  }));
+
+  const allCards = [...logoCards, ...textCards];
+  const track = [...allCards, ...allCards];
+
   return (
-    <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
-      {partnerLogos.map((p) => (
-        <div
-          key={p.name}
-          className="group flex h-32 items-center justify-center rounded-3xl border border-border bg-card p-6 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10"
-        >
-          <img
-            src={p.src}
-            alt={`شعار ${p.name}`}
-            loading="lazy"
-            className="max-h-[65px] w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 dark:[filter:brightness(0)_invert(1)]"
-          />
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="overflow-hidden rounded-3xl">
+        <div className="marquee-track flex w-max flex-row flex-nowrap gap-6 hover:[animation-play-state:paused]">
+          {track.map((card, i) => (
+            <div key={`${card.key}-${i}`}>{card.content}</div>
+          ))}
         </div>
-      ))}
-      {partners.slice(0, 5).map((p) => (
-        <div
-          key={p}
-          className="flex h-32 items-center justify-center rounded-3xl border border-border bg-card px-6 text-center text-sm font-bold text-muted-foreground transition-all duration-300 hover:scale-[1.03] hover:shadow-lg dark:border-white/10"
-        >
-          {p}
-        </div>
-      ))}
+      </div>
     </div>
   );
 }

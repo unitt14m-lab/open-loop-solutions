@@ -34,14 +34,18 @@ export function PartnersMarquee() {
   }));
 
   const allCards = [...logoCards, ...textCards];
+  // Duplicate once (2 total sets) so the CSS animation can translate exactly -50%
+  // and loop seamlessly without any gap or blank space.
   const track = [...allCards, ...allCards];
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-3xl">
-        <div className="marquee-track flex w-max flex-row flex-nowrap gap-6 hover:[animation-play-state:paused]">
+        <div className="marquee-track">
           {track.map((card, i) => (
-            <div key={`${card.key}-${i}`}>{card.content}</div>
+            <div key={`${card.key}-${i}`} className="shrink-0">
+              {card.content}
+            </div>
           ))}
         </div>
       </div>

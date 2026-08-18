@@ -20,16 +20,20 @@ export function ServicesShowcase() {
     const track = trackRef.current;
     if (!track) return;
 
-    const handleScroll = () => {
-      const cardWidth = track.firstElementChild?.getBoundingClientRect().width ?? 1;
-      const gap = 24; // gap-6 = 1.5rem = 24px
-      const scrollLeft = track.scrollLeft;
-      const index = Math.max(0, Math.min(serviceCategories.length - 1, Math.round(scrollLeft / (cardWidth + gap))));
-      setActive(index);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute("data-index"));
+            if (!Number.isNaN(index)) setActive(index);
+          }
+        });
+      },
+      { root: track, threshold: 0.6 }
+    );
 
-    track.addEventListener("scroll", handleScroll, { passive: true });
-    return () => track.removeEventListener("scroll", handleScroll);
+    Array.from(track.children).forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
   }, []);
 
   const scrollTo = (index: number) => {
@@ -37,7 +41,7 @@ export function ServicesShowcase() {
     if (!track) return;
     const card = track.children[index] as HTMLElement | undefined;
     if (!card) return;
-    track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+    card.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
   };
 
   const prev = () => scrollTo(Math.max(0, active - 1));

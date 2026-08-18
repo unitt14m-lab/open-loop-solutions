@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Target, TrendingUp, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSlider } from "@/components/HeroSlider";
-import { PackageCard, SectionHeading } from "@/components/Sections";
+import { SectionHeading } from "@/components/Sections";
+import { PackagesCarousel } from "@/components/PackagesCarousel";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
 import { CateringSection } from "@/components/CateringSection";
 import { ServicesShowcase } from "@/components/ServicesShowcase";
@@ -101,11 +102,7 @@ function Index() {
             title="باقات مصممة لاحتياجات الكيانات غير الربحية"
             description="قارن بين الباقات واختر ما يناسب مرحلة نمو جمعيتك."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {packages.map((p) => (
-              <PackageCard key={p.id} pkg={p} />
-            ))}
-          </div>
+          <PackagesCarousel items={packages} />
         </div>
       </section>
 

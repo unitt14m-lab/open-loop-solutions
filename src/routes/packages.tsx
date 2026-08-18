@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PackageCard, SectionHeading } from "@/components/Sections";
+import { SectionHeading } from "@/components/Sections";
+import { PackagesCarousel } from "@/components/PackagesCarousel";
 import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 
@@ -42,11 +43,7 @@ function Packages() {
             title="اختر الباقة المناسبة لمرحلة نمو كيانك"
             description="كل باقة تشمل جلسات استشارية ومتابعة تنفيذية من فريق أوبن لوب."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {packages.map((p) => (
-              <PackageCard key={p.id} pkg={p} />
-            ))}
-          </div>
+          <PackagesCarousel items={packages} />
         </div>
       </section>
 

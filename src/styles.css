@@ -247,29 +247,45 @@
   padding-block: clamp(3.5rem, 7vw, 6.5rem);
 }
 
-@utility marquee-track {
-  display: flex;
-  width: max-content;
-  gap: 20px;
-  padding: 0;
-  /* Logical trailing gap mirrors the final flex gap so the duplicated
-     content aligns exactly when the animation translates -50%. */
-  padding-inline-end: 20px;
-  margin: 0;
-  animation: marquee 30s linear infinite;
-  will-change: transform;
-
-  &:hover {
-    animation-play-state: paused;
-  }
+.marquee-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
-@keyframes marquee {
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 24px;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  animation: scrollMarquee 20s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.partner-card {
+  width: 220px;
+  flex: 0 0 220px;
+  white-space: normal;
+}
+
+@keyframes scrollMarquee {
   0% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-play-state: paused;
   }
 }
 

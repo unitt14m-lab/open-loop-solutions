@@ -250,7 +250,6 @@
 @utility marquee-track {
   display: flex;
   width: max-content;
-  min-width: 200vw;
   gap: 20px;
   padding: 0;
   margin: 0;

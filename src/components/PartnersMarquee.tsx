@@ -47,8 +47,6 @@ export function PartnersMarquee() {
               {card.content}
             </div>
           ))}
-          {/* Trailing gap mirrors the flex gap so the loop reset aligns perfectly. */}
-          <div aria-hidden="true" className="w-[20px] shrink-0" />
         </div>
       </div>
     </div>

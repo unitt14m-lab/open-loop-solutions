@@ -20,28 +20,25 @@ export function ServicesShowcase() {
     const track = trackRef.current;
     if (!track) return;
 
-    const ratios = new Map<number, number>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          if (!Number.isNaN(index)) ratios.set(index, entry.intersectionRatio);
-        });
-        let best = 0;
-        let bestRatio = -1;
-        ratios.forEach((ratio, index) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            best = index;
-          }
-        });
-        setActive(best);
-      },
-      { root: track, threshold: Array.from({ length: 20 }, (_, i) => (i + 1) / 20) }
-    );
+    const updateActive = () => {
+      const trackRect = track.getBoundingClientRect();
+      const trackStart = trackRect.right; // start edge in RTL
+      let best = 0;
+      let bestDistance = Infinity;
+      Array.from(track.children).forEach((card, index) => {
+        const cardRect = card.getBoundingClientRect();
+        const distance = Math.abs(cardRect.right - trackStart);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = index;
+        }
+      });
+      setActive(best);
+    };
 
-    Array.from(track.children).forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
+    updateActive();
+    track.addEventListener("scroll", updateActive, { passive: true });
+    return () => track.removeEventListener("scroll", updateActive);
   }, []);
 
   const scrollTo = (index: number) => {

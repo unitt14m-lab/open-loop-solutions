@@ -34,14 +34,18 @@ export function PartnersMarquee() {
   }));
 
   const allCards = [...logoCards, ...textCards];
-  const track = [...allCards, ...allCards];
+  // Duplicate twice (3 total sets) so the track is always wider than any viewport.
+  // The CSS animation translates exactly -50%, matching one full duplicated pair.
+  const track = [...allCards, ...allCards, ...allCards];
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-3xl">
-        <div className="marquee-track flex w-max flex-row flex-nowrap gap-6 hover:[animation-play-state:paused]">
+        <div className="marquee-track">
           {track.map((card, i) => (
-            <div key={`${card.key}-${i}`}>{card.content}</div>
+            <div key={`${card.key}-${i}`} className="shrink-0">
+              {card.content}
+            </div>
           ))}
         </div>
       </div>

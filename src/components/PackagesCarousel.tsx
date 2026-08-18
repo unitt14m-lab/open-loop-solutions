@@ -30,7 +30,7 @@ export function PackagesCarousel({ items }: { items: Pkg[] }) {
     setPage((p) => Math.min(p, Math.max(total - 1, 0)));
   }, [total]);
 
-  const go = (dir: number) => setPage((p) => Math.min(Math.max(p + dir, 0), total - 1);
+  const go = (dir: number) => setPage((p) => Math.min(Math.max(p + dir, 0), total - 1));
 
   return (
     <div className="mt-12">

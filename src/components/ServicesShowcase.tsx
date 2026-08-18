@@ -20,16 +20,24 @@ export function ServicesShowcase() {
     const track = trackRef.current;
     if (!track) return;
 
+    const ratios = new Map<number, number>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute("data-index"));
-            if (!Number.isNaN(index)) setActive(index);
+          const index = Number(entry.target.getAttribute("data-index"));
+          if (!Number.isNaN(index)) ratios.set(index, entry.intersectionRatio);
+        });
+        let best = 0;
+        let bestRatio = -1;
+        ratios.forEach((ratio, index) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            best = index;
           }
         });
+        setActive(best);
       },
-      { root: track, threshold: 0.6 }
+      { root: track, threshold: Array.from({ length: 20 }, (_, i) => (i + 1) / 20) }
     );
 
     Array.from(track.children).forEach((card) => observer.observe(card));

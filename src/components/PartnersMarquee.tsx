@@ -34,9 +34,9 @@ export function PartnersMarquee() {
   }));
 
   const allCards = [...logoCards, ...textCards];
-  // Duplicate twice (3 total sets) so the track is always wider than any viewport.
-  // The CSS animation translates exactly -50%, matching one full duplicated pair.
-  const track = [...allCards, ...allCards, ...allCards];
+  // Duplicate once (2 total sets) so the CSS animation can translate exactly -50%
+  // and loop seamlessly without any gap or blank space.
+  const track = [...allCards, ...allCards];
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

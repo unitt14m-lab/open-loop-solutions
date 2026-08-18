@@ -90,6 +90,7 @@ export function ServicesShowcase() {
             return (
               <Link
                 key={c.slug}
+                data-index={i}
                 to="/services/$category"
                 params={{ category: c.slug }}
                 className="group relative flex min-w-[280px] flex-[0_0_auto] snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-lg sm:min-w-[300px] lg:min-w-[320px]"

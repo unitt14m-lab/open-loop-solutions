@@ -93,7 +93,7 @@ export function HeroSlider() {
         </span>
 
         <div key={active} className="animate-fade-in">
-          <h1 className="mt-6 max-w-3xl text-center text-[clamp(1.35rem,4vw,2.75rem)] font-extrabold leading-[1.35] md:text-right lg:leading-[1.3]">
+          <h1 className="mt-6 max-w-3xl text-right text-[clamp(1.35rem,4vw,2.75rem)] font-extrabold leading-[1.35] lg:leading-[1.3]">
             {slides[active]?.text}
           </h1>
           <div className="mt-9 flex flex-wrap gap-3">{slides[active]?.actions}</div>

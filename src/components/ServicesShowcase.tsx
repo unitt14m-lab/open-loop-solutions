@@ -85,7 +85,7 @@ export function ServicesShowcase() {
           className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-4 scrollbar-hide sm:px-6 lg:px-8"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {serviceCategories.map((c) => {
+          {serviceCategories.map((c, i) => {
             const Icon = iconMap[c.iconName ?? "resources"];
             return (
               <Link

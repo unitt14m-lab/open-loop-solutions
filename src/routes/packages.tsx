@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PackageCard, SectionHeading } from "@/components/Sections";
+import { SectionHeading } from "@/components/Sections";
+import { PackagesCarousel } from "@/components/PackagesCarousel";
 import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 

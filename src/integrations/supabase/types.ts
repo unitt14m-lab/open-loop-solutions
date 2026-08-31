@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -342,6 +342,146 @@ export type Database = {
           status?: string
           title?: string
           type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rfq_quotes: {
+        Row: {
+          amount: string
+          contact: string
+          created_at: string
+          duration: string
+          id: string
+          note: string
+          rfq_id: string
+          status: string
+          supplier_id: string
+          supplier_name: string
+        }
+        Insert: {
+          amount: string
+          contact?: string
+          created_at?: string
+          duration?: string
+          id?: string
+          note?: string
+          rfq_id: string
+          status?: string
+          supplier_id: string
+          supplier_name: string
+        }
+        Update: {
+          amount?: string
+          contact?: string
+          created_at?: string
+          duration?: string
+          id?: string
+          note?: string
+          rfq_id?: string
+          status?: string
+          supplier_id?: string
+          supplier_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_quotes_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfqs: {
+        Row: {
+          budget: string | null
+          category: string
+          created_at: string
+          deadline: string
+          description: string
+          entity_kind: string
+          entity_name: string
+          id: string
+          is_open: boolean
+          owner_id: string
+          region: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget?: string | null
+          category: string
+          created_at?: string
+          deadline: string
+          description?: string
+          entity_kind?: string
+          entity_name: string
+          id?: string
+          is_open?: boolean
+          owner_id: string
+          region?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget?: string | null
+          category?: string
+          created_at?: string
+          deadline?: string
+          description?: string
+          entity_kind?: string
+          entity_name?: string
+          id?: string
+          is_open?: boolean
+          owner_id?: string
+          region?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      suppliers: {
+        Row: {
+          about: string
+          category: string
+          company_name: string
+          contact_name: string
+          cr_number: string
+          created_at: string
+          email: string
+          id: string
+          phone: string
+          region: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          about?: string
+          category: string
+          company_name: string
+          contact_name: string
+          cr_number: string
+          created_at?: string
+          email: string
+          id?: string
+          phone: string
+          region?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          about?: string
+          category?: string
+          company_name?: string
+          contact_name?: string
+          cr_number?: string
+          created_at?: string
+          email?: string
+          id?: string
+          phone?: string
+          region?: string
           updated_at?: string
           user_id?: string
         }

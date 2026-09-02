@@ -4,6 +4,7 @@ import { Handshake, Loader2, Megaphone } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FormField } from "@/components/RfqBoard";
+import { TermsAgreement } from "@/components/CommunityTerms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

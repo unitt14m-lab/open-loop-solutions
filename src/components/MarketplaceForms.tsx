@@ -224,6 +224,10 @@ function SupplierForm() {
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      if (!agree) {
+        setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const parsed = supplierSchema.safeParse({
         company_name: String(fd.get("company_name") ?? ""),

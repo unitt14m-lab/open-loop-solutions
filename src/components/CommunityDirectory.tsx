@@ -1,24 +1,17 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import { BadgeCheck, Loader2, MessageCircle, Search } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { BadgeCheck, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/lib/auth";
-import { ENTITY_TYPES, FIELDS, REGIONS, fetchDirectory, openConversation } from "@/lib/community";
+import { ENTITY_TYPES, FIELDS, REGIONS, fetchDirectory } from "@/lib/community";
 
 const selectClass =
   "h-11 rounded-xl border border-input bg-background px-3 text-sm font-semibold";
 
 export function CommunityDirectory() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
   const [q, setQ] = useState("");
   const [region, setRegion] = useState("");
   const [field, setField] = useState("");
   const [type, setType] = useState("");
-  const [busy, setBusy] = useState<string | null>(null);
 
   const directory = useQuery({
     queryKey: ["community-directory"],
@@ -35,19 +28,6 @@ export function CommunityDirectory() {
         (!type || e.entity_type === type),
     );
   }, [directory.data, q, region, field, type]);
-
-  const contact = async (otherUserId: string) => {
-    if (!user) return;
-    setBusy(otherUserId);
-    try {
-      const conversationId = await openConversation(user.id, otherUserId);
-      navigate({ to: "/messages", search: { c: conversationId } });
-    } catch {
-      toast.error("تعذر بدء المحادثة، تأكد من اعتماد جهتك.");
-    } finally {
-      setBusy(null);
-    }
-  };
 
   return (
     <div>
@@ -114,20 +94,6 @@ export function CommunityDirectory() {
               {" — "}
               {e.job_title}
             </p>
-            {e.user_id !== user?.id && (
-              <Button
-                onClick={() => contact(e.user_id)}
-                disabled={busy === e.user_id}
-                className="mt-5 rounded-full font-bold"
-              >
-                {busy === e.user_id ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-                ) : (
-                  <MessageCircle className="h-4 w-4" aria-hidden />
-                )}
-                تواصل الآن
-              </Button>
-            )}
           </article>
         ))}
       </div>

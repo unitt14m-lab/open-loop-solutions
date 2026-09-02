@@ -37,19 +37,23 @@ const rfqSchema = z.object({
   description: z.string().trim().min(20, "أضف وصفاً لا يقل عن 20 حرفاً").max(2000),
 });
 
-type Tab = "rfq" | "supplier";
+export type MarketplaceTab = "rfq" | "supplier";
 
-export function MarketplaceForms() {
-  const [tab, setTab] = useState<Tab>("rfq");
-
+export function MarketplaceForms({
+  tab,
+  onTabChange,
+}: {
+  tab: MarketplaceTab;
+  onTabChange: (tab: MarketplaceTab) => void;
+}) {
   return (
     <div>
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-secondary/70 p-1.5">
-        <TabButton active={tab === "rfq"} onClick={() => setTab("rfq")}>
+        <TabButton active={tab === "rfq"} onClick={() => onTabChange("rfq")}>
           <Megaphone className="h-4 w-4" aria-hidden />
           طرح طلب عرض سعر
         </TabButton>
-        <TabButton active={tab === "supplier"} onClick={() => setTab("supplier")}>
+        <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
           <Handshake className="h-4 w-4" aria-hidden />
           التسجيل كمورد
         </TabButton>

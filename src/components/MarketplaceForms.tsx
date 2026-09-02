@@ -313,6 +313,14 @@ function SupplierForm() {
           <Textarea name="about" rows={4} defaultValue={supplier?.about ?? ""} maxLength={1000} />
         </FormField>
       </div>
+      <TermsAgreement
+        checked={agree}
+        onChange={(v) => {
+          setAgree(v);
+          if (v) setErrors((prev) => ({ ...prev, terms: "" }));
+        }}
+        error={errors["terms"]}
+      />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}

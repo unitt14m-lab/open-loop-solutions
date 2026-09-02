@@ -187,6 +187,14 @@ function RfqForm() {
           <Textarea name="description" rows={5} maxLength={2000} />
         </FormField>
       </div>
+      <TermsAgreement
+        checked={agree}
+        onChange={(v) => {
+          setAgree(v);
+          if (v) setErrors((prev) => ({ ...prev, terms: "" }));
+        }}
+        error={errors["terms"]}
+      />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
@@ -204,6 +212,8 @@ function SupplierForm() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agree, setAgree] = useState(false);
+
 
   const mine = useQuery({
     queryKey: ["supplier", user?.id],

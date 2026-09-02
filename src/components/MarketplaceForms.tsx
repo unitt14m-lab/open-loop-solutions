@@ -90,9 +90,14 @@ function RfqForm() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agree, setAgree] = useState(false);
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      if (!agree) {
+        setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const parsed = rfqSchema.safeParse({
         title: String(fd.get("title") ?? ""),

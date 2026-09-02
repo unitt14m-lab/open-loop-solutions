@@ -46,7 +46,7 @@ export type SupplierProfile = {
   about: string;
 };
 
-export const TERMS_KEY = "openloop-community-terms-v1";
+
 
 export async function fetchRfqs() {
   const { data, error } = await supabase

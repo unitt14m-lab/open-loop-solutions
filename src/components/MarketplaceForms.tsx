@@ -4,6 +4,7 @@ import { Handshake, Loader2, Megaphone } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FormField } from "@/components/RfqBoard";
+import { TermsAgreement } from "@/components/CommunityTerms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,19 +38,23 @@ const rfqSchema = z.object({
   description: z.string().trim().min(20, "أضف وصفاً لا يقل عن 20 حرفاً").max(2000),
 });
 
-type Tab = "rfq" | "supplier";
+export type MarketplaceTab = "rfq" | "supplier";
 
-export function MarketplaceForms() {
-  const [tab, setTab] = useState<Tab>("rfq");
-
+export function MarketplaceForms({
+  tab,
+  onTabChange,
+}: {
+  tab: MarketplaceTab;
+  onTabChange: (tab: MarketplaceTab) => void;
+}) {
   return (
     <div>
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-secondary/70 p-1.5">
-        <TabButton active={tab === "rfq"} onClick={() => setTab("rfq")}>
+        <TabButton active={tab === "rfq"} onClick={() => onTabChange("rfq")}>
           <Megaphone className="h-4 w-4" aria-hidden />
           طرح طلب عرض سعر
         </TabButton>
-        <TabButton active={tab === "supplier"} onClick={() => setTab("supplier")}>
+        <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
           <Handshake className="h-4 w-4" aria-hidden />
           التسجيل كمورد
         </TabButton>
@@ -85,9 +90,14 @@ function RfqForm() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agree, setAgree] = useState(false);
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      if (!agree) {
+        setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const parsed = rfqSchema.safeParse({
         title: String(fd.get("title") ?? ""),
@@ -177,6 +187,14 @@ function RfqForm() {
           <Textarea name="description" rows={5} maxLength={2000} />
         </FormField>
       </div>
+      <TermsAgreement
+        checked={agree}
+        onChange={(v) => {
+          setAgree(v);
+          if (v) setErrors((prev) => ({ ...prev, terms: "" }));
+        }}
+        error={errors["terms"]}
+      />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
@@ -194,6 +212,8 @@ function SupplierForm() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agree, setAgree] = useState(false);
+
 
   const mine = useQuery({
     queryKey: ["supplier", user?.id],
@@ -204,6 +224,10 @@ function SupplierForm() {
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      if (!agree) {
+        setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const parsed = supplierSchema.safeParse({
         company_name: String(fd.get("company_name") ?? ""),
@@ -289,6 +313,14 @@ function SupplierForm() {
           <Textarea name="about" rows={4} defaultValue={supplier?.about ?? ""} maxLength={1000} />
         </FormField>
       </div>
+      <TermsAgreement
+        checked={agree}
+        onChange={(v) => {
+          setAgree(v);
+          if (v) setErrors((prev) => ({ ...prev, terms: "" }));
+        }}
+        error={errors["terms"]}
+      />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}

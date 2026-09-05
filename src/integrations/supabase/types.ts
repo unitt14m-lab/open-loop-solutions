@@ -14,6 +14,169 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_notes: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      application_documents: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_path: string
+          id: string
+          owner_id: string
+          quote_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_path: string
+          id?: string
+          owner_id: string
+          quote_id: string
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          owner_id?: string
+          quote_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "application_documents_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "rfq_quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      approvals: {
+        Row: {
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          note: string
+          reviewer_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          note?: string
+          reviewer_id?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          note?: string
+          reviewer_id?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          meta: Json
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          meta?: Json
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          meta?: Json
+        }
+        Relationships: []
+      }
+      commissions: {
+        Row: {
+          amount: number
+          contract_id: string
+          created_at: string
+          due_date: string
+          id: string
+          percent: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          contract_id: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          percent?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          contract_id?: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          percent?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_entities: {
         Row: {
           created_at: string
@@ -25,9 +188,11 @@ export type Database = {
           job_title: string
           license_number: string
           official_email: string
+          org_role: string
           phone: string
           region: string
           representative_name: string
+          status: string
           updated_at: string
           user_id: string
           verification_note: string
@@ -42,9 +207,11 @@ export type Database = {
           job_title: string
           license_number: string
           official_email: string
+          org_role?: string
           phone: string
           region?: string
           representative_name: string
+          status?: string
           updated_at?: string
           user_id: string
           verification_note?: string
@@ -59,14 +226,114 @@ export type Database = {
           job_title?: string
           license_number?: string
           official_email?: string
+          org_role?: string
           phone?: string
           region?: string
           representative_name?: string
+          status?: string
           updated_at?: string
           user_id?: string
           verification_note?: string
         }
         Relationships: []
+      }
+      contract_documents: {
+        Row: {
+          contract_id: string
+          created_at: string
+          file_name: string
+          file_path: string
+          id: string
+          owner_id: string
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          file_name: string
+          file_path: string
+          id?: string
+          owner_id: string
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          owner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_documents_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contracts: {
+        Row: {
+          amount: number
+          buyer_id: string
+          created_at: string
+          currency: string
+          end_date: string | null
+          id: string
+          provider_id: string
+          quote_id: string | null
+          rfq_id: string
+          start_date: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          buyer_id: string
+          created_at?: string
+          currency?: string
+          end_date?: string | null
+          id?: string
+          provider_id: string
+          quote_id?: string | null
+          rfq_id: string
+          start_date?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          buyer_id?: string
+          created_at?: string
+          currency?: string
+          end_date?: string | null
+          id?: string
+          provider_id?: string
+          quote_id?: string | null
+          rfq_id?: string
+          start_date?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "rfq_quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       conversation_participants: {
         Row: {
@@ -194,6 +461,227 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          link: string
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      opportunity_answers: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          question_id: string
+          responder_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          question_id: string
+          responder_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          question_id?: string
+          responder_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "opportunity_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      opportunity_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      opportunity_questions: {
+        Row: {
+          asker_id: string
+          body: string
+          created_at: string
+          id: string
+          is_public: boolean
+          rfq_id: string
+        }
+        Insert: {
+          asker_id: string
+          body: string
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          rfq_id: string
+        }
+        Update: {
+          asker_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          rfq_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_questions_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_documents: {
+        Row: {
+          created_at: string
+          doc_type: string
+          entity_id: string
+          file_name: string
+          file_path: string
+          id: string
+          owner_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          doc_type?: string
+          entity_id: string
+          file_name: string
+          file_path: string
+          id?: string
+          owner_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          doc_type?: string
+          entity_id?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          owner_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_documents_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "community_entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          commission_id: string
+          created_at: string
+          id: string
+          method: string
+          paid_at: string
+          reference: string
+        }
+        Insert: {
+          amount?: number
+          commission_id: string
+          created_at?: string
+          id?: string
+          method?: string
+          paid_at?: string
+          reference?: string
+        }
+        Update: {
+          amount?: number
+          commission_id?: string
+          created_at?: string
+          id?: string
+          method?: string
+          paid_at?: string
+          reference?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_commission_id_fkey"
+            columns: ["commission_id"]
+            isOneToOne: false
+            referencedRelation: "commissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      platform_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -396,8 +884,12 @@ export type Database = {
       }
       rfqs: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
+          awarded_quote_id: string | null
           budget: string | null
           category: string
+          city: string
           created_at: string
           deadline: string
           description: string
@@ -407,12 +899,20 @@ export type Database = {
           is_open: boolean
           owner_id: string
           region: string
+          rejection_reason: string
+          sector: string
+          status: string
+          terms_version: string
           title: string
           updated_at: string
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          awarded_quote_id?: string | null
           budget?: string | null
           category: string
+          city?: string
           created_at?: string
           deadline: string
           description?: string
@@ -422,12 +922,20 @@ export type Database = {
           is_open?: boolean
           owner_id: string
           region?: string
+          rejection_reason?: string
+          sector?: string
+          status?: string
+          terms_version?: string
           title: string
           updated_at?: string
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          awarded_quote_id?: string | null
           budget?: string | null
           category?: string
+          city?: string
           created_at?: string
           deadline?: string
           description?: string
@@ -437,6 +945,10 @@ export type Database = {
           is_open?: boolean
           owner_id?: string
           region?: string
+          rejection_reason?: string
+          sector?: string
+          status?: string
+          terms_version?: string
           title?: string
           updated_at?: string
         }
@@ -454,6 +966,7 @@ export type Database = {
           id: string
           phone: string
           region: string
+          status: string
           updated_at: string
           user_id: string
         }
@@ -468,6 +981,7 @@ export type Database = {
           id?: string
           phone: string
           region?: string
+          status?: string
           updated_at?: string
           user_id: string
         }
@@ -482,8 +996,39 @@ export type Database = {
           id?: string
           phone?: string
           region?: string
+          status?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      terms_versions: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          title: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+          version?: string
         }
         Relationships: []
       }
@@ -501,6 +1046,36 @@ export type Database = {
         Update: {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_terms_acceptances: {
+        Row: {
+          acceptance_type: string
+          accepted_at: string
+          id: string
+          related_action: string
+          related_id: string | null
+          terms_version: string
+          user_id: string
+        }
+        Insert: {
+          acceptance_type: string
+          accepted_at?: string
+          id?: string
+          related_action?: string
+          related_id?: string | null
+          terms_version: string
+          user_id: string
+        }
+        Update: {
+          acceptance_type?: string
+          accepted_at?: string
+          id?: string
+          related_action?: string
+          related_id?: string | null
+          terms_version?: string
           user_id?: string
         }
         Relationships: []

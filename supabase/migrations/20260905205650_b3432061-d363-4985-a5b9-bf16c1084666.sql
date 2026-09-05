@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.create_contract_commission() FROM PUBLIC, anon, authenticated;

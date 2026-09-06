@@ -258,10 +258,15 @@ function RfqForm() {
         error={errors["terms"]}
       />
       <div className="md:col-span-2">
-        <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
+        <Button
+          type="submit"
+          disabled={submit.isPending || !approved}
+          className="rounded-full font-bold"
+        >
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
           نشر الفرصة
         </Button>
+
         <p className="mt-3 text-xs text-muted-foreground">
           النشر متاح للجهات المعتمدة في المجتمع فقط بعد التحقق من الترخيص.
         </p>

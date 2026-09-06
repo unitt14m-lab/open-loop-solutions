@@ -119,7 +119,7 @@ function ApprovalsPanel() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("rfqs")
-        .select("id, title, entity_name, category, city, region, sector, status, deadline")
+        .select("id, title, entity_name, category, city, region, sector, status, deadline, requires_openloop_review")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
@@ -166,6 +166,7 @@ function ApprovalsPanel() {
             subtitle={`${r.entity_name} — ${r.category} — ${r.city || r.region}`}
             status={r.status}
             map={OPPORTUNITY_STATUS}
+            flag={r.requires_openloop_review ? "مطلوب دراسة وترشيح أفضل 3 عروض" : undefined}
             onApprove={() =>
               action.mutate({
                 table: "rfqs",
@@ -207,6 +208,7 @@ function Row({
   onApprove,
   onReject,
   pending,
+  flag,
 }: {
   title: string;
   subtitle: string;
@@ -215,12 +217,18 @@ function Row({
   onApprove: () => void;
   onReject: () => void;
   pending: boolean;
+  flag?: string | undefined;
 }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary/50 p-4">
       <div className="min-w-0">
         <p className="text-sm font-extrabold">{title}</p>
         <p className="mt-1 text-xs font-bold text-muted-foreground">{subtitle}</p>
+        {flag && (
+          <p className="mt-2 w-fit rounded-full bg-gold/20 px-3 py-1 text-[11px] font-extrabold text-primary">
+            {flag}
+          </p>
+        )}
       </div>
       <div className="flex items-center gap-2">
         <StatusBadge status={status} map={map} />

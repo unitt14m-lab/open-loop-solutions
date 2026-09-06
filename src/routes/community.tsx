@@ -15,12 +15,12 @@ export const Route = createFileRoute("/community")({
       {
         name: "description",
         content:
-          "منصة B2B تربط الجمعيات الأهلية والشركات التابعة لها بالموردين المعتمدين لطرح طلبات عروض الأسعار وتلقي العروض إلكترونياً.",
+          "منصة B2B تربط الجمعيات الأهلية والشركات التابعة لها بمقدمي الخدمة والموردين المعتمدين لطرح طلبات عروض الأسعار وتلقي العروض إلكترونياً.",
       },
       { property: "og:title", content: "فُرص Open Loop — سوق المشتريات وعروض الأسعار" },
       {
         property: "og:description",
-        content: "اطرح طلب عرض سعر، استقبل عروض الموردين المعتمدين، وأتمم الترسية إلكترونياً.",
+        content: "اطرح طلب عرض سعر، استقبل عروض مقدمي الخدمة والموردين المعتمدين، وأتمم الترسية إلكترونياً.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -36,7 +36,7 @@ const STEPS = [
   },
   {
     title: "تقديم العروض",
-    body: "تطّلع المنشآت والموردون المعتمدون على الطلبات ويقدمون عروض أسعارهم إلكترونياً وبكل سهولة.",
+    body: "يطّلع مقدمو الخدمة / الموردون المعتمدون على الطلبات ويقدمون عروض أسعارهم إلكترونياً وبكل سهولة.",
   },
   {
     title: "الترسية والتواصل",
@@ -68,7 +68,7 @@ function CommunityPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-white/75">
             منصة فُرص Open Loop هي حلقة وصل بين الكيانات غير الربحية، والشركات والمؤسسات
-            التابعة للجمعيات الأهلية، والموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
+            التابعة للجمعيات الأهلية، ومقدمي الخدمة / الموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
         </div>
@@ -95,7 +95,7 @@ function CommunityPage() {
 
             {/* Suppliers */}
             <article className="flex flex-col items-start rounded-2xl border border-slate-200 bg-white p-8">
-              <h2 className="text-2xl font-extrabold" style={{ color: NAVY }}>موردين</h2>
+              <h2 className="text-2xl font-extrabold" style={{ color: NAVY }}>مقدمو الخدمة / الموردون</h2>
               <p className="mt-2 text-sm font-bold text-slate-500">
                 الشركات والمؤسسات المعتمدة والقطاع الخاص
               </p>
@@ -152,10 +152,10 @@ function CommunityPage() {
             التسجيل وطرح الفرص
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
-            سجّل منشأتك كمورد معتمد، أو اطرح مشروعاً / طلب توريد جديد ليصل إلى الموردين مباشرة.
+            سجّل منشأتك كمقدم خدمة / مورد معتمد، أو اطرح مشروعاً / طلب توريد جديد ليصل إلى مقدمي الخدمة مباشرة.
           </p>
           <div className="mt-8">
-            <AuthGate variant="minimal" message="سجّل الدخول للتسجيل كمورد أو طرح طلب عرض سعر.">
+            <AuthGate variant="minimal" message="سجّل الدخول للتسجيل كمقدم خدمة / مورد أو طرح طلب عرض سعر.">
               <MarketplaceForms tab={formsTab} onTabChange={setFormsTab} />
             </AuthGate>
           </div>

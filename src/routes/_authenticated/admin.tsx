@@ -85,10 +85,12 @@ function AdminPanel() {
           )}
 
           {isAdmin && (
-            <div className="mb-12">
+            <div className="mb-12 space-y-12">
+              <AdminMarketplace />
               <AdminProjects />
             </div>
           )}
+
 
           <h2 className="mb-4 text-lg font-extrabold">طلبات الموقع</h2>
           <div className="space-y-4">

@@ -80,6 +80,7 @@ export type Rfq = {
   status: string;
   rejection_reason: string;
   awarded_quote_id: string | null;
+  requires_openloop_review: boolean;
   created_at: string;
 };
 

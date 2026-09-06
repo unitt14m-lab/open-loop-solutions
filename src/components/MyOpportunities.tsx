@@ -29,7 +29,7 @@ import {
   type Rfq,
 } from "@/lib/marketplace";
 
-/** Buyer workspace: track posted opportunities, review quotes and register the awarded contract. */
+/** Project-owner workspace: track posted opportunities, review quotes and register the awarded contract. */
 export function MyOpportunities() {
   const { user } = useAuth();
   const [award, setAward] = useState<{ rfq: Rfq; quote: Quote } | null>(null);
@@ -73,6 +73,11 @@ function RfqRow({ rfq, onAward }: { rfq: Rfq; onAward: (quote: Quote) => void })
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="text-base font-extrabold leading-snug">{rfq.title}</h3>
+          {rfq.requires_openloop_review && (
+            <p className="mt-2 w-fit rounded-full bg-gold/20 px-3 py-1 text-[11px] font-extrabold text-primary">
+              طلبتَ من فُرص Open Loop دراسة العروض وترشيح أفضل 3
+            </p>
+          )}
           <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
             <CalendarClock className="h-3.5 w-3.5" aria-hidden />
             ينتهي التقديم: {formatDeadline(rfq.deadline)}

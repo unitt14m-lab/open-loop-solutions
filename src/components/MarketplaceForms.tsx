@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FormField } from "@/components/RfqBoard";
 import { TermsAgreement } from "@/components/CommunityTerms";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,7 +38,7 @@ const supplierSchema = z.object({
 const rfqSchema = z.object({
   title: z.string().trim().min(5, "عنوان الفرصة مطلوب").max(160),
   category: z.string().min(1, "اختر تصنيف المشتريات"),
-  entity_name: z.string().trim().min(3, "اسم الجهة الطارحة مطلوب").max(160),
+  entity_name: z.string().trim().min(3, "اسم صاحب المشروع مطلوب").max(160),
   entity_kind: z.string().min(1, "اختر نوع الجهة"),
   region: z.string().min(1, "اختر المنطقة"),
   city: z.string().trim().min(2, "أدخل المدينة").max(80),
@@ -64,7 +65,7 @@ export function MarketplaceForms({
           طرح طلب عرض سعر
         </TabButton>
         <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
-          التسجيل كمورد
+          التسجيل كمقدم خدمة / مورد
         </TabButton>
       </div>
       <div className="mt-8">{tab === "rfq" ? <RfqForm /> : <SupplierForm />}</div>
@@ -100,6 +101,11 @@ function RfqForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [agree, setAgree] = useState(false);
   const { draft, save, clear } = useFormDraft("rfq");
+  const [requiresReview, setRequiresReview] = useState(false);
+
+  useEffect(() => {
+    setRequiresReview(draft["requires_openloop_review"] === "true");
+  }, [draft]);
 
   const entity = useQuery({
     queryKey: ["community-entity", user?.id],
@@ -142,6 +148,7 @@ function RfqForm() {
           budget: parsed.data.budget || null,
           description: parsed.data.description,
           owner_id: user!.id,
+          requires_openloop_review: fd.get("requires_openloop_review") === "true",
         })
         .select("id")
         .maybeSingle();
@@ -157,7 +164,7 @@ function RfqForm() {
         action: "rfq.created",
         entityType: "rfq",
         entityId: data?.id ?? null,
-        meta: { title: parsed.data.title },
+        meta: { title: parsed.data.title, requires_openloop_review: requiresReview },
       });
       form.reset();
     },
@@ -165,6 +172,7 @@ function RfqForm() {
       toast.success("تم إرسال الفرصة لاعتماد الإدارة قبل نشرها في اللوحة");
       clear();
       setAgree(false);
+      setRequiresReview(false);
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
       queryClient.invalidateQueries({ queryKey: ["my-rfqs", user?.id] });
     },
@@ -212,7 +220,7 @@ function RfqForm() {
           ))}
         </select>
       </FormField>
-      <FormField label="نوع الجهة الطارحة" error={errors["entity_kind"]}>
+      <FormField label="نوع صاحب المشروع" error={errors["entity_kind"]}>
         <select name="entity_kind" defaultValue={draft["entity_kind"] ?? ""} className={selectClass}>
           <option value="">اختر النوع</option>
           {ENTITY_KINDS.map((k) => (
@@ -220,7 +228,7 @@ function RfqForm() {
           ))}
         </select>
       </FormField>
-      <FormField label="اسم الجهة الطارحة" error={errors["entity_name"]}>
+      <FormField label="اسم صاحب المشروع" error={errors["entity_name"]}>
         <Input name="entity_name" defaultValue={draft["entity_name"] ?? ""} maxLength={160} />
       </FormField>
       <FormField label="المنطقة المستهدفة" error={errors["region"]}>
@@ -244,6 +252,24 @@ function RfqForm() {
         <FormField label="وصف الطلب والمتطلبات" error={errors["description"]}>
           <Textarea name="description" rows={5} defaultValue={draft["description"] ?? ""} maxLength={2000} />
         </FormField>
+      </div>
+
+      <div className="md:col-span-2">
+        <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-bold leading-relaxed text-slate-700">
+          <Checkbox
+            checked={requiresReview}
+            onCheckedChange={(value) => setRequiresReview(value === true)}
+            className="mt-0.5"
+          />
+          <input
+            type="hidden"
+            name="requires_openloop_review"
+            value={requiresReview ? "true" : "false"}
+          />
+          <span>
+            أرغب بطلب خدمة فُرص Open Loop لدراسة وتحليل العروض المتقدمة وترشيح أفضل 3 عروض.
+          </span>
+        </label>
       </div>
 
       <TermsAgreement
@@ -329,7 +355,7 @@ function SupplierForm() {
       });
     },
     onSuccess: () => {
-      toast.success("تم حفظ ملف المورد — بانتظار اعتماد الإدارة");
+      toast.success("تم حفظ ملف مقدم الخدمة / المورد — بانتظار اعتماد الإدارة");
       queryClient.invalidateQueries({ queryKey: ["supplier", user?.id] });
     },
 
@@ -398,7 +424,11 @@ function SupplierForm() {
       />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
-          {submit.isPending ? "جارٍ الحفظ..." : supplier ? "تحديث ملف المورد" : "التسجيل كمورد"}
+          {submit.isPending
+            ? "جارٍ الحفظ..."
+            : supplier
+              ? "تحديث ملف مقدم الخدمة / المورد"
+              : "التسجيل كمقدم خدمة / مورد"}
         </Button>
       </div>
     </form>

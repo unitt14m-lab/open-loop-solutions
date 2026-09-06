@@ -74,8 +74,8 @@ export function RfqBoard() {
       {user && !supplier.isLoading && !canQuote && (
         <p className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-xs font-bold leading-relaxed text-amber-700 dark:text-amber-300">
           {supplier.data
-            ? "ملف المورد الخاص بك قيد المراجعة من إدارة المنصة — سيتاح تقديم العروض فور الاعتماد."
-            : "سجّل منشأتك كمورد معتمد أولاً ليتاح لك تقديم عروض الأسعار."}
+            ? "ملف مقدم الخدمة / المورد الخاص بك قيد المراجعة من إدارة المنصة — سيتاح تقديم العروض فور الاعتماد."
+            : "سجّل منشأتك كمقدم خدمة / مورد معتمد أولاً ليتاح لك تقديم عروض الأسعار."}
         </p>
       )}
 
@@ -98,7 +98,7 @@ export function RfqBoard() {
           ))}
         </select>
         <select value={kind} onChange={(e) => setKind(e.target.value)} className={selectClass}>
-          <option value="">كل أنواع الجهات</option>
+          <option value="">كل أنواع أصحاب المشاريع</option>
           {ENTITY_KINDS.map((k) => (
             <option key={k} value={k}>{k}</option>
           ))}
@@ -229,7 +229,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
       });
     },
     onSuccess: () => {
-      toast.success("تم إرسال عرض السعر إلى الجهة الطارحة");
+      toast.success("تم إرسال عرض السعر إلى صاحب المشروع");
       clear();
       setAgree(false);
       onClose();
@@ -255,7 +255,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
             submit.mutate(e.currentTarget);
           }}
         >
-          <FormField label="اسم المنشأة / المورد" error={errors["supplier_name"]}>
+          <FormField label="اسم مقدم الخدمة / المورد" error={errors["supplier_name"]}>
             <Input name="supplier_name" defaultValue={draft["supplier_name"] ?? ""} maxLength={160} />
           </FormField>
           <FormField label="قيمة العرض (ريال)" error={errors["amount"]}>
@@ -264,7 +264,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
           <FormField label="مدة التنفيذ" error={errors["duration"]}>
             <Input name="duration" defaultValue={draft["duration"] ?? ""} maxLength={80} placeholder="مثال: 21 يوم عمل" />
           </FormField>
-          <FormField label="وسيلة التواصل (تظهر للجهة الطارحة فقط)" error={errors["contact"]}>
+          <FormField label="وسيلة التواصل (تظهر لصاحب المشروع فقط)" error={errors["contact"]}>
             <Input name="contact" dir="ltr" defaultValue={draft["contact"] ?? ""} maxLength={160} />
           </FormField>
           <FormField label="تفاصيل العرض" error={errors["note"]}>

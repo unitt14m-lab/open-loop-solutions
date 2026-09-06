@@ -900,6 +900,7 @@ export type Database = {
           owner_id: string
           region: string
           rejection_reason: string
+          requires_openloop_review: boolean
           sector: string
           status: string
           terms_version: string
@@ -923,6 +924,7 @@ export type Database = {
           owner_id: string
           region?: string
           rejection_reason?: string
+          requires_openloop_review?: boolean
           sector?: string
           status?: string
           terms_version?: string
@@ -946,6 +948,7 @@ export type Database = {
           owner_id?: string
           region?: string
           rejection_reason?: string
+          requires_openloop_review?: boolean
           sector?: string
           status?: string
           terms_version?: string

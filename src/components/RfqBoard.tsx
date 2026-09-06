@@ -14,14 +14,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { MarketplaceDisclaimer } from "@/components/MarketplaceDisclaimer";
+import { TermsAgreement } from "@/components/CommunityTerms";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { REGIONS } from "@/lib/community";
 import {
   ENTITY_KINDS,
   RFQ_CATEGORIES,
+  fetchMySupplier,
   fetchRfqs,
   formatDeadline,
+  isExpired,
+  logAudit,
+  logTermsAcceptance,
+  useFormDraft,
   type Rfq,
 } from "@/lib/marketplace";
 
@@ -45,6 +52,12 @@ export function RfqBoard() {
   const [active, setActive] = useState<Rfq | null>(null);
 
   const rfqs = useQuery({ queryKey: ["rfqs"], queryFn: fetchRfqs });
+  const supplier = useQuery({
+    queryKey: ["supplier", user?.id],
+    enabled: Boolean(user?.id),
+    queryFn: () => fetchMySupplier(user!.id),
+  });
+  const canQuote = supplier.data?.status === "approved";
 
   const list = useMemo(() => {
     const term = q.trim();
@@ -59,6 +72,16 @@ export function RfqBoard() {
 
   return (
     <div>
+      <MarketplaceDisclaimer className="mb-6" />
+
+      {user && !supplier.isLoading && !canQuote && (
+        <p className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-xs font-bold leading-relaxed text-amber-700 dark:text-amber-300">
+          {supplier.data
+            ? "ملف المورد الخاص بك قيد المراجعة من إدارة المنصة — سيتاح تقديم العروض فور الاعتماد."
+            : "سجّل منشأتك كمورد معتمد أولاً ليتاح لك تقديم عروض الأسعار."}
+        </p>
+      )}
+
       <div className="card-elevated grid gap-4 p-5 md:grid-cols-4">
         <div className="relative">
           <Search className="pointer-events-none absolute inset-y-0 start-3 my-auto h-4 w-4 text-muted-foreground" aria-hidden />
@@ -100,41 +123,58 @@ export function RfqBoard() {
         </div>
       ) : (
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {list.map((rfq) => (
-            <article key={rfq.id} className="card-elevated flex flex-col p-6">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-extrabold text-primary dark:text-gold">
-                <Tag className="h-3.5 w-3.5" aria-hidden />
-                {rfq.category}
-              </span>
-              <h3 className="mt-4 text-base font-extrabold leading-relaxed">{rfq.title}</h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-                {rfq.description}
-              </p>
-              <dl className="mt-4 space-y-2 text-xs font-bold text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-3.5 w-3.5" aria-hidden />
-                  <span>{rfq.entity_name} — {rfq.entity_kind}</span>
-                </div>
-                {rfq.region && (
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-3.5 w-3.5" aria-hidden />
-                    <span>{rfq.region}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <CalendarClock className="h-3.5 w-3.5" aria-hidden />
-                  <span>ينتهي التقديم: {formatDeadline(rfq.deadline)}</span>
-                </div>
-              </dl>
-              <Button
-                className="mt-6 w-full rounded-full font-bold"
-                onClick={() => setActive(rfq)}
-                disabled={!user}
+          {list.map((rfq) => {
+            const expired = isExpired(rfq.deadline);
+            return (
+              <article
+                key={rfq.id}
+                className="card-elevated flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                تقديم عرض سعر
-              </Button>
-            </article>
-          ))}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-extrabold text-primary dark:text-gold">
+                    <Tag className="h-3.5 w-3.5" aria-hidden />
+                    {rfq.category}
+                  </span>
+                  <span
+                    className={`inline-flex rounded-full px-3 py-1 text-[11px] font-extrabold ${
+                      expired
+                        ? "bg-destructive/20 text-destructive"
+                        : "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300"
+                    }`}
+                  >
+                    {expired ? "منتهية" : "مفتوحة للعروض"}
+                  </span>
+                </div>
+                <h3 className="mt-4 text-base font-extrabold leading-relaxed">{rfq.title}</h3>
+                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                  {rfq.description}
+                </p>
+                <dl className="mt-4 space-y-2 text-xs font-bold text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-3.5 w-3.5" aria-hidden />
+                    <span>{rfq.entity_name} — {rfq.entity_kind}</span>
+                  </div>
+                  {rfq.region && (
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-3.5 w-3.5" aria-hidden />
+                      <span>{rfq.region}{rfq.city ? ` — ${rfq.city}` : ""}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <CalendarClock className="h-3.5 w-3.5" aria-hidden />
+                    <span>ينتهي التقديم: {formatDeadline(rfq.deadline)}</span>
+                  </div>
+                </dl>
+                <Button
+                  className="mt-6 w-full rounded-full font-bold"
+                  onClick={() => setActive(rfq)}
+                  disabled={!user || expired || !canQuote}
+                >
+                  {expired ? "انتهت مدة التقديم" : "تقديم عرض سعر"}
+                </Button>
+              </article>
+            );
+          })}
         </div>
       )}
 
@@ -146,9 +186,16 @@ export function RfqBoard() {
 function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void }) {
   const { user } = useAuth();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [agree, setAgree] = useState(false);
+  const { draft, save, clear } = useFormDraft("quote");
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      save(form);
+      if (!agree) {
+        setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const parsed = quoteSchema.safeParse({
         supplier_name: String(fd.get("supplier_name") ?? ""),
@@ -164,29 +211,50 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
         throw new Error("validation");
       }
       setErrors({});
-      const { error } = await supabase.from("rfq_quotes").insert({
-        rfq_id: rfq!.id,
-        supplier_id: user!.id,
-        supplier_name: parsed.data.supplier_name,
-        amount: parsed.data.amount,
-        duration: parsed.data.duration ?? "",
-        contact: parsed.data.contact,
-        note: parsed.data.note ?? "",
-      });
+      const { data, error } = await supabase
+        .from("rfq_quotes")
+        .insert({
+          rfq_id: rfq!.id,
+          supplier_id: user!.id,
+          supplier_name: parsed.data.supplier_name,
+          amount: parsed.data.amount,
+          duration: parsed.data.duration ?? "",
+          contact: parsed.data.contact,
+          note: parsed.data.note ?? "",
+        })
+        .select("id")
+        .maybeSingle();
       if (error) throw error;
+      await logTermsAcceptance({
+        userId: user!.id,
+        acceptanceType: "quote",
+        relatedAction: "quote.submitted",
+        relatedId: data?.id ?? null,
+      });
+      await logAudit({
+        actorId: user!.id,
+        action: "quote.submitted",
+        entityType: "quote",
+        entityId: data?.id ?? null,
+        meta: { rfq_id: rfq!.id },
+      });
     },
     onSuccess: () => {
       toast.success("تم إرسال عرض السعر إلى الجهة الطارحة");
+      clear();
+      setAgree(false);
       onClose();
     },
     onError: (e: Error) => {
-      if (e.message !== "validation") toast.error("تعذر إرسال العرض، حاول مرة أخرى");
+      if (e.message !== "validation") {
+        toast.error("تعذر إرسال العرض — تم حفظ بياناتك مؤقتاً، حاول مرة أخرى");
+      }
     },
   });
 
   return (
     <Dialog open={Boolean(rfq)} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-h-[85vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>تقديم عرض سعر</DialogTitle>
           <DialogDescription>{rfq?.title}</DialogDescription>
@@ -199,20 +267,28 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
           }}
         >
           <FormField label="اسم المنشأة / المورد" error={errors["supplier_name"]}>
-            <Input name="supplier_name" maxLength={160} />
+            <Input name="supplier_name" defaultValue={draft["supplier_name"] ?? ""} maxLength={160} />
           </FormField>
           <FormField label="قيمة العرض (ريال)" error={errors["amount"]}>
-            <Input name="amount" inputMode="numeric" maxLength={60} />
+            <Input name="amount" inputMode="numeric" defaultValue={draft["amount"] ?? ""} maxLength={60} />
           </FormField>
           <FormField label="مدة التنفيذ" error={errors["duration"]}>
-            <Input name="duration" maxLength={80} placeholder="مثال: 21 يوم عمل" />
+            <Input name="duration" defaultValue={draft["duration"] ?? ""} maxLength={80} placeholder="مثال: 21 يوم عمل" />
           </FormField>
-          <FormField label="وسيلة التواصل (جوال / بريد)" error={errors["contact"]}>
-            <Input name="contact" dir="ltr" maxLength={160} />
+          <FormField label="وسيلة التواصل (تظهر للجهة الطارحة فقط)" error={errors["contact"]}>
+            <Input name="contact" dir="ltr" defaultValue={draft["contact"] ?? ""} maxLength={160} />
           </FormField>
           <FormField label="تفاصيل العرض" error={errors["note"]}>
-            <Textarea name="note" rows={4} maxLength={1000} />
+            <Textarea name="note" rows={4} defaultValue={draft["note"] ?? ""} maxLength={1000} />
           </FormField>
+          <TermsAgreement
+            checked={agree}
+            onChange={(v) => {
+              setAgree(v);
+              if (v) setErrors((prev) => ({ ...prev, terms: "" }));
+            }}
+            error={errors["terms"]}
+          />
           <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
             {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
             إرسال العرض

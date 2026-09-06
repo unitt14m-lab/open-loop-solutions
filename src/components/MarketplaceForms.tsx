@@ -22,7 +22,7 @@ import {
 } from "@/lib/marketplace";
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold";
+  "h-11 w-full rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
 
 const supplierSchema = z.object({
   company_name: z.string().trim().min(3, "اسم المنشأة مطلوب").max(160),
@@ -89,7 +89,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold transition ${
-        active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+        active ? "bg-primary text-primary-foreground" : "text-[#E2E8F0]/70 hover:text-foreground"
       }`}
     >
       {children}
@@ -180,7 +180,7 @@ function RfqForm() {
 
   return (
     <form
-      className="card-elevated grid gap-5 p-7 md:grid-cols-2"
+      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);
@@ -267,7 +267,7 @@ function RfqForm() {
           نشر الفرصة
         </Button>
 
-        <p className="mt-3 text-xs text-muted-foreground">
+        <p className="mt-3 text-xs text-[#E2E8F0]/70">
           النشر متاح للجهات المعتمدة في المجتمع فقط بعد التحقق من الترخيص.
         </p>
       </div>
@@ -344,7 +344,7 @@ function SupplierForm() {
 
   return (
     <form
-      className="card-elevated grid gap-5 p-7 md:grid-cols-2"
+      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);

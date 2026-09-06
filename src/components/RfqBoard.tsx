@@ -33,7 +33,7 @@ import {
 } from "@/lib/marketplace";
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold";
+  "h-11 w-full rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
 
 const quoteSchema = z.object({
   supplier_name: z.string().trim().min(3, "اسم المنشأة مطلوب").max(160),
@@ -82,9 +82,9 @@ export function RfqBoard() {
         </p>
       )}
 
-      <div className="card-elevated grid gap-4 p-5 md:grid-cols-4">
+      <div className="glass-panel grid gap-4 p-5 md:grid-cols-4">
         <div className="relative">
-          <Search className="pointer-events-none absolute inset-y-0 start-3 my-auto h-4 w-4 text-muted-foreground" aria-hidden />
+          <Search className="pointer-events-none absolute inset-y-0 start-3 my-auto h-4 w-4 text-[#E2E8F0]/70" aria-hidden />
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -113,11 +113,11 @@ export function RfqBoard() {
       </div>
 
       {rfqs.isLoading ? (
-        <p className="mt-8 text-sm text-muted-foreground">جارٍ تحميل الفرص...</p>
+        <p className="mt-8 text-sm text-[#E2E8F0]/70">جارٍ تحميل الفرص...</p>
       ) : list.length === 0 ? (
-        <div className="card-elevated mt-8 p-10 text-center">
+        <div className="glass-panel mt-8 p-10 text-center">
           <p className="text-sm font-bold">لا توجد فرص مطابقة حالياً</p>
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-2 text-xs text-[#E2E8F0]/70">
             تابع اللوحة باستمرار، أو اطرح طلب عرض سعر جديد إن كانت جهتك معتمدة.
           </p>
         </div>
@@ -128,7 +128,7 @@ export function RfqBoard() {
             return (
               <article
                 key={rfq.id}
-                className="card-elevated flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="glass-panel flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-extrabold text-primary dark:text-gold">
@@ -146,10 +146,10 @@ export function RfqBoard() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-base font-extrabold leading-relaxed">{rfq.title}</h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[#E2E8F0]/70">
                   {rfq.description}
                 </p>
-                <dl className="mt-4 space-y-2 text-xs font-bold text-muted-foreground">
+                <dl className="mt-4 space-y-2 text-xs font-bold text-[#E2E8F0]/70">
                   <div className="flex items-center gap-2">
                     <Building2 className="h-3.5 w-3.5" aria-hidden />
                     <span>{rfq.entity_name} — {rfq.entity_kind}</span>

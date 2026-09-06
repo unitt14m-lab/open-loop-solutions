@@ -144,10 +144,10 @@ function CommunityPage() {
         </div>
       </section>
 
-      <section id="rfq-board" className="bg-secondary/50 py-16">
+      <section id="rfq-board" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">لوحة الفرص وطلبات عروض الأسعار</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             فرص شرائية مفتوحة من الجمعيات والمؤسسات والشركات التابعة لها — قدّم عرضك قبل انتهاء المدة.
           </p>
           <div className="mt-8">
@@ -163,7 +163,7 @@ function CommunityPage() {
           <h2 className="text-center text-2xl font-extrabold sm:text-3xl">
             التسجيل وطرح الفرص
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-[#E2E8F0]/75">
             سجّل منشأتك كمورد معتمد، أو اطرح مشروعاً / طلب توريد جديد ليصل إلى الموردين مباشرة.
           </p>
           <div className="mt-8">
@@ -174,10 +174,10 @@ function CommunityPage() {
         </div>
       </section>
 
-      <section className="bg-secondary/50 py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">توثيق الجهة</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             يُعتمد ملف الجهة آلياً بعد التحقق من رقم الترخيص، ويتيح لك طرح طلبات عروض الأسعار.
           </p>
           <div className="mt-8">
@@ -191,7 +191,7 @@ function CommunityPage() {
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">دليل فُرص Open Loop</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             الجهات المعتمدة داخل المجتمع — الدليل متاح للأعضاء المعتمدين فقط.
           </p>
           <div className="mt-8">

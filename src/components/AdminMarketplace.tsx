@@ -26,7 +26,7 @@ export function AdminMarketplace() {
     <div className="card-elevated p-6">
       <h2 className="flex items-center gap-2 text-lg font-extrabold">
         <ShieldCheck className="h-5 w-5 text-primary dark:text-gold" aria-hidden />
-        إدارة سوق مجتمع أوبن لوب
+        إدارة سوق فُرص Open Loop
       </h2>
       <Tabs defaultValue="approvals" className="mt-6">
         <TabsList className="flex flex-wrap">

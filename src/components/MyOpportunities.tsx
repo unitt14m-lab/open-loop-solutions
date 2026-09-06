@@ -46,7 +46,7 @@ export function MyOpportunities() {
       <div className="card-elevated p-8 text-center">
         <p className="text-sm font-bold">لم تطرح أي فرصة بعد</p>
         <p className="mt-2 text-xs text-muted-foreground">
-          اطرح طلب عرض سعر من صفحة مجتمع أوبن لوب ليصل إلى مقدمي الخدمة المعتمدين.
+          اطرح طلب عرض سعر من صفحة فُرص Open Loop ليصل إلى مقدمي الخدمة المعتمدين.
         </p>
       </div>
     );

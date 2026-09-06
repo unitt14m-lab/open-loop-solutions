@@ -42,7 +42,7 @@ const schema = z
   );
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold";
+  "h-11 w-full rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
 
 export function CommunityRegisterForm() {
   const { user } = useAuth();
@@ -119,15 +119,15 @@ export function CommunityRegisterForm() {
 
   if (entity?.is_verified) {
     return (
-      <div className="card-elevated flex items-start gap-4 p-7">
+      <div className="glass-panel flex items-start gap-4 p-7">
         <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-gold" aria-hidden />
         <div>
-          <h3 className="text-lg font-extrabold">جهة معتمدة في مجتمع أوبن لوب</h3>
+          <h3 className="text-lg font-extrabold">جهة معتمدة في فُرص Open Loop</h3>
           <p className="mt-2 text-sm font-bold">{entity.entity_name}</p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-[#E2E8F0]/70">
             {entity.entity_type} — {entity.region} — {entity.field}
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">{entity.verification_note}</p>
+          <p className="mt-3 text-xs text-[#E2E8F0]/70">{entity.verification_note}</p>
         </div>
       </div>
     );
@@ -135,7 +135,7 @@ export function CommunityRegisterForm() {
 
   return (
     <form
-      className="card-elevated grid gap-5 p-7 md:grid-cols-2"
+      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);
@@ -257,7 +257,7 @@ export function CommunityRegisterForm() {
           {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
           تحقق وانضم للمجتمع
         </Button>
-        <p className="mt-3 text-xs text-muted-foreground">
+        <p className="mt-3 text-xs text-[#E2E8F0]/70">
           يتم التحقق آلياً من رقم الترخيص / السجل التجاري، وعند نجاح التحقق يُعتمد ملف الجهة
           مباشرة ويظهر في دليل المجتمع.
         </p>

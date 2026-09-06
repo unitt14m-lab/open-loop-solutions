@@ -14,13 +14,13 @@ import portalIllustration from "@/assets/community-portal.png";
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "مجتمع أوبن لوب | سوق المشتريات وعروض الأسعار للقطاع غير الربحي" },
+      { title: "فُرص Open Loop | سوق المشتريات وعروض الأسعار للقطاع غير الربحي" },
       {
         name: "description",
         content:
           "منصة B2B تربط الجمعيات الأهلية والشركات التابعة لها بالموردين المعتمدين لطرح طلبات عروض الأسعار وتلقي العروض إلكترونياً.",
       },
-      { property: "og:title", content: "مجتمع أوبن لوب — سوق المشتريات وعروض الأسعار" },
+      { property: "og:title", content: "فُرص Open Loop — سوق المشتريات وعروض الأسعار" },
       {
         property: "og:description",
         content: "اطرح طلب عرض سعر، استقبل عروض الموردين المعتمدين، وأتمم الترسية إلكترونياً.",
@@ -59,17 +59,17 @@ function CommunityPage() {
   };
 
   return (
-    <>
-      <section className="surface-ink">
+    <div className="surface-ink min-h-screen">
+      <section>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <span className="inline-flex rounded-full bg-white/10 px-4 py-1.5 text-xs font-extrabold">
             سوق إلكتروني للمشتريات غير الربحية
           </span>
           <h1 className="mt-5 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">
-            كيف تعمل خدمة مجتمع أوبن لوب؟
+            كيف تعمل خدمة فُرص Open Loop؟
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed opacity-85">
-            منصة مجتمع أوبن لوب هي حلقة وصل بين الكيانات غير الربحية، والشركات والمؤسسات
+            منصة فُرص Open Loop هي حلقة وصل بين الكيانات غير الربحية، والشركات والمؤسسات
             التابعة للجمعيات الأهلية، والموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
@@ -80,17 +80,17 @@ function CommunityPage() {
 
           <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {/* Buyers — right card (first in RTL flow) */}
-            <article className="card-elevated flex flex-col items-center p-8 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                <ShoppingCart className="h-7 w-7 text-primary dark:text-gold" aria-hidden />
+            <article className="glass-panel flex flex-col items-center p-8 text-center">
+              <span className="glow-teal flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/40">
+                <ShoppingCart className="h-8 w-8 text-white" aria-hidden />
               </span>
-              <h2 className="mt-4 text-xl font-extrabold">مشترين</h2>
-              <p className="mt-1 text-sm font-bold text-muted-foreground">
+              <h2 className="mt-4 text-xl font-extrabold text-white">مشترين</h2>
+              <p className="mt-1 text-sm font-bold text-[#E2E8F0]/80">
                 الجمعيات الأهلية والشركات التابعة لها
               </p>
               <Button
                 onClick={() => goToForms("rfq")}
-                className="mt-6 w-full rounded-full font-bold"
+                className="glow-teal mt-6 w-full rounded-full bg-accent font-bold text-white hover:bg-accent/90"
               >
                 ابدأ الشراء / طرح فرصة
               </Button>
@@ -99,27 +99,26 @@ function CommunityPage() {
             <div className="mx-auto flex items-center justify-center">
               <img
                 src={portalIllustration}
-                alt="مستخدم يعمل على جهاز حاسوب داخل منصة مجتمع أوبن لوب"
+                alt="مستخدم يعمل على جهاز حاسوب داخل منصة فُرص Open Loop"
                 loading="lazy"
                 width={768}
                 height={768}
-                className="h-44 w-44 object-contain drop-shadow-xl lg:h-56 lg:w-56"
+                className="h-44 w-44 object-contain opacity-90 mix-blend-screen drop-shadow-[0_0_30px_rgb(224_159_72/25%)] lg:h-56 lg:w-56"
               />
             </div>
 
             {/* Suppliers — left card */}
-            <article className="card-elevated flex flex-col items-center p-8 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/15">
-                <Store className="h-7 w-7 text-gold" aria-hidden />
+            <article className="glass-panel flex flex-col items-center p-8 text-center">
+              <span className="glow-gold flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/20">
+                <Store className="h-8 w-8 text-gold" aria-hidden />
               </span>
-              <h2 className="mt-4 text-xl font-extrabold">موردين</h2>
-              <p className="mt-1 text-sm font-bold text-muted-foreground">
-                الشركات والمؤسسات المعتمدة
+              <h2 className="mt-4 text-xl font-extrabold text-white">موردين</h2>
+              <p className="mt-1 text-sm font-bold text-[#E2E8F0]/80">
+                الشركات والمؤسسات المعتمدة والقطاع الخاص
               </p>
               <Button
                 onClick={() => goToForms("supplier")}
-                variant="secondary"
-                className="mt-6 w-full rounded-full font-bold"
+                className="glow-gold mt-6 w-full rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90"
               >
                 ابدأ البيع / تقديم عرض
               </Button>
@@ -132,27 +131,27 @@ function CommunityPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 md:grid-cols-3">
             {STEPS.map((step, i) => (
-              <article key={step.title} className="card-elevated relative p-7 transition hover:-translate-y-1">
-                <span className="absolute end-6 top-6 text-3xl font-extrabold text-gold/40">
+              <article key={step.title} className="glass-panel relative p-7">
+                <span className="absolute end-6 top-6 text-3xl font-extrabold text-gold/50">
                   {i + 1}
                 </span>
-                <step.icon className="h-9 w-9 text-primary dark:text-gold" aria-hidden />
-                <h3 className="mt-5 text-lg font-extrabold">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                <step.icon className="h-9 w-9 text-gold" aria-hidden />
+                <h3 className="mt-5 text-lg font-extrabold text-white">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#E2E8F0]/75">{step.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="rfq-board" className="bg-secondary/50 py-16">
+      <section id="rfq-board" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">لوحة الفرص وطلبات عروض الأسعار</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             فرص شرائية مفتوحة من الجمعيات والمؤسسات والشركات التابعة لها — قدّم عرضك قبل انتهاء المدة.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول لعرض الفرص وتقديم عروض الأسعار.">
+            <AuthGate variant="glass" message="سجّل الدخول لعرض الفرص وتقديم عروض الأسعار.">
               <RfqBoard />
             </AuthGate>
           </div>
@@ -164,25 +163,25 @@ function CommunityPage() {
           <h2 className="text-center text-2xl font-extrabold sm:text-3xl">
             التسجيل وطرح الفرص
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-[#E2E8F0]/75">
             سجّل منشأتك كمورد معتمد، أو اطرح مشروعاً / طلب توريد جديد ليصل إلى الموردين مباشرة.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول للتسجيل كمورد أو طرح طلب عرض سعر.">
+            <AuthGate variant="glass" message="سجّل الدخول للتسجيل كمورد أو طرح طلب عرض سعر.">
               <MarketplaceForms tab={formsTab} onTabChange={setFormsTab} />
             </AuthGate>
           </div>
         </div>
       </section>
 
-      <section className="bg-secondary/50 py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">توثيق الجهة</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             يُعتمد ملف الجهة آلياً بعد التحقق من رقم الترخيص، ويتيح لك طرح طلبات عروض الأسعار.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول أولاً لتوثيق جهتك في مجتمع أوبن لوب.">
+            <AuthGate variant="glass" message="سجّل الدخول أولاً لتوثيق جهتك في فُرص Open Loop.">
               <CommunityRegisterForm />
             </AuthGate>
           </div>
@@ -191,17 +190,17 @@ function CommunityPage() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-extrabold sm:text-3xl">دليل مجتمع أوبن لوب</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">دليل فُرص Open Loop</h2>
+          <p className="mt-3 text-sm text-[#E2E8F0]/75">
             الجهات المعتمدة داخل المجتمع — الدليل متاح للأعضاء المعتمدين فقط.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول لعرض دليل الجهات المعتمدة.">
+            <AuthGate variant="glass" message="سجّل الدخول لعرض دليل الجهات المعتمدة.">
               <CommunityDirectory />
             </AuthGate>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

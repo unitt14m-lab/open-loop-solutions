@@ -167,6 +167,12 @@ function Dashboard() {
                 ))}
               </TabsContent>
 
+              <TabsContent value="opportunities" className="mt-5">
+                <MyOpportunities />
+              </TabsContent>
+
+
+
               <TabsContent value="applications" className="mt-5 space-y-4">
                 {applications.length === 0 && !requests.isLoading && (
                   <p className="text-sm text-muted-foreground">

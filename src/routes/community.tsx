@@ -5,6 +5,8 @@ import { AuthGate } from "@/components/AuthGate";
 import { CommunityDirectory } from "@/components/CommunityDirectory";
 import { CommunityRegisterForm } from "@/components/CommunityRegisterForm";
 import { MarketplaceForms, type MarketplaceTab } from "@/components/MarketplaceForms";
+import { MarketplaceDisclaimer } from "@/components/MarketplaceDisclaimer";
+
 import { RfqBoard } from "@/components/RfqBoard";
 import { Button } from "@/components/ui/button";
 import portalIllustration from "@/assets/community-portal.png";
@@ -71,6 +73,10 @@ function CommunityPage() {
             التابعة للجمعيات الأهلية، والموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
+
+          <MarketplaceDisclaimer className="mt-6 max-w-3xl bg-white/5 text-white/80" />
+
+
 
           <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {/* Buyers — right card (first in RTL flow) */}

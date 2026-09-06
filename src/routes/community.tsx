@@ -108,9 +108,6 @@ function CommunityPage() {
               </Button>
             </article>
           </div>
-
-          {/* Legal disclaimer — text only */}
-          <MarketplaceDisclaimer className="mt-8 border-slate-200 bg-white text-slate-500" />
         </div>
       </section>
 

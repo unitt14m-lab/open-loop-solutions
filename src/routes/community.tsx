@@ -4,7 +4,7 @@ import { AuthGate } from "@/components/AuthGate";
 import { CommunityDirectory } from "@/components/CommunityDirectory";
 import { CommunityRegisterForm } from "@/components/CommunityRegisterForm";
 import { MarketplaceForms, type MarketplaceTab } from "@/components/MarketplaceForms";
-import { MarketplaceDisclaimer } from "@/components/MarketplaceDisclaimer";
+
 import { RfqBoard } from "@/components/RfqBoard";
 import { Button } from "@/components/ui/button";
 

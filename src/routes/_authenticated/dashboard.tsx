@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { REQUEST_TYPES, STATUS_LABELS, type RequestType } from "@/lib/requests";
+import { MyOpportunities } from "@/components/MyOpportunities";
+
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({

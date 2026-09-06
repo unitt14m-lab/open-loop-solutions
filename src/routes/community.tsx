@@ -151,7 +151,7 @@ function CommunityPage() {
             فرص شرائية مفتوحة من الجمعيات والمؤسسات والشركات التابعة لها — قدّم عرضك قبل انتهاء المدة.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول لعرض الفرص وتقديم عروض الأسعار.">
+            <AuthGate variant="glass" message="سجّل الدخول لعرض الفرص وتقديم عروض الأسعار.">
               <RfqBoard />
             </AuthGate>
           </div>
@@ -167,7 +167,7 @@ function CommunityPage() {
             سجّل منشأتك كمورد معتمد، أو اطرح مشروعاً / طلب توريد جديد ليصل إلى الموردين مباشرة.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول للتسجيل كمورد أو طرح طلب عرض سعر.">
+            <AuthGate variant="glass" message="سجّل الدخول للتسجيل كمورد أو طرح طلب عرض سعر.">
               <MarketplaceForms tab={formsTab} onTabChange={setFormsTab} />
             </AuthGate>
           </div>
@@ -181,7 +181,7 @@ function CommunityPage() {
             يُعتمد ملف الجهة آلياً بعد التحقق من رقم الترخيص، ويتيح لك طرح طلبات عروض الأسعار.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول أولاً لتوثيق جهتك في فُرص Open Loop.">
+            <AuthGate variant="glass" message="سجّل الدخول أولاً لتوثيق جهتك في فُرص Open Loop.">
               <CommunityRegisterForm />
             </AuthGate>
           </div>
@@ -195,7 +195,7 @@ function CommunityPage() {
             الجهات المعتمدة داخل المجتمع — الدليل متاح للأعضاء المعتمدين فقط.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول لعرض دليل الجهات المعتمدة.">
+            <AuthGate variant="glass" message="سجّل الدخول لعرض دليل الجهات المعتمدة.">
               <CommunityDirectory />
             </AuthGate>
           </div>

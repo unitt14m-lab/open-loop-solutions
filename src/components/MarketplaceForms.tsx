@@ -10,8 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { REGIONS } from "@/lib/community";
-import { ENTITY_KINDS, RFQ_CATEGORIES, fetchMySupplier } from "@/lib/marketplace";
+import { REGIONS, fetchMyEntity } from "@/lib/community";
+import {
+  ENTITY_KINDS,
+  RFQ_CATEGORIES,
+  SECTORS,
+  fetchMySupplier,
+  logAudit,
+  logTermsAcceptance,
+  useFormDraft,
+} from "@/lib/marketplace";
 
 const selectClass =
   "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm font-semibold";
@@ -33,10 +41,13 @@ const rfqSchema = z.object({
   entity_name: z.string().trim().min(3, "اسم الجهة الطارحة مطلوب").max(160),
   entity_kind: z.string().min(1, "اختر نوع الجهة"),
   region: z.string().min(1, "اختر المنطقة"),
+  city: z.string().trim().min(2, "أدخل المدينة").max(80),
+  sector: z.string().min(1, "اختر القطاع"),
   deadline: z.string().min(1, "حدد تاريخ انتهاء التقديم"),
   budget: z.string().trim().max(80).optional(),
   description: z.string().trim().min(20, "أضف وصفاً لا يقل عن 20 حرفاً").max(2000),
 });
+
 
 export type MarketplaceTab = "rfq" | "supplier";
 

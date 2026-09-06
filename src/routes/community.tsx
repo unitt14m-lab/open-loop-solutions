@@ -72,6 +72,10 @@ function CommunityPage() {
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
 
+          <MarketplaceDisclaimer className="mt-6 max-w-3xl bg-white/5 text-white/80" />
+
+
+
           <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {/* Buyers — right card (first in RTL flow) */}
             <article className="card-elevated flex flex-col items-center p-8 text-center">

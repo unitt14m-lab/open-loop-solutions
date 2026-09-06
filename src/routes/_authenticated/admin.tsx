@@ -15,6 +15,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { REQUEST_TYPES, STATUS_LABELS, type RequestType } from "@/lib/requests";
 import { AdminProjects } from "@/components/AdminProjects";
+import { AdminMarketplace } from "@/components/AdminMarketplace";
+
 
 
 export const Route = createFileRoute("/_authenticated/admin")({

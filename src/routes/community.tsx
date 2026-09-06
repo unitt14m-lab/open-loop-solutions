@@ -59,8 +59,8 @@ function CommunityPage() {
   };
 
   return (
-    <>
-      <section className="surface-ink">
+    <div className="surface-ink min-h-screen">
+      <section>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <span className="inline-flex rounded-full bg-white/10 px-4 py-1.5 text-xs font-extrabold">
             سوق إلكتروني للمشتريات غير الربحية

@@ -320,11 +320,23 @@ function SupplierForm() {
           { onConflict: "user_id" }
         );
       if (error) throw error;
+      await logTermsAcceptance({
+        userId: user!.id,
+        acceptanceType: "provider",
+        relatedAction: "provider.registered",
+      });
+      await logAudit({
+        actorId: user!.id,
+        action: "provider.registered",
+        entityType: "supplier",
+        meta: { company_name: parsed.data.company_name },
+      });
     },
     onSuccess: () => {
-      toast.success("تم حفظ ملف المورد بنجاح");
+      toast.success("تم حفظ ملف المورد — بانتظار اعتماد الإدارة");
       queryClient.invalidateQueries({ queryKey: ["supplier", user?.id] });
     },
+
     onError: (e: Error) => {
       if (e.message !== "validation") toast.error("تعذر حفظ البيانات، حاول مرة أخرى");
     },

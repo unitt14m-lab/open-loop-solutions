@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Building2, Store } from "lucide-react";
 import { AuthGate } from "@/components/AuthGate";
 import { CommunityDirectory } from "@/components/CommunityDirectory";
 import { CommunityRegisterForm } from "@/components/CommunityRegisterForm";
@@ -80,6 +81,7 @@ function CommunityPage() {
           <div className="grid gap-6 md:grid-cols-2">
             {/* Buyers */}
             <article className="flex flex-col items-start rounded-2xl border border-slate-200 bg-white p-8">
+              <Building2 className="h-8 w-8 text-primary" strokeWidth={1.5} aria-hidden />
               <h2 className="text-2xl font-extrabold" style={{ color: NAVY }}>مشتريين</h2>
               <p className="mt-2 text-sm font-bold text-slate-500">
                 الجمعيات الأهلية والشركات التابعة لها
@@ -95,6 +97,7 @@ function CommunityPage() {
 
             {/* Suppliers */}
             <article className="flex flex-col items-start rounded-2xl border border-slate-200 bg-white p-8">
+              <Store className="h-8 w-8 text-primary" strokeWidth={1.5} aria-hidden />
               <h2 className="text-2xl font-extrabold" style={{ color: NAVY }}>مقدمو الخدمة / الموردون</h2>
               <p className="mt-2 text-sm font-bold text-slate-500">
                 الشركات والمؤسسات المعتمدة والقطاع الخاص
@@ -184,7 +187,7 @@ function CommunityPage() {
             دليل فُرص Open Loop
           </h2>
           <p className="mt-3 text-sm text-slate-500">
-            الجهات المعتمدة داخل المجتمع — الدليل متاح للأعضاء المعتمدين فقط.
+            أصحاب المشاريع المعتمدون في المنصة — الدليل متاح للأعضاء المعتمدين فقط.
           </p>
           <div className="mt-8">
             <AuthGate variant="minimal" message="سجّل الدخول لعرض دليل الجهات المعتمدة.">

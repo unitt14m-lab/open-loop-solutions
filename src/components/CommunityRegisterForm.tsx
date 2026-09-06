@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TermsAgreement } from "@/components/CommunityTerms";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import {
@@ -14,6 +15,7 @@ import {
   checkRegistryNumber,
   fetchMyEntity,
 } from "@/lib/community";
+import { logAudit, logTermsAcceptance } from "@/lib/marketplace";
 
 const OTHER_FIELD = "أخرى";
 
@@ -50,6 +52,7 @@ export function CommunityRegisterForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [fieldValue, setFieldValue] = useState("");
   const [otherField, setOtherField] = useState("");
+  const [agree, setAgree] = useState(false);
 
   const myEntity = useQuery({
     queryKey: ["community-entity", user?.id],
@@ -78,6 +81,10 @@ export function CommunityRegisterForm() {
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      if (!agree) {
+        setErrors((previous) => ({ ...previous, terms: "يجب الموافقة على الشروط والأحكام" }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const rawField = String(fd.get("field") ?? "");
       const parsed = schema.safeParse({
@@ -101,13 +108,29 @@ export function CommunityRegisterForm() {
       setErrors({});
       const { field, field_other, ...rest } = parsed.data;
       const effectiveField = field === OTHER_FIELD ? (field_other ?? "").trim() : field;
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("community_entities")
-        .upsert({ ...rest, field: effectiveField, user_id: user!.id }, { onConflict: "user_id" });
+        .upsert({ ...rest, field: effectiveField, user_id: user!.id }, { onConflict: "user_id" })
+        .select("id")
+        .single();
       if (error) throw error;
+      await logTermsAcceptance({
+        userId: user!.id,
+        acceptanceType: "project_owner",
+        relatedAction: "project_owner.registered",
+        relatedId: data.id,
+      });
+      await logAudit({
+        actorId: user!.id,
+        action: "project_owner.registered",
+        entityType: "community_entity",
+        entityId: data.id,
+        meta: { entity_name: rest.entity_name },
+      });
     },
     onSuccess: () => {
-      toast.success("تم إرسال بيانات الجهة والتحقق منها");
+      toast.success("تم إرسال بيانات صاحب المشروع والتحقق منها");
+      setAgree(false);
       queryClient.invalidateQueries({ queryKey: ["community-entity", user?.id] });
       queryClient.invalidateQueries({ queryKey: ["community-directory"] });
     },
@@ -120,7 +143,7 @@ export function CommunityRegisterForm() {
     return (
       <div className="rounded-2xl border border-slate-200 bg-white p-7">
         <div>
-          <h3 className="text-lg font-extrabold">جهة معتمدة في فُرص Open Loop</h3>
+          <h3 className="text-lg font-extrabold">صاحب مشروع معتمد في فُرص Open Loop</h3>
           <p className="mt-2 text-sm font-bold">{entity.entity_name}</p>
           <p className="mt-1 text-sm text-slate-500">
             {entity.entity_type} — {entity.region} — {entity.field}
@@ -180,7 +203,7 @@ export function CommunityRegisterForm() {
         <Input name="entity_name" defaultValue={entity?.entity_name ?? ""} maxLength={160} />
       </Field>
 
-      <Field label="اسم ممثل الجهة" error={errors["representative_name"]}>
+      <Field label="اسم ممثل صاحب المشروع" error={errors["representative_name"]}>
         <Input
           name="representative_name"
           defaultValue={entity?.representative_name ?? ""}
@@ -192,7 +215,7 @@ export function CommunityRegisterForm() {
         <Input name="job_title" defaultValue={entity?.job_title ?? ""} maxLength={120} />
       </Field>
 
-      <Field label="البريد الرسمي للجهة" error={errors["official_email"]}>
+      <Field label="البريد الرسمي لصاحب المشروع" error={errors["official_email"]}>
         <Input
           name="official_email"
           type="email"
@@ -245,16 +268,25 @@ export function CommunityRegisterForm() {
         </Field>
       )}
 
+      <TermsAgreement
+        checked={agree}
+        onChange={(value) => {
+          setAgree(value);
+          if (value) setErrors((previous) => ({ ...previous, terms: "" }));
+        }}
+        error={errors["terms"]}
+      />
+
       <div className="md:col-span-2">
         <Button
           type="submit"
           disabled={submit.isPending}
           className="w-full rounded-full font-bold sm:w-auto"
         >
-          {submit.isPending ? "جارٍ التحقق..." : "تحقق وانضم للمجتمع"}
+          {submit.isPending ? "جارٍ التحقق..." : "تحقق وسجّل كصاحب مشروع"}
         </Button>
         <p className="mt-3 text-xs text-slate-500">
-          يتم التحقق آلياً من رقم الترخيص / السجل التجاري، وعند نجاح التحقق يُعتمد ملف الجهة
+          يتم التحقق آلياً من رقم الترخيص / السجل التجاري، وعند نجاح التحقق يُعتمد ملف صاحب المشروع
           مباشرة ويظهر في دليل المجتمع.
         </p>
       </div>

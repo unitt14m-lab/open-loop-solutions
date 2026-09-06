@@ -65,7 +65,7 @@ export function MarketplaceForms({
           طرح طلب عرض سعر
         </TabButton>
         <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
-          التسجيل كمورد
+          التسجيل كمقدم خدمة / مورد
         </TabButton>
       </div>
       <div className="mt-8">{tab === "rfq" ? <RfqForm /> : <SupplierForm />}</div>

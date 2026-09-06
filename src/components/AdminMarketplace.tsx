@@ -128,7 +128,7 @@ function ApprovalsPanel() {
 
   return (
     <div className="space-y-8">
-      <Group title="حسابات الجهات غير الربحية">
+      <Group title="حسابات أصحاب المشاريع">
         {orgs.data?.map((o) => (
           <Row
             key={o.id}

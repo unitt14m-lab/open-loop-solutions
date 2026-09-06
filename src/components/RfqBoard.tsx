@@ -98,7 +98,7 @@ export function RfqBoard() {
           ))}
         </select>
         <select value={kind} onChange={(e) => setKind(e.target.value)} className={selectClass}>
-          <option value="">كل أنواع الجهات</option>
+          <option value="">كل أنواع أصحاب المشاريع</option>
           {ENTITY_KINDS.map((k) => (
             <option key={k} value={k}>{k}</option>
           ))}

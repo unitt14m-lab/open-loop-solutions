@@ -137,9 +137,12 @@ function Dashboard() {
 
           <div>
             <Tabs defaultValue="orders">
-              <TabsList className="rounded-full">
+              <TabsList className="flex flex-wrap rounded-full">
                 <TabsTrigger value="orders" className="rounded-full font-bold">
                   الطلبات والخدمات
+                </TabsTrigger>
+                <TabsTrigger value="opportunities" className="rounded-full font-bold">
+                  فرصي وعروض الأسعار
                 </TabsTrigger>
                 <TabsTrigger value="applications" className="rounded-full font-bold">
                   طلبات الانضمام
@@ -148,6 +151,7 @@ function Dashboard() {
                   تقديماتي على المشاريع
                 </TabsTrigger>
               </TabsList>
+
 
 
               {requests.isLoading && (

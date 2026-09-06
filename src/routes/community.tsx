@@ -14,13 +14,13 @@ import portalIllustration from "@/assets/community-portal.png";
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "مجتمع أوبن لوب | سوق المشتريات وعروض الأسعار للقطاع غير الربحي" },
+      { title: "فُرص Open Loop | سوق المشتريات وعروض الأسعار للقطاع غير الربحي" },
       {
         name: "description",
         content:
           "منصة B2B تربط الجمعيات الأهلية والشركات التابعة لها بالموردين المعتمدين لطرح طلبات عروض الأسعار وتلقي العروض إلكترونياً.",
       },
-      { property: "og:title", content: "مجتمع أوبن لوب — سوق المشتريات وعروض الأسعار" },
+      { property: "og:title", content: "فُرص Open Loop — سوق المشتريات وعروض الأسعار" },
       {
         property: "og:description",
         content: "اطرح طلب عرض سعر، استقبل عروض الموردين المعتمدين، وأتمم الترسية إلكترونياً.",
@@ -66,10 +66,10 @@ function CommunityPage() {
             سوق إلكتروني للمشتريات غير الربحية
           </span>
           <h1 className="mt-5 max-w-3xl text-3xl font-extrabold leading-tight sm:text-4xl">
-            كيف تعمل خدمة مجتمع أوبن لوب؟
+            كيف تعمل خدمة فُرص Open Loop؟
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed opacity-85">
-            منصة مجتمع أوبن لوب هي حلقة وصل بين الكيانات غير الربحية، والشركات والمؤسسات
+            منصة فُرص Open Loop هي حلقة وصل بين الكيانات غير الربحية، والشركات والمؤسسات
             التابعة للجمعيات الأهلية، والموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
@@ -99,7 +99,7 @@ function CommunityPage() {
             <div className="mx-auto flex items-center justify-center">
               <img
                 src={portalIllustration}
-                alt="مستخدم يعمل على جهاز حاسوب داخل منصة مجتمع أوبن لوب"
+                alt="مستخدم يعمل على جهاز حاسوب داخل منصة فُرص Open Loop"
                 loading="lazy"
                 width={768}
                 height={768}
@@ -182,7 +182,7 @@ function CommunityPage() {
             يُعتمد ملف الجهة آلياً بعد التحقق من رقم الترخيص، ويتيح لك طرح طلبات عروض الأسعار.
           </p>
           <div className="mt-8">
-            <AuthGate message="سجّل الدخول أولاً لتوثيق جهتك في مجتمع أوبن لوب.">
+            <AuthGate message="سجّل الدخول أولاً لتوثيق جهتك في فُرص Open Loop.">
               <CommunityRegisterForm />
             </AuthGate>
           </div>
@@ -191,7 +191,7 @@ function CommunityPage() {
 
       <section className="section-pad">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-extrabold sm:text-3xl">دليل مجتمع أوبن لوب</h2>
+          <h2 className="text-2xl font-extrabold sm:text-3xl">دليل فُرص Open Loop</h2>
           <p className="mt-3 text-sm text-muted-foreground">
             الجهات المعتمدة داخل المجتمع — الدليل متاح للأعضاء المعتمدين فقط.
           </p>

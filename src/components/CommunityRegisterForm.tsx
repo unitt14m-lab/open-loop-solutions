@@ -122,7 +122,7 @@ export function CommunityRegisterForm() {
       <div className="card-elevated flex items-start gap-4 p-7">
         <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-gold" aria-hidden />
         <div>
-          <h3 className="text-lg font-extrabold">جهة معتمدة في مجتمع أوبن لوب</h3>
+          <h3 className="text-lg font-extrabold">جهة معتمدة في فُرص Open Loop</h3>
           <p className="mt-2 text-sm font-bold">{entity.entity_name}</p>
           <p className="mt-1 text-sm text-muted-foreground">
             {entity.entity_type} — {entity.region} — {entity.field}

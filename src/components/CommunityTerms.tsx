@@ -31,7 +31,7 @@ export function TermsModal({ trigger }: { trigger: ReactNode }) {
             <ScrollText className="h-5 w-5 text-primary dark:text-gold" aria-hidden />
             الشروط والأحكام
           </DialogTitle>
-          <DialogDescription>شروط الانضمام وأهلية المشاركة في مجتمع أوبن لوب</DialogDescription>
+          <DialogDescription>شروط الانضمام وأهلية المشاركة في فُرص Open Loop</DialogDescription>
         </DialogHeader>
         <ul className="mt-2 space-y-3">
           {RULES.map((rule) => (

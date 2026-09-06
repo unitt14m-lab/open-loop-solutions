@@ -260,8 +260,7 @@ function RfqForm() {
           disabled={submit.isPending || !approved}
           className="rounded-full font-bold"
         >
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          نشر الفرصة
+          {submit.isPending ? "جارٍ النشر..." : "نشر الفرصة"}
         </Button>
 
         <p className="mt-3 text-xs text-slate-500">
@@ -399,8 +398,7 @@ function SupplierForm() {
       />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          {supplier ? "تحديث ملف المورد" : "التسجيل كمورد"}
+          {submit.isPending ? "جارٍ الحفظ..." : supplier ? "تحديث ملف المورد" : "التسجيل كمورد"}
         </Button>
       </div>
     </form>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Handshake, Loader2, Megaphone } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FormField } from "@/components/RfqBoard";
@@ -62,11 +61,9 @@ export function MarketplaceForms({
     <div>
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-secondary/70 p-1.5">
         <TabButton active={tab === "rfq"} onClick={() => onTabChange("rfq")}>
-          <Megaphone className="h-4 w-4" aria-hidden />
           طرح طلب عرض سعر
         </TabButton>
         <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
-          <Handshake className="h-4 w-4" aria-hidden />
           التسجيل كمورد
         </TabButton>
       </div>

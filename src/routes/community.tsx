@@ -80,17 +80,17 @@ function CommunityPage() {
 
           <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
             {/* Buyers — right card (first in RTL flow) */}
-            <article className="card-elevated flex flex-col items-center p-8 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                <ShoppingCart className="h-7 w-7 text-primary dark:text-gold" aria-hidden />
+            <article className="glass-panel flex flex-col items-center p-8 text-center">
+              <span className="glow-teal flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/40">
+                <ShoppingCart className="h-8 w-8 text-white" aria-hidden />
               </span>
-              <h2 className="mt-4 text-xl font-extrabold">مشترين</h2>
-              <p className="mt-1 text-sm font-bold text-muted-foreground">
+              <h2 className="mt-4 text-xl font-extrabold text-white">مشترين</h2>
+              <p className="mt-1 text-sm font-bold text-[#E2E8F0]/80">
                 الجمعيات الأهلية والشركات التابعة لها
               </p>
               <Button
                 onClick={() => goToForms("rfq")}
-                className="mt-6 w-full rounded-full font-bold"
+                className="glow-teal mt-6 w-full rounded-full bg-accent font-bold text-white hover:bg-accent/90"
               >
                 ابدأ الشراء / طرح فرصة
               </Button>
@@ -103,23 +103,22 @@ function CommunityPage() {
                 loading="lazy"
                 width={768}
                 height={768}
-                className="h-44 w-44 object-contain drop-shadow-xl lg:h-56 lg:w-56"
+                className="h-44 w-44 object-contain opacity-90 mix-blend-screen drop-shadow-[0_0_30px_rgb(224_159_72/25%)] lg:h-56 lg:w-56"
               />
             </div>
 
             {/* Suppliers — left card */}
-            <article className="card-elevated flex flex-col items-center p-8 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/15">
-                <Store className="h-7 w-7 text-gold" aria-hidden />
+            <article className="glass-panel flex flex-col items-center p-8 text-center">
+              <span className="glow-gold flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/20">
+                <Store className="h-8 w-8 text-gold" aria-hidden />
               </span>
-              <h2 className="mt-4 text-xl font-extrabold">موردين</h2>
-              <p className="mt-1 text-sm font-bold text-muted-foreground">
-                الشركات والمؤسسات المعتمدة
+              <h2 className="mt-4 text-xl font-extrabold text-white">موردين</h2>
+              <p className="mt-1 text-sm font-bold text-[#E2E8F0]/80">
+                الشركات والمؤسسات المعتمدة والقطاع الخاص
               </p>
               <Button
                 onClick={() => goToForms("supplier")}
-                variant="secondary"
-                className="mt-6 w-full rounded-full font-bold"
+                className="glow-gold mt-6 w-full rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90"
               >
                 ابدأ البيع / تقديم عرض
               </Button>

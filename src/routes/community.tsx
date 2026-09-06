@@ -131,13 +131,13 @@ function CommunityPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 md:grid-cols-3">
             {STEPS.map((step, i) => (
-              <article key={step.title} className="card-elevated relative p-7 transition hover:-translate-y-1">
-                <span className="absolute end-6 top-6 text-3xl font-extrabold text-gold/40">
+              <article key={step.title} className="glass-panel relative p-7">
+                <span className="absolute end-6 top-6 text-3xl font-extrabold text-gold/50">
                   {i + 1}
                 </span>
-                <step.icon className="h-9 w-9 text-primary dark:text-gold" aria-hidden />
-                <h3 className="mt-5 text-lg font-extrabold">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                <step.icon className="h-9 w-9 text-gold" aria-hidden />
+                <h3 className="mt-5 text-lg font-extrabold text-white">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#E2E8F0]/75">{step.body}</p>
               </article>
             ))}
           </div>

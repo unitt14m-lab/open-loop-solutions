@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from "react";
-import { CheckCircle2, ScrollText, ShieldCheck } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
@@ -27,19 +26,13 @@ export function TermsModal({ trigger }: { trigger: ReactNode }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <ScrollText className="h-5 w-5 text-primary dark:text-gold" aria-hidden />
-            الشروط والأحكام
-          </DialogTitle>
+          <DialogTitle>الشروط والأحكام</DialogTitle>
           <DialogDescription>شروط الانضمام وأهلية المشاركة في فُرص Open Loop</DialogDescription>
         </DialogHeader>
         <ul className="mt-2 space-y-3">
           {RULES.map((rule) => (
             <li key={rule} className="flex items-start gap-3 text-sm font-semibold leading-relaxed">
-              <CheckCircle2
-                className="mt-0.5 h-4 w-4 shrink-0 text-primary dark:text-gold"
-                aria-hidden
-              />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" aria-hidden />
               <span>{rule}</span>
             </li>
           ))}
@@ -94,8 +87,7 @@ export function TermsAgreement({
 
 export function TermsBadge() {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-[11px] font-bold text-gold-foreground">
-      <ShieldCheck className="h-3.5 w-3.5 text-gold" aria-hidden />
+    <span className="inline-flex items-center rounded-full border border-slate-300 bg-white px-3 py-1 text-[11px] font-bold text-slate-600">
       عضو موافق على الشروط
     </span>
   );

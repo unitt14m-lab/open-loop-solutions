@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BadgeCheck, Loader2, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -119,8 +118,7 @@ export function CommunityRegisterForm() {
 
   if (entity?.is_verified) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white flex items-start gap-4 p-7">
-        <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-gold" aria-hidden />
+      <div className="rounded-2xl border border-slate-200 bg-white p-7">
         <div>
           <h3 className="text-lg font-extrabold">جهة معتمدة في فُرص Open Loop</h3>
           <p className="mt-2 text-sm font-bold">{entity.entity_name}</p>
@@ -142,8 +140,7 @@ export function CommunityRegisterForm() {
       }}
     >
       {entity && !entity.is_verified && (
-        <p className="md:col-span-2 flex items-center gap-2 rounded-2xl bg-destructive/10 p-4 text-sm font-bold text-destructive">
-          <ShieldAlert className="h-4 w-4" aria-hidden />
+        <p className="md:col-span-2 rounded-2xl bg-destructive/10 p-4 text-sm font-bold text-destructive">
           {entity.verification_note}
         </p>
       )}
@@ -254,8 +251,7 @@ export function CommunityRegisterForm() {
           disabled={submit.isPending}
           className="w-full rounded-full font-bold sm:w-auto"
         >
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          تحقق وانضم للمجتمع
+          {submit.isPending ? "جارٍ التحقق..." : "تحقق وانضم للمجتمع"}
         </Button>
         <p className="mt-3 text-xs text-slate-500">
           يتم التحقق آلياً من رقم الترخيص / السجل التجاري، وعند نجاح التحقق يُعتمد ملف الجهة

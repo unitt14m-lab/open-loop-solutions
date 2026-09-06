@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Building2, CalendarClock, Loader2, MapPin, Search, Tag } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -83,15 +82,11 @@ export function RfqBoard() {
       )}
 
       <div className="rounded-2xl border border-slate-200 bg-white grid gap-4 p-5 md:grid-cols-4">
-        <div className="relative">
-          <Search className="pointer-events-none absolute inset-y-0 start-3 my-auto h-4 w-4 text-slate-500" aria-hidden />
-          <Input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="ابحث بعنوان الفرصة أو الجهة"
-            className="ps-9"
-          />
-        </div>
+        <Input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="ابحث بعنوان الفرصة أو الجهة"
+        />
         <select value={category} onChange={(e) => setCategory(e.target.value)} className={selectClass}>
           <option value="">كل التصنيفات</option>
           {RFQ_CATEGORIES.map((c) => (
@@ -131,8 +126,7 @@ export function RfqBoard() {
                 className="rounded-2xl border border-slate-200 bg-white flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-extrabold text-primary dark:text-gold">
-                    <Tag className="h-3.5 w-3.5" aria-hidden />
+                  <span className="inline-flex w-fit items-center rounded-full border border-slate-300 px-3 py-1 text-xs font-extrabold text-slate-600">
                     {rfq.category}
                   </span>
                   <span
@@ -150,18 +144,15 @@ export function RfqBoard() {
                   {rfq.description}
                 </p>
                 <dl className="mt-4 space-y-2 text-xs font-bold text-slate-500">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="h-3.5 w-3.5" aria-hidden />
+                  <div>
                     <span>{rfq.entity_name} — {rfq.entity_kind}</span>
                   </div>
                   {rfq.region && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-3.5 w-3.5" aria-hidden />
+                    <div>
                       <span>{rfq.region}{rfq.city ? ` — ${rfq.city}` : ""}</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-2">
-                    <CalendarClock className="h-3.5 w-3.5" aria-hidden />
+                  <div>
                     <span>ينتهي التقديم: {formatDeadline(rfq.deadline)}</span>
                   </div>
                 </dl>
@@ -290,8 +281,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
             error={errors["terms"]}
           />
           <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
-            {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-            إرسال العرض
+            {submit.isPending ? "جارٍ الإرسال..." : "إرسال العرض"}
           </Button>
         </form>
       </DialogContent>

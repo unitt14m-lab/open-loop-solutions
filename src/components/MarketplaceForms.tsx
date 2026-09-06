@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Handshake, Loader2, Megaphone } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FormField } from "@/components/RfqBoard";
@@ -22,7 +21,7 @@ import {
 } from "@/lib/marketplace";
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
+  "h-11 w-full rounded-xl border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 px-3 text-sm font-semibold";
 
 const supplierSchema = z.object({
   company_name: z.string().trim().min(3, "اسم المنشأة مطلوب").max(160),
@@ -62,11 +61,9 @@ export function MarketplaceForms({
     <div>
       <div className="mx-auto flex w-fit gap-2 rounded-full bg-secondary/70 p-1.5">
         <TabButton active={tab === "rfq"} onClick={() => onTabChange("rfq")}>
-          <Megaphone className="h-4 w-4" aria-hidden />
           طرح طلب عرض سعر
         </TabButton>
         <TabButton active={tab === "supplier"} onClick={() => onTabChange("supplier")}>
-          <Handshake className="h-4 w-4" aria-hidden />
           التسجيل كمورد
         </TabButton>
       </div>
@@ -89,7 +86,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-extrabold transition ${
-        active ? "bg-primary text-primary-foreground" : "text-[#E2E8F0]/70 hover:text-foreground"
+        active ? "bg-primary text-primary-foreground" : "text-slate-500 hover:text-foreground"
       }`}
     >
       {children}
@@ -180,7 +177,7 @@ function RfqForm() {
 
   return (
     <form
-      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
+      className="rounded-2xl border border-slate-200 bg-white grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);
@@ -263,11 +260,10 @@ function RfqForm() {
           disabled={submit.isPending || !approved}
           className="rounded-full font-bold"
         >
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          نشر الفرصة
+          {submit.isPending ? "جارٍ النشر..." : "نشر الفرصة"}
         </Button>
 
-        <p className="mt-3 text-xs text-[#E2E8F0]/70">
+        <p className="mt-3 text-xs text-slate-500">
           النشر متاح للجهات المعتمدة في المجتمع فقط بعد التحقق من الترخيص.
         </p>
       </div>
@@ -344,7 +340,7 @@ function SupplierForm() {
 
   return (
     <form
-      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
+      className="rounded-2xl border border-slate-200 bg-white grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);
@@ -402,8 +398,7 @@ function SupplierForm() {
       />
       <div className="md:col-span-2">
         <Button type="submit" disabled={submit.isPending} className="rounded-full font-bold">
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          {supplier ? "تحديث ملف المورد" : "التسجيل كمورد"}
+          {submit.isPending ? "جارٍ الحفظ..." : supplier ? "تحديث ملف المورد" : "التسجيل كمورد"}
         </Button>
       </div>
     </form>

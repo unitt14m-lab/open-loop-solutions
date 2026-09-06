@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BadgeCheck, Loader2, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -42,7 +41,7 @@ const schema = z
   );
 
 const selectClass =
-  "h-11 w-full rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
+  "h-11 w-full rounded-xl border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 px-3 text-sm font-semibold";
 
 export function CommunityRegisterForm() {
   const { user } = useAuth();
@@ -119,15 +118,14 @@ export function CommunityRegisterForm() {
 
   if (entity?.is_verified) {
     return (
-      <div className="glass-panel flex items-start gap-4 p-7">
-        <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-gold" aria-hidden />
+      <div className="rounded-2xl border border-slate-200 bg-white p-7">
         <div>
           <h3 className="text-lg font-extrabold">جهة معتمدة في فُرص Open Loop</h3>
           <p className="mt-2 text-sm font-bold">{entity.entity_name}</p>
-          <p className="mt-1 text-sm text-[#E2E8F0]/70">
+          <p className="mt-1 text-sm text-slate-500">
             {entity.entity_type} — {entity.region} — {entity.field}
           </p>
-          <p className="mt-3 text-xs text-[#E2E8F0]/70">{entity.verification_note}</p>
+          <p className="mt-3 text-xs text-slate-500">{entity.verification_note}</p>
         </div>
       </div>
     );
@@ -135,15 +133,14 @@ export function CommunityRegisterForm() {
 
   return (
     <form
-      className="glass-panel grid gap-5 p-7 md:grid-cols-2"
+      className="rounded-2xl border border-slate-200 bg-white grid gap-5 p-7 md:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
         submit.mutate(e.currentTarget);
       }}
     >
       {entity && !entity.is_verified && (
-        <p className="md:col-span-2 flex items-center gap-2 rounded-2xl bg-destructive/10 p-4 text-sm font-bold text-destructive">
-          <ShieldAlert className="h-4 w-4" aria-hidden />
+        <p className="md:col-span-2 rounded-2xl bg-destructive/10 p-4 text-sm font-bold text-destructive">
           {entity.verification_note}
         </p>
       )}
@@ -254,10 +251,9 @@ export function CommunityRegisterForm() {
           disabled={submit.isPending}
           className="w-full rounded-full font-bold sm:w-auto"
         >
-          {submit.isPending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          تحقق وانضم للمجتمع
+          {submit.isPending ? "جارٍ التحقق..." : "تحقق وانضم للمجتمع"}
         </Button>
-        <p className="mt-3 text-xs text-[#E2E8F0]/70">
+        <p className="mt-3 text-xs text-slate-500">
           يتم التحقق آلياً من رقم الترخيص / السجل التجاري، وعند نجاح التحقق يُعتمد ملف الجهة
           مباشرة ويظهر في دليل المجتمع.
         </p>

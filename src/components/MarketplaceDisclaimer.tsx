@@ -1,14 +1,12 @@
-import { Info } from "lucide-react";
 import { LEGAL_DISCLAIMER } from "@/lib/marketplace";
 
 /** Legal placeholder shown across the marketplace surfaces. */
 export function MarketplaceDisclaimer({ className = "" }: { className?: string }) {
   return (
     <p
-      className={`flex items-start gap-3 rounded-2xl border border-border/60 bg-secondary/50 p-4 text-xs font-bold leading-relaxed text-muted-foreground ${className}`}
+      className={`rounded-2xl border border-border/60 bg-secondary/50 p-4 text-xs font-bold leading-relaxed text-muted-foreground ${className}`}
     >
-      <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary dark:text-gold" aria-hidden />
-      <span>{LEGAL_DISCLAIMER}</span>
+      {LEGAL_DISCLAIMER}
     </p>
   );
 }

@@ -14,15 +14,25 @@ export function AuthGate({
 }: {
   children: ReactNode;
   message?: string;
-  variant?: "default" | "glass";
+  variant?: "default" | "glass" | "minimal";
 }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <p className={`text-sm ${variant === "glass" ? "text-[#E2E8F0]/70" : "text-muted-foreground"}`}>جارٍ التحقق من الحساب...</p>;
+    return <p className={`text-sm ${variant === "glass" ? "text-[#E2E8F0]/70" : variant === "minimal" ? "text-slate-500" : "text-muted-foreground"}`}>جارٍ التحقق من الحساب...</p>;
   }
 
   if (!user) {
+    if (variant === "minimal") {
+      return (
+        <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
+          <p className="text-sm font-bold text-slate-600">{message}</p>
+          <Button asChild className="mt-5 rounded-full font-bold text-white hover:opacity-90" style={{ backgroundColor: "#0F2331" }}>
+            <Link to="/auth" search={{ redirect: undefined }}>تسجيل الدخول / إنشاء حساب</Link>
+          </Button>
+        </div>
+      );
+    }
     if (variant === "glass") {
       return (
         <div className="glass-panel border-dashed p-8 text-center">

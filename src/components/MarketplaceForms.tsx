@@ -102,9 +102,18 @@ function RfqForm() {
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [agree, setAgree] = useState(false);
+  const { draft, save, clear } = useFormDraft("rfq");
+
+  const entity = useQuery({
+    queryKey: ["community-entity", user?.id],
+    enabled: Boolean(user?.id),
+    queryFn: () => fetchMyEntity(user!.id),
+  });
+  const approved = Boolean(entity.data?.is_verified);
 
   const submit = useMutation({
     mutationFn: async (form: HTMLFormElement) => {
+      save(form);
       if (!agree) {
         setErrors((prev) => ({ ...prev, terms: "يجب الموافقة على الشروط والأحكام" }));
         throw new Error("validation");
@@ -116,6 +125,8 @@ function RfqForm() {
         entity_name: String(fd.get("entity_name") ?? ""),
         entity_kind: String(fd.get("entity_kind") ?? ""),
         region: String(fd.get("region") ?? ""),
+        city: String(fd.get("city") ?? ""),
+        sector: String(fd.get("sector") ?? ""),
         deadline: String(fd.get("deadline") ?? ""),
         budget: String(fd.get("budget") ?? ""),
         description: String(fd.get("description") ?? ""),
@@ -127,22 +138,42 @@ function RfqForm() {
         throw new Error("validation");
       }
       setErrors({});
-      const { error } = await supabase.from("rfqs").insert({
-        ...parsed.data,
-        budget: parsed.data.budget || null,
-        description: parsed.data.description,
-        owner_id: user!.id,
-      });
+      const { data, error } = await supabase
+        .from("rfqs")
+        .insert({
+          ...parsed.data,
+          budget: parsed.data.budget || null,
+          description: parsed.data.description,
+          owner_id: user!.id,
+        })
+        .select("id")
+        .maybeSingle();
       if (error) throw error;
+      await logTermsAcceptance({
+        userId: user!.id,
+        acceptanceType: "rfq",
+        relatedAction: "rfq.created",
+        relatedId: data?.id ?? null,
+      });
+      await logAudit({
+        actorId: user!.id,
+        action: "rfq.created",
+        entityType: "rfq",
+        entityId: data?.id ?? null,
+        meta: { title: parsed.data.title },
+      });
       form.reset();
     },
     onSuccess: () => {
-      toast.success("تم نشر طلب عرض السعر في لوحة الفرص");
+      toast.success("تم إرسال الفرصة لاعتماد الإدارة قبل نشرها في اللوحة");
+      clear();
+      setAgree(false);
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
+      queryClient.invalidateQueries({ queryKey: ["my-rfqs", user?.id] });
     },
     onError: (e: Error) => {
       if (e.message !== "validation") {
-        toast.error("تعذر النشر — تأكد من اعتماد جهتك في المجتمع أولاً");
+        toast.error("تعذر النشر — تم حفظ بياناتك مؤقتاً، تأكد من اعتماد جهتك ثم أعد المحاولة");
       }
     },
   });
@@ -154,22 +185,38 @@ function RfqForm() {
         e.preventDefault();
         submit.mutate(e.currentTarget);
       }}
+      onBlur={(e) => save(e.currentTarget)}
     >
+      {!entity.isLoading && !approved && (
+        <p className="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-xs font-bold leading-relaxed text-amber-700 md:col-span-2 dark:text-amber-300">
+          {entity.data
+            ? "ملف جهتك قيد المراجعة — سيُفعّل زر النشر بعد اعتماد الجهة."
+            : "وثّق جهتك أولاً من قسم «توثيق الجهة» ليتاح لك طرح طلبات عروض الأسعار."}
+        </p>
+      )}
       <div className="md:col-span-2">
         <FormField label="عنوان المشروع / التوريد" error={errors["title"]}>
-          <Input name="title" maxLength={160} placeholder="مثال: توريد سلال غذائية لموسم الشتاء" />
+          <Input name="title" defaultValue={draft["title"] ?? ""} maxLength={160} placeholder="مثال: توريد سلال غذائية لموسم الشتاء" />
         </FormField>
       </div>
       <FormField label="تصنيف المشتريات" error={errors["category"]}>
-        <select name="category" defaultValue="" className={selectClass}>
+        <select name="category" defaultValue={draft["category"] ?? ""} className={selectClass}>
           <option value="">اختر التصنيف</option>
           {RFQ_CATEGORIES.map((c) => (
             <option key={c} value={c}>{c}</option>
           ))}
         </select>
       </FormField>
+      <FormField label="القطاع" error={errors["sector"]}>
+        <select name="sector" defaultValue={draft["sector"] ?? ""} className={selectClass}>
+          <option value="">اختر القطاع</option>
+          {SECTORS.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+      </FormField>
       <FormField label="نوع الجهة الطارحة" error={errors["entity_kind"]}>
-        <select name="entity_kind" defaultValue="" className={selectClass}>
+        <select name="entity_kind" defaultValue={draft["entity_kind"] ?? ""} className={selectClass}>
           <option value="">اختر النوع</option>
           {ENTITY_KINDS.map((k) => (
             <option key={k} value={k}>{k}</option>
@@ -177,27 +224,31 @@ function RfqForm() {
         </select>
       </FormField>
       <FormField label="اسم الجهة الطارحة" error={errors["entity_name"]}>
-        <Input name="entity_name" maxLength={160} />
+        <Input name="entity_name" defaultValue={draft["entity_name"] ?? ""} maxLength={160} />
       </FormField>
       <FormField label="المنطقة المستهدفة" error={errors["region"]}>
-        <select name="region" defaultValue="" className={selectClass}>
+        <select name="region" defaultValue={draft["region"] ?? ""} className={selectClass}>
           <option value="">اختر المنطقة</option>
           {REGIONS.map((r) => (
             <option key={r} value={r}>{r}</option>
           ))}
         </select>
       </FormField>
+      <FormField label="المدينة" error={errors["city"]}>
+        <Input name="city" defaultValue={draft["city"] ?? ""} maxLength={80} placeholder="مثال: الطائف" />
+      </FormField>
       <FormField label="تاريخ انتهاء التقديم" error={errors["deadline"]}>
-        <Input name="deadline" type="date" dir="ltr" />
+        <Input name="deadline" type="date" dir="ltr" defaultValue={draft["deadline"] ?? ""} />
       </FormField>
       <FormField label="الميزانية التقديرية (اختياري)" error={errors["budget"]}>
-        <Input name="budget" maxLength={80} placeholder="مثال: 50,000 - 80,000 ريال" />
+        <Input name="budget" defaultValue={draft["budget"] ?? ""} maxLength={80} placeholder="مثال: 50,000 - 80,000 ريال" />
       </FormField>
       <div className="md:col-span-2">
         <FormField label="وصف الطلب والمتطلبات" error={errors["description"]}>
-          <Textarea name="description" rows={5} maxLength={2000} />
+          <Textarea name="description" rows={5} defaultValue={draft["description"] ?? ""} maxLength={2000} />
         </FormField>
       </div>
+
       <TermsAgreement
         checked={agree}
         onChange={(v) => {

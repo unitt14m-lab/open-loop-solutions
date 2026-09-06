@@ -201,6 +201,6 @@ function CommunityPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

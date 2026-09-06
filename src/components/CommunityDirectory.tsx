@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ENTITY_TYPES, FIELDS, REGIONS, fetchDirectory } from "@/lib/community";
 
 const selectClass =
-  "h-11 rounded-xl border border-white/15 bg-white/5 text-white placeholder:text-white/40 px-3 text-sm font-semibold";
+  "h-11 rounded-xl border border-slate-300 bg-white text-slate-800 placeholder:text-slate-400 px-3 text-sm font-semibold";
 
 export function CommunityDirectory() {
   const [q, setQ] = useState("");
@@ -34,7 +34,7 @@ export function CommunityDirectory() {
       <div className="grid gap-3 md:grid-cols-4">
         <div className="relative md:col-span-1">
           <Search
-            className="pointer-events-none absolute inset-y-0 end-3 my-auto h-4 w-4 text-[#E2E8F0]/70"
+            className="pointer-events-none absolute inset-y-0 end-3 my-auto h-4 w-4 text-slate-500"
             aria-hidden
           />
           <Input
@@ -72,12 +72,12 @@ export function CommunityDirectory() {
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {directory.isLoading && <p className="text-sm text-[#E2E8F0]/70">جارٍ التحميل...</p>}
+        {directory.isLoading && <p className="text-sm text-slate-500">جارٍ التحميل...</p>}
         {!directory.isLoading && rows.length === 0 && (
-          <p className="text-sm text-[#E2E8F0]/70">لا توجد جهات مطابقة للبحث.</p>
+          <p className="text-sm text-slate-500">لا توجد جهات مطابقة للبحث.</p>
         )}
         {rows.map((e) => (
-          <article key={e.id} className="glass-panel flex flex-col p-6">
+          <article key={e.id} className="rounded-2xl border border-slate-200 bg-white flex flex-col p-6">
             <div className="flex items-start justify-between gap-3">
               <h3 className="text-base font-extrabold leading-snug">{e.entity_name}</h3>
               <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gold/15 px-3 py-1 text-[11px] font-bold text-gold-foreground">
@@ -86,10 +86,10 @@ export function CommunityDirectory() {
               </span>
             </div>
             <p className="mt-2 text-sm font-bold text-primary dark:text-gold">{e.entity_type}</p>
-            <p className="mt-1 text-xs font-bold text-[#E2E8F0]/70">
+            <p className="mt-1 text-xs font-bold text-slate-500">
               {e.region} — {e.field}
             </p>
-            <p className="mt-4 text-sm text-[#E2E8F0]/70">
+            <p className="mt-4 text-sm text-slate-500">
               ممثل الجهة: <span className="font-bold text-foreground">{e.representative_name}</span>
               {" — "}
               {e.job_title}

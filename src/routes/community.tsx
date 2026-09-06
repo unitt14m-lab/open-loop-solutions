@@ -4,7 +4,7 @@ import { AuthGate } from "@/components/AuthGate";
 import { CommunityDirectory } from "@/components/CommunityDirectory";
 import { CommunityRegisterForm } from "@/components/CommunityRegisterForm";
 import { MarketplaceForms, type MarketplaceTab } from "@/components/MarketplaceForms";
-import { MarketplaceDisclaimer } from "@/components/MarketplaceDisclaimer";
+
 import { RfqBoard } from "@/components/RfqBoard";
 import { Button } from "@/components/ui/button";
 
@@ -108,9 +108,6 @@ function CommunityPage() {
               </Button>
             </article>
           </div>
-
-          {/* Legal disclaimer — text only */}
-          <MarketplaceDisclaimer className="mt-8 border-slate-200 bg-white text-slate-500" />
         </div>
       </section>
 

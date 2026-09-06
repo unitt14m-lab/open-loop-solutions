@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MarketplaceDisclaimer } from "@/components/MarketplaceDisclaimer";
+
 import { TermsAgreement } from "@/components/CommunityTerms";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -71,8 +71,6 @@ export function RfqBoard() {
 
   return (
     <div>
-      <MarketplaceDisclaimer className="mb-6" />
-
       {user && !supplier.isLoading && !canQuote && (
         <p className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-xs font-bold leading-relaxed text-amber-700 dark:text-amber-300">
           {supplier.data

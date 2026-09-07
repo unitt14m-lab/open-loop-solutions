@@ -94,7 +94,7 @@ function Booking() {
             <CalendarClock className="h-8 w-8 text-primary dark:text-gold" aria-hidden />
             <h2 className="mt-4 text-lg font-extrabold">تواصل مباشر</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              الأحد – الخميس، 9 صباحاً حتى 5 مساءً.
+              الأحد – الخميس، 8 صباحاً حتى 2:30 ظهراً.
             </p>
             <ul className="mt-5 space-y-3 text-sm">
               <li className="flex items-center gap-2">

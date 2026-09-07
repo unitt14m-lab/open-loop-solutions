@@ -5,6 +5,7 @@ import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 
 export const Route = createFileRoute("/packages")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "الباقات | أوبن لوب" },

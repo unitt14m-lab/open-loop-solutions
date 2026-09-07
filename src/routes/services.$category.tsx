@@ -9,6 +9,7 @@ import { serviceCategories } from "@/data/site";
 
 
 export const Route = createFileRoute("/services/$category")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const category = serviceCategories.find((c) => c.slug === params.category);
     if (!category) throw notFound();

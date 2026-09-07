@@ -5,6 +5,7 @@ import { FreelancerJoinDialog } from "@/components/FreelancerJoinDialog";
 import { ProjectsBoard } from "@/components/ProjectsBoard";
 
 export const Route = createFileRoute("/careers")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "انضم إلينا | التقديمات المتاحة — أوبن لوب" },

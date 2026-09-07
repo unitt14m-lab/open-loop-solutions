@@ -10,6 +10,7 @@ import { RfqBoard } from "@/components/RfqBoard";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/community")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "فُرص Open Loop | سوق المشتريات وعروض الأسعار للقطاع غير الربحي" },

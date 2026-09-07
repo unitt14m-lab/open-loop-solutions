@@ -7,6 +7,7 @@ import { serviceCategories } from "@/data/site";
 
 
 export const Route = createFileRoute("/services/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "الخدمات | أوبن لوب" },

@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "عن أوبن لوب | Open Loop" },

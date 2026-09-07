@@ -12,6 +12,7 @@ import { MyOpportunities } from "@/components/MyOpportunities";
 
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "لوحة حسابي | أوبن لوب" },

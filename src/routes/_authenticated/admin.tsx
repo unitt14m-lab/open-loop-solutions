@@ -20,6 +20,7 @@ import { AdminMarketplace } from "@/components/AdminMarketplace";
 
 
 export const Route = createFileRoute("/_authenticated/admin")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "لوحة الإدارة | أوبن لوب" },

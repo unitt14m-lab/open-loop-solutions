@@ -14,6 +14,7 @@ import {
 import { serviceCategories } from "@/data/site";
 
 export const Route = createFileRoute("/booking")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "احجز استشارتك | أوبن لوب" },

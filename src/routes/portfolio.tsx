@@ -14,6 +14,7 @@ import { portfolioCategories, portfolioItems, type PortfolioItem } from "@/data/
 
 
 export const Route = createFileRoute("/portfolio")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "سابقة الأعمال | بوستات وفيديوهات AI وتقارير سنوية" },

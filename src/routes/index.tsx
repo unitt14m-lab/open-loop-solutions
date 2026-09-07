@@ -11,6 +11,7 @@ import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "أوبن لوب | Open Loop — تسويق واستشارات القطاع غير الربحي" },

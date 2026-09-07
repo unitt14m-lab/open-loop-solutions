@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/Sections";
 import { JoinBanner } from "@/components/Footer";
 
 export const Route = createFileRoute("/library")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "مكتبة أوبن لوب | أدلة ونماذج مجانية للقطاع غير الربحي" },

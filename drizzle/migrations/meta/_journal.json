@@ -15,6 +15,13 @@
       "when": 1789890773465,
       "tag": "0001_grant_portfolio_role_check",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789891140266,
+      "tag": "0002_add_portfolio_icon_type",
+      "breakpoints": true
     }
   ]
 }

@@ -5,11 +5,19 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { getPortfolioIcon, portfolioIconOptions, type PortfolioIconType } from "@/lib/portfolio-icons";
 
-type FormState = { title: string; driveUrl: string };
+type FormState = { title: string; driveUrl: string; iconType: PortfolioIconType };
 
-const emptyForm: FormState = { title: "", driveUrl: "" };
+const emptyForm: FormState = { title: "", driveUrl: "", iconType: "project_file" };
 
 function isGoogleDriveUrl(value: string) {
   try {
@@ -30,7 +38,7 @@ export function AdminPortfolio() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("portfolio_items")
-        .select("id,title,drive_url,sort_order")
+        .select("id,title,drive_url,sort_order,icon_type")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true });
       if (error) throw error;
@@ -65,11 +73,12 @@ export function AdminPortfolio() {
     const result = editingId
       ? await supabase
           .from("portfolio_items")
-          .update({ title, drive_url: driveUrl })
+          .update({ title, drive_url: driveUrl, icon_type: form.iconType })
           .eq("id", editingId)
       : await supabase.from("portfolio_items").insert({
           title,
           drive_url: driveUrl,
+          icon_type: form.iconType,
           sort_order: items.data?.length ?? 0,
         });
     setBusy(false);
@@ -85,7 +94,11 @@ export function AdminPortfolio() {
 
   const startEditing = (item: NonNullable<typeof items.data>[number]) => {
     setEditingId(item.id);
-    setForm({ title: item.title, driveUrl: item.drive_url });
+    setForm({
+      title: item.title,
+      driveUrl: item.drive_url,
+      iconType: item.icon_type as PortfolioIconType,
+    });
   };
 
   const remove = async (id: string) => {
@@ -147,6 +160,32 @@ export function AdminPortfolio() {
             placeholder="فيديو تعريفي بالذكاء الاصطناعي"
           />
         </div>
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="portfolio-icon-type">أيقونة العمل</Label>
+          <Select
+            value={form.iconType}
+            onValueChange={(value: PortfolioIconType) =>
+              setForm((current) => ({ ...current, iconType: value }))
+            }
+          >
+            <SelectTrigger id="portfolio-icon-type" className="max-w-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {portfolioIconOptions.map((option) => {
+                const Icon = option.icon;
+                return (
+                  <SelectItem key={option.value} value={option.value}>
+                    <span className="inline-flex items-center gap-2">
+                      <Icon className="h-4 w-4" aria-hidden />
+                      {option.label}
+                    </span>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
         <div className="space-y-2">
           <Label htmlFor="portfolio-drive-url">رابط Google Drive</Label>
           <Input
@@ -171,7 +210,9 @@ export function AdminPortfolio() {
       </form>
 
       <div className="space-y-2">
-        {items.data?.map((item, index) => (
+        {items.data?.map((item, index) => {
+          const WorkIcon = getPortfolioIcon(item.icon_type).icon;
+          return (
           <article
             key={item.id}
             className="card-elevated flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between"
@@ -182,6 +223,7 @@ export function AdminPortfolio() {
               rel="noopener noreferrer"
               className="inline-flex min-w-0 items-center gap-2 font-bold hover:text-primary"
             >
+              <WorkIcon className="h-5 w-5 shrink-0 text-primary" aria-hidden />
               <span className="truncate">{item.title}</span>
               <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
             </a>
@@ -230,7 +272,8 @@ export function AdminPortfolio() {
               </Button>
             </div>
           </article>
-        ))}
+          );
+        })}
         {items.data?.length === 0 && (
           <p className="text-sm text-muted-foreground">لا توجد أعمال مضافة بعد.</p>
         )}

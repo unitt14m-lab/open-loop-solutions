@@ -16,6 +16,7 @@ import { useAuth } from "@/lib/auth";
 import { REQUEST_TYPES, STATUS_LABELS, type RequestType } from "@/lib/requests";
 import { AdminProjects } from "@/components/AdminProjects";
 import { AdminMarketplace } from "@/components/AdminMarketplace";
+import { AdminPortfolio } from "@/components/AdminPortfolio";
 
 
 
@@ -87,6 +88,7 @@ function AdminPanel() {
 
           {isAdmin && (
             <div className="mb-12 space-y-12">
+              <AdminPortfolio />
               <AdminMarketplace />
               <AdminProjects />
             </div>

@@ -683,6 +683,36 @@ export type Database = {
         }
         Relationships: []
       }
+      portfolio_items: {
+        Row: {
+          created_at: string
+          drive_url: string
+          id: string
+          is_published: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          drive_url: string
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          drive_url?: string
+          id?: string
+          is_published?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

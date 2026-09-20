@@ -102,7 +102,7 @@ export function Footer() {
             </li>
             <li>
               <Link to="/portfolio" className="transition-colors hover:text-gold">
-                سابقة الأعمال
+                أعمالنا
               </Link>
             </li>
 

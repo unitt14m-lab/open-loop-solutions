@@ -1,32 +1,23 @@
-import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Briefcase, Play } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { SectionHeading } from "@/components/Sections";
+import { useQuery } from "@tanstack/react-query";
+import { ExternalLink } from "lucide-react";
 import { JoinBanner } from "@/components/Footer";
-import { portfolioCategories, portfolioItems, type PortfolioItem } from "@/data/portfolio";
-
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/portfolio")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "سابقة الأعمال | بوستات وفيديوهات AI وتقارير سنوية" },
+      { title: "أعمالنا | أوبن لوب" },
       {
         name: "description",
         content:
-          "معرض أعمال أوبن لوب: تصميم البوستات، وفيديوهات الذكاء الاصطناعي، وتصميم التقارير السنوية للجمعيات مع معاينة تفاعلية.",
+          "تصفّح نماذج مختارة من أعمال أوبن لوب المرئية والإبداعية.",
       },
-      { property: "og:title", content: "سابقة الأعمال | بوستات وفيديوهات AI وتقارير سنوية" },
+      { property: "og:title", content: "أعمالنا | أوبن لوب" },
       {
         property: "og:description",
-        content: "تصفّح تصاميم البوستات وفيديوهات الذكاء الاصطناعي والتقارير السنوية عبر معرض تفاعلي.",
+        content: "تصفّح نماذج مختارة من أعمال أوبن لوب المرئية والإبداعية.",
       },
 
       { property: "og:type", content: "website" },
@@ -37,134 +28,57 @@ export const Route = createFileRoute("/portfolio")({
 });
 
 
-const filters = [{ slug: "all", label: "الكل" }, ...portfolioCategories];
-
 function Portfolio() {
-  const [active, setActive] = useState<PortfolioItem | null>(null);
-  const [filter, setFilter] = useState("all");
-
-  const items = useMemo(
-    () => (filter === "all" ? portfolioItems : portfolioItems.filter((i) => i.category === filter)),
-    [filter],
-  );
+  const items = useQuery({
+    queryKey: ["portfolio-items"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("portfolio_items")
+        .select("id,title,drive_url,sort_order")
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
 
   return (
     <>
       <section className="surface-ink">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold">
-            <Briefcase className="h-4 w-4" aria-hidden />
-            سابقة الأعمال
-          </span>
-          <h1 className="mt-5 text-3xl font-extrabold sm:text-5xl">معرض أعمالنا</h1>
+          <p className="text-sm font-bold opacity-75">نماذج مختارة</p>
+          <h1 className="mt-4 text-3xl font-extrabold sm:text-5xl">أعمالنا</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed opacity-80">
-            نماذج مختارة من تصميم البوستات، وفيديوهات الذكاء الاصطناعي، والتقارير السنوية — اضغط
-            على أي عمل لمعاينته أو تشغيله داخل الصفحة.
-
+            مجموعة من أعمالنا المرئية والإبداعية. اختر أي عمل لعرضه عبر Google Drive.
           </p>
         </div>
       </section>
 
       <section className="section-pad">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="أعمال مختارة"
-            title="تصفّح حسب التصنيف"
-            description="اختر التصنيف لعرض الأعمال المرتبطة به."
-          />
-
-          <div className="mt-10 flex flex-wrap gap-2" role="tablist" aria-label="تصنيفات الأعمال">
-            {filters.map((f) => {
-              const isActive = filter === f.slug;
-              return (
-                <button
-                  key={f.slug}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setFilter(f.slug)}
-                  className={`rounded-full px-5 py-2 text-sm font-bold transition-colors ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/70"
-                  }`}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {items.map((w) => (
-              <button
-                key={w.id}
-                type="button"
-                onClick={() => setActive(w)}
-                className="card-elevated group flex flex-col overflow-hidden p-0 text-start transition-transform hover:-translate-y-1"
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="divide-y divide-border border-y border-border">
+            {items.data?.map((item) => (
+              <a
+                key={item.id}
+                href={item.drive_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex min-h-20 items-center justify-between gap-4 px-2 py-5 transition-colors hover:text-primary sm:px-4"
               >
-                <span className="relative block aspect-[3/2] overflow-hidden bg-secondary">
-                  <img
-                    src={w.cover}
-                    alt={w.title}
-                    loading="lazy"
-                    width={1280}
-                    height={854}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {w.media.kind === "video" && (
-                    <span className="absolute inset-0 flex items-center justify-center">
-                      <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gold text-gold-foreground shadow-lg">
-                        <Play className="h-6 w-6" aria-hidden />
-                      </span>
-                    </span>
-                  )}
-                </span>
-                <span className="block p-4 text-center text-base font-extrabold leading-snug">
-                  {w.title}
-                </span>
-              </button>
+                <span className="text-base font-extrabold leading-relaxed sm:text-lg">{item.title}</span>
+                <ExternalLink
+                  className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                  aria-hidden
+                />
+                <span className="sr-only">يفتح في تبويب جديد</span>
+              </a>
             ))}
           </div>
-
+          {items.data?.length === 0 && (
+            <p className="py-12 text-center text-sm text-muted-foreground">ستُضاف أعمالنا قريباً.</p>
+          )}
         </div>
       </section>
-
-      <Dialog open={Boolean(active)} onOpenChange={(o) => !o && setActive(null)}>
-        <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-4xl">
-          <DialogHeader className="text-start">
-            <DialogTitle>{active?.title}</DialogTitle>
-            <DialogDescription className="sr-only">معاينة العمل</DialogDescription>
-          </DialogHeader>
-          {active && (
-            <div className="overflow-hidden rounded-2xl bg-secondary">
-              {active.media.kind === "image" && (
-                <img
-                  src={active.media.src}
-                  alt={active.title}
-                  width={1280}
-                  height={854}
-                  className="h-auto w-full object-contain"
-                />
-              )}
-              {active.media.kind === "video" && (
-                <video
-                  src={active.media.src}
-                  poster={active.media.poster}
-                  controls
-                  autoPlay
-                  className="h-auto w-full"
-                />
-              )}
-              {active.media.kind === "pdf" && (
-                <iframe src={active.media.src} title={active.title} className="h-[75vh] w-full" />
-              )}
-            </div>
-          )}
-
-        </DialogContent>
-      </Dialog>
-
       <JoinBanner />
     </>
   );

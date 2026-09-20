@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import { JoinBanner } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { getPortfolioIcon } from "@/lib/portfolio-icons";
 
 export const Route = createFileRoute("/portfolio")({
   staticData: { sitemap: true },
@@ -34,7 +35,7 @@ function Portfolio() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("portfolio_items")
-        .select("id,title,drive_url,sort_order")
+        .select("id,title,drive_url,sort_order,icon_type")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true });
       if (error) throw error;
@@ -57,7 +58,9 @@ function Portfolio() {
       <section className="section-pad">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="divide-y divide-border border-y border-border">
-            {items.data?.map((item) => (
+            {items.data?.map((item) => {
+              const WorkIcon = getPortfolioIcon(item.icon_type).icon;
+              return (
               <a
                 key={item.id}
                 href={item.drive_url}
@@ -65,14 +68,18 @@ function Portfolio() {
                 rel="noopener noreferrer"
                 className="group flex min-h-20 items-center justify-between gap-4 px-2 py-5 transition-colors hover:text-primary sm:px-4"
               >
-                <span className="text-base font-extrabold leading-relaxed sm:text-lg">{item.title}</span>
+                <span className="inline-flex min-w-0 items-center gap-3">
+                  <WorkIcon className="h-6 w-6 shrink-0 text-primary" aria-hidden />
+                  <span className="text-base font-extrabold leading-relaxed sm:text-lg">{item.title}</span>
+                </span>
                 <ExternalLink
                   className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
                   aria-hidden
                 />
                 <span className="sr-only">يفتح في تبويب جديد</span>
               </a>
-            ))}
+              );
+            })}
           </div>
           {items.data?.length === 0 && (
             <p className="py-12 text-center text-sm text-muted-foreground">ستُضاف أعمالنا قريباً.</p>

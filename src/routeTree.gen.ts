@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as CateringRouteImport } from './routes/catering'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
@@ -53,6 +54,11 @@ const BookingRoute = BookingRouteImport.update({
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CateringRoute = CateringRouteImport.update({
+  id: '/catering',
+  path: '/catering',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CommunityRoute = CommunityRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
   '/careers': typeof CareersRoute
+  '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/catering'
     | '/community'
     | '/library'
     | '/packages'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/catering'
     | '/community'
     | '/library'
     | '/packages'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/careers'
+    | '/catering'
     | '/community'
     | '/library'
     | '/packages'
@@ -219,6 +231,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BookingRoute: typeof BookingRoute
   CareersRoute: typeof CareersRoute
+  CateringRoute: typeof CateringRoute
   CommunityRoute: typeof CommunityRoute
   LibraryRoute: typeof LibraryRoute
   PackagesRoute: typeof PackagesRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catering': {
+      id: '/catering'
+      path: '/catering'
+      fullPath: '/catering'
+      preLoaderRoute: typeof CateringRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/community': {
@@ -378,6 +398,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BookingRoute: BookingRoute,
   CareersRoute: CareersRoute,
+  CateringRoute: CateringRoute,
   CommunityRoute: CommunityRoute,
   LibraryRoute: LibraryRoute,
   PackagesRoute: PackagesRoute,

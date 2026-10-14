@@ -68,8 +68,10 @@ function Portfolio() {
                 rel="noopener noreferrer"
                 className="group flex min-h-20 items-center justify-between gap-4 px-2 py-5 transition-colors hover:text-primary sm:px-4"
               >
-                <span className="inline-flex min-w-0 items-center gap-3">
-                  <WorkIcon className="h-6 w-6 shrink-0 text-primary" aria-hidden />
+                <span className="inline-flex min-w-0 items-center gap-4">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                    <WorkIcon className="h-5 w-5" aria-hidden />
+                  </span>
                   <span className="text-base font-extrabold leading-relaxed sm:text-lg">{item.title}</span>
                 </span>
                 <ExternalLink

@@ -221,9 +221,11 @@ export function AdminPortfolio() {
               href={item.drive_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-w-0 items-center gap-2 font-bold hover:text-primary"
+              className="inline-flex min-w-0 items-center gap-3 font-bold hover:text-primary"
             >
-              <WorkIcon className="h-5 w-5 shrink-0 text-primary" aria-hidden />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                <WorkIcon className="h-4 w-4" aria-hidden />
+              </span>
               <span className="truncate">{item.title}</span>
               <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
             </a>

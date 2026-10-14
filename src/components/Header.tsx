@@ -14,12 +14,9 @@ const beforeServices = [
 
 const afterServices = [
   { to: "/packages", label: "الباقات" },
-  { to: "/portfolio", label: "أعمالنا" },
-  { to: "/library", label: "مكتبة أوبن لوب" },
-  { to: "/community", label: "فُرص Open Loop" },
-
-  
-  { to: "/careers", label: "انضم إلى" },
+  { to: "/portfolio", label: "لمحة عنا" },
+  { to: "/library", label: "المكتبة" },
+  { to: "/careers", label: "انضم إلينا" },
   { to: "/booking", label: "احجز استشارتك" },
 ] as const;
 
@@ -66,8 +63,8 @@ export function Header() {
               <ChevronDown className="h-4 w-4" aria-hidden />
             </Link>
             {servicesOpen && (
-              <div className="absolute end-0 top-full w-80 pt-2">
-                <div className="overflow-hidden rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
+              <div className="absolute end-0 top-full w-96 pt-2">
+                <div className="max-h-[75vh] overflow-y-auto rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
                   {serviceCategories.map((c) => (
                     <Link
                       key={c.slug}
@@ -78,11 +75,36 @@ export function Header() {
                       <span className="block text-sm font-bold">
                         {c.order}: {c.title}
                       </span>
-                      <span className="mt-0.5 block text-xs text-muted-foreground">
-                        {c.items.length} خدمة متاحة
-                      </span>
+                      {!c.groups && (
+                        <span className="mt-0.5 block text-xs text-muted-foreground">
+                          {c.items.length} خدمة متاحة
+                        </span>
+                      )}
+                      {c.groups && (
+                        <span className="mt-2 block space-y-2 border-s-2 border-border ps-3">
+                          {c.groups.map((g) => (
+                            <span key={g.title} className="block">
+                              <span className="block text-xs font-bold">{g.title}</span>
+                              {g.items.map((it) => (
+                                <span key={it} className="block text-xs text-muted-foreground">
+                                  — {it}
+                                </span>
+                              ))}
+                            </span>
+                          ))}
+                        </span>
+                      )}
                     </Link>
                   ))}
+                  <Link
+                    to="/catering"
+                    className="block rounded-2xl px-4 py-3 transition-colors hover:bg-secondary"
+                  >
+                    <span className="block text-sm font-bold">06: مشاريع الاعاشة</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      سقيا ماء – وجبات جاهزة ساخنة – وجبات جافة
+                    </span>
+                  </Link>
                 </div>
               </div>
             )}
@@ -158,6 +180,13 @@ export function Header() {
                   — {c.title}
                 </Link>
               ))}
+              <Link
+                to="/catering"
+                className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70"
+                onClick={() => setOpen(false)}
+              >
+                — مشاريع الاعاشة
+              </Link>
             </div>
             {afterServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>

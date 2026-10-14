@@ -102,7 +102,7 @@ export function Footer() {
             </li>
             <li>
               <Link to="/portfolio" className="transition-colors hover:text-gold">
-                أعمالنا
+                لمحة عنا
               </Link>
             </li>
 
@@ -139,6 +139,23 @@ export function Footer() {
               الطائف، المملكة العربية السعودية
             </li>
           </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-primary-foreground/15">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 text-xs text-primary-foreground/75 sm:px-6 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
+          <dl className="grid gap-2 sm:grid-cols-3">
+            <div><dt className="font-extrabold text-primary-foreground">السجل التجاري</dt><dd className="mt-1" dir="ltr">—</dd></div>
+            <div><dt className="font-extrabold text-primary-foreground">الرقم الضريبي</dt><dd className="mt-1" dir="ltr">—</dd></div>
+            <div><dt className="font-extrabold text-primary-foreground">العنوان الوطني</dt><dd className="mt-1">الطائف، المملكة العربية السعودية</dd></div>
+          </dl>
+          <div className="flex items-center gap-3 rounded-2xl border border-dashed border-primary-foreground/25 px-4 py-3">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary-foreground/10 text-[10px] font-extrabold">شعار</span>
+            <div>
+              <p className="font-extrabold text-primary-foreground">امتداد أوبن لوب</p>
+              <p className="mt-0.5">مشروع المسابقات — قريباً 2027</p>
+            </div>
+          </div>
         </div>
       </div>
 

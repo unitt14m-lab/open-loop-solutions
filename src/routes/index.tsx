@@ -5,7 +5,6 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { SectionHeading } from "@/components/Sections";
 import { PackagesCarousel } from "@/components/PackagesCarousel";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
-import { CateringSection } from "@/components/CateringSection";
 import { ServicesShowcase } from "@/components/ServicesShowcase";
 import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
@@ -39,31 +38,22 @@ const impact = [
   },
   {
     icon: TrendingUp,
-    value: "+50 مليون ريال",
-    title: "تنمية واسترداد",
-    text: "تنمية واسترداد أكثر من ٥٠ مليون ريال لصالح القطاع غير الربحي عبر منصات المنح (إحسان، اعتماد) وبرامج الاسترداد الضريبي.",
+    value: "20 مليون ريال",
+    title: "دعم محصل",
+    text: "تحصيل دعم اكثر من عشرين مليون ريال لصالح القطاع الغير ربحي",
   },
   {
     icon: Megaphone,
     value: "+300",
     title: "حملة تسويقية",
-    text: "إدارة وتنفيذ أكثر من ٣٠٠ حملة تسويقية تستهدف تعميق الأثر المجتمعي ومضاعفة التفاعل الرقمي للكيانات الشريكة.",
+    text: "إدارة وتنفيذ أكثر من ٣٠٠ حملة تسويقية تستهدف تعميق الأثر المجتمعي ومضاعفة التفاعل الرقمي.",
   },
 ];
 
 const segments = [
-  {
-    title: "كيانات غير ربحية تبحث عن التمويل والمنح",
-    text: "صياغة مشاريع احترافية وتصميم ملفات متكاملة للمؤسسات المانحة وصندوق دعم الجمعيات.",
-  },
-  {
-    title: "كيانات غير ربحية تسعى لرفع الإيرادات",
-    text: "استفادة من منصات الدعم الحكومي والأهلي عبر التأهيل الفني والمالي والتنفيذي.",
-  },
-  {
-    title: "كيانات غير ربحية ترغب في نمو حضورها وتأثيرها",
-    text: "حلول تسويقية وإعلانية ممولة لجذب المانحين بثقة.",
-  },
+  { title: "الكيانات غير الربحية التي تبحث عن التمويل والمنح" },
+  { title: "الكيانات غير الربحية التي تسعى لرفع الإدارات" },
+  { title: "الكيانات غير الربحية التي ترغب في نمو حضورها وتاثيرها" },
 ];
 
 function Index() {
@@ -99,16 +89,12 @@ function Index() {
       <section id="packages" className="section-pad bg-surface">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="مصفوفة الباقات"
             title="باقات مصممة لاحتياجات الكيانات غير الربحية"
             description="قارن بين الباقات واختر ما يناسب مرحلة نمو جمعيتك."
           />
           <PackagesCarousel items={packages} />
         </div>
       </section>
-
-      {/* CATERING */}
-      <CateringSection />
 
       {/* IMPACT */}
       <section className="section-pad">
@@ -138,7 +124,6 @@ function Index() {
                     {idx + 1}
                   </span>
                   <h3 className="mt-4 text-base font-extrabold leading-snug">{s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
                 </div>
               ))}
             </div>

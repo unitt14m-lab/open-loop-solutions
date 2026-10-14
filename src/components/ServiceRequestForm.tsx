@@ -93,7 +93,7 @@ export function ServiceRequestForm({
 
   return (
     <form onSubmit={submit} className="card-elevated p-7 sm:p-8">
-      <h3 className="text-xl font-extrabold">طلب خدمة مخصصة</h3>
+      <h3 className="text-xl font-extrabold">اطلب الخدمة</h3>
       <p className="mt-2 text-sm text-muted-foreground">
         اختر الخدمات التي تحتاجها ضمن {categoryTitle}، وسيصلك فريقنا بعد مراجعة الطلب.
       </p>

@@ -47,9 +47,7 @@ export function ServicesShowcase() {
     <section className="section-pad bg-surface overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="منظومة الخدمات"
           title="خدماتنا المتميزة"
-          description="خمس منظومات خدمية متكاملة مصممة خصيصاً للجمعيات والمؤسسات الأهلية، من التأهيل للمنح إلى بناء الهوية والمحتوى والحملات."
         />
 
         <div className="mt-12">

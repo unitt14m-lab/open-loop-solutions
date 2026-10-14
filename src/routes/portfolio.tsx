@@ -9,13 +9,13 @@ export const Route = createFileRoute("/portfolio")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "أعمالنا | أوبن لوب" },
+      { title: "لمحة عنا | أوبن لوب" },
       {
         name: "description",
         content:
           "تصفّح نماذج مختارة من أعمال أوبن لوب المرئية والإبداعية.",
       },
-      { property: "og:title", content: "أعمالنا | أوبن لوب" },
+      { property: "og:title", content: "لمحة عنا | أوبن لوب" },
       {
         property: "og:description",
         content: "تصفّح نماذج مختارة من أعمال أوبن لوب المرئية والإبداعية.",
@@ -48,7 +48,7 @@ function Portfolio() {
       <section className="surface-ink">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <p className="text-sm font-bold opacity-75">نماذج مختارة</p>
-          <h1 className="mt-4 text-3xl font-extrabold sm:text-5xl">أعمالنا</h1>
+          <h1 className="mt-4 text-3xl font-extrabold sm:text-5xl">لمحة عنا</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed opacity-80">
             مجموعة من أعمالنا المرئية والإبداعية. اختر أي عمل لعرضه عبر Google Drive.
           </p>

@@ -10,8 +10,8 @@
  */
 
 @theme inline {
-  --font-sans: "Tajawal", system-ui, sans-serif;
-  --font-display: "Tajawal", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: "IBM Plex Sans Arabic", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

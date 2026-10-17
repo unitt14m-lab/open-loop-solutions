@@ -86,29 +86,17 @@ export function HeroSlider() {
         aria-hidden
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-24 text-ink-foreground sm:px-6 lg:px-8 lg:py-40 min-h-[80vh] flex flex-col justify-center">
-        <span className="inline-flex self-start items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
+      <div className="mx-auto max-w-7xl px-4 py-24 text-ink-foreground sm:px-6 lg:px-8 lg:py-36">
+        <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
           <Sparkles className="h-4 w-4" aria-hidden />
           شريك القطاع غير الربحي نحو رؤية السعودية 2030
         </span>
 
-        <h1 className="mt-6 max-w-4xl text-right text-[clamp(1.9rem,5.5vw,4rem)] font-extrabold leading-[1.2]">
-          أوبن لوب، حيث تُنجز خدماتك وتطرح فرصك بكل احترافية
-        </h1>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/services" className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-base font-extrabold text-gold-foreground shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl">
-            اطلب الخدمة
-            <ArrowLeft className="h-5 w-5" aria-hidden />
-          </Link>
-          <Link to="/community" className="inline-flex items-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10 px-8 py-4 text-base font-extrabold backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-primary-foreground/20">
-            تصفح فرص أوبن لوب
-          </Link>
-        </div>
-        <div key={active} className="animate-fade-in mt-10 border-s-2 border-gold ps-4">
-          <p className="max-w-2xl text-right text-base font-semibold leading-relaxed opacity-90 sm:text-lg">
+        <div key={active} className="animate-fade-in">
+          <h1 className="mt-6 max-w-3xl text-right text-[clamp(1.35rem,4vw,2.75rem)] font-extrabold leading-[1.35] lg:leading-[1.3]">
             {slides[active]?.text}
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">{slides[active]?.actions}</div>
+          </h1>
+          <div className="mt-9 flex flex-wrap gap-3">{slides[active]?.actions}</div>
         </div>
 
         <div className="mt-12 flex items-center gap-2">

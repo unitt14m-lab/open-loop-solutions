@@ -80,7 +80,7 @@ export function Header() {
                         <Link
                           to="/services/$category"
                           params={{ category: c.slug }}
-                          className="text-sm font-bold hover:text-primary dark:hover:text-mist"
+                          className="text-sm font-bold hover:text-primary dark:hover:text-primary-foreground"
                           onClick={() => setServicesOpen(false)}
                         >
                           {c.order}: {c.title}
@@ -89,7 +89,7 @@ export function Header() {
                           to="/services/$category"
                           params={{ category: c.slug }}
                           search={{ service: "all" }}
-                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-mist"
+                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-primary-foreground"
                           onClick={() => setServicesOpen(false)}
                         >
                           اختيار الكل

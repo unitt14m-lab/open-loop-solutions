@@ -208,7 +208,7 @@ export function isExpired(deadline: string) {
 }
 
 export function formatDeadline(deadline: string) {
-  return new Intl.DateTimeFormat("ar-SA", {
+  return new Intl.DateTimeFormat("ar-SA-u-nu-latn", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -216,7 +216,7 @@ export function formatDeadline(deadline: string) {
 }
 
 export function formatMoney(value: number) {
-  return new Intl.NumberFormat("ar-SA", { maximumFractionDigits: 2 }).format(value);
+  return new Intl.NumberFormat("ar-SA-u-nu-latn", { maximumFractionDigits: 2 }).format(value);
 }
 
 /** Keeps unsent form input in local storage so drafts survive reloads or failed submissions. */

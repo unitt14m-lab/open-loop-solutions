@@ -216,7 +216,7 @@ function Dashboard() {
                     </div>
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.note}</p>
                     <p className="mt-3 text-xs text-muted-foreground">
-                      {new Date(a.created_at).toLocaleString("ar-SA")}
+                      {new Date(a.created_at).toLocaleString("ar-SA-u-nu-latn")}
                     </p>
                   </article>
                 ))}
@@ -316,7 +316,7 @@ function RequestCard({
       </pre>
 
       <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-        <span>{new Date(r.created_at).toLocaleString("ar-SA")}</span>
+        <span>{new Date(r.created_at).toLocaleString("ar-SA-u-nu-latn")}</span>
         {r.document_path && (
           <Button
             size="sm"

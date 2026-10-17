@@ -40,7 +40,7 @@ const products: Product[] = [
   },
 ];
 
-const fmt = (n: number) => new Intl.NumberFormat("ar-SA").format(n);
+const fmt = (n: number) => new Intl.NumberFormat("ar-SA-u-nu-latn").format(n);
 
 function LibraryPage() {
   return (

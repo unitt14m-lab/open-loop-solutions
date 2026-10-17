@@ -4,6 +4,15 @@
 
 /* Use the licensed Light face when installed; a supplied webfont can be added here. */
 @font-face {
+  font-family: "Source Sans Variable";
+  src: url("../node_modules/@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
   font-family: "GE SS Two";
   src: local("GE SS Two Light"), local("GE SS Two Light Regular"), local("GESSTwoLight-Light");
   font-style: normal;
@@ -19,8 +28,8 @@
  */
 
 @theme inline {
-  --font-sans: "GE SS Two", "GE SS Two Light", sans-serif;
-  --font-display: "GE SS Two", "GE SS Two Light", sans-serif;
+  --font-sans: "Source Sans Variable", "Source Sans Pro", "GE SS Two", "GE SS Two Light", sans-serif;
+  --font-display: "Source Sans Variable", "Source Sans Pro", "GE SS Two", "GE SS Two Light", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -489,3 +498,5 @@ button span, [data-slot="button"] span {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+html, body, input, textarea, select, button { font-variant-numeric: lining-nums tabular-nums; }

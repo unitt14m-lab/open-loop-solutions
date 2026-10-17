@@ -425,7 +425,7 @@ function ReportsPanel() {
               المنطقة: o.region,
               التصنيف: o.category,
               الحالة: OPPORTUNITY_STATUS[o.status]?.label ?? o.status,
-              التاريخ: new Date(o.created_at).toLocaleDateString("ar-SA"),
+              التاريخ: new Date(o.created_at).toLocaleDateString("ar-SA-u-nu-latn"),
             }))
           )
         }

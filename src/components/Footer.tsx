@@ -44,7 +44,7 @@ export function JoinBanner() {
             وتقدّم على المشاريع المفتوحة مباشرة من حسابك.
           </p>
         </div>
-        <Button asChild size="lg" className="rounded-full bg-gold px-8 text-base font-bold text-gold-foreground hover:bg-gold/90">
+        <Button asChild size="lg" className="rounded-full bg-mist px-8 text-base font-bold text-mist-foreground hover:bg-mist/90">
           <Link to="/careers">انضم كمستقل</Link>
         </Button>
       </div>

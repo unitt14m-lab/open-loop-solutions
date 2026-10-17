@@ -48,7 +48,7 @@ function Careers() {
               trigger={
                 <Button
                   size="lg"
-                  className="rounded-full bg-gold px-7 font-bold text-gold-foreground hover:bg-gold/90"
+                  className="rounded-full bg-mist px-7 font-bold text-mist-foreground hover:bg-mist/90"
                 >
                   انضم كمستقل إلى شبكتنا
                 </Button>

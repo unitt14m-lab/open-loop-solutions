@@ -120,9 +120,9 @@ export function ServiceRequestForm({
         htmlFor={`${idPrefix}-select-all`}
         className="mt-6 flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 transition-colors hover:bg-primary/10"
       >
-        <Checkbox id={`${idPrefix}-select-all`} checked={allSelected} onCheckedChange={toggleAll} />
+        <Checkbox id={`${idPrefix}-select-all`} checked={allSelected} onCheckedChange={toggleAll} className="rounded-full" />
         <span className="text-sm font-extrabold">اختيار الكل</span>
-        <span className="ms-auto text-xs text-muted-foreground">
+        <span className="ms-auto rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground" dir="ltr">
           {selected.length} / {items.length}
         </span>
       </label>
@@ -134,13 +134,13 @@ export function ServiceRequestForm({
             <label
               key={item}
               htmlFor={id}
-              className="flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+              className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors hover:bg-secondary ${selected.includes(item) ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-border bg-card"}`}
             >
               <Checkbox
                 id={id}
                 checked={selected.includes(item)}
                 onCheckedChange={() => toggle(item)}
-                className="mt-0.5"
+                className="mt-0.5 rounded-full"
               />
               <span className="min-w-0 text-sm font-semibold leading-relaxed">{item}</span>
             </label>

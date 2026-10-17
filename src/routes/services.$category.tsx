@@ -10,6 +10,9 @@ import { serviceCategories } from "@/data/site";
 
 export const Route = createFileRoute("/services/$category")({
   staticData: { sitemap: true },
+  validateSearch: (s: Record<string, unknown>): { service?: string | undefined } => ({
+    service: typeof s["service"] === "string" ? s["service"] : undefined,
+  }),
   loader: ({ params }) => {
     const category = serviceCategories.find((c) => c.slug === params.category);
     if (!category) throw notFound();
@@ -36,6 +39,7 @@ export const Route = createFileRoute("/services/$category")({
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
+  const { service } = Route.useSearch();
 
   return (
     <>
@@ -87,11 +91,13 @@ function CategoryPage() {
           )}
 
 
-          <div className="mt-12">
+          <div id="request" className="mt-12 scroll-mt-28">
             <ServiceRequestForm
+              key={service ?? "none"}
               categoryTitle={category.title}
               items={category.items}
               idPrefix={category.slug}
+              preselect={service}
             />
           </div>
 

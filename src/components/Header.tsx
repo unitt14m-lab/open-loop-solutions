@@ -21,6 +21,13 @@ const afterServices = [
   { to: "/booking", label: "احجز استشارتك" },
 ] as const;
 
+const opportunityLinks = [
+  { to: "/community", hash: "rfq-board", label: "تصفح الفرص" },
+  { to: "/community", hash: "marketplace-forms", label: "طرح فرصة جديدة" },
+  { to: "/packages", hash: "", label: "باقة التسويق المجاني" },
+  { to: "/community", hash: "support-services", label: "الخدمات المساندة وحوكمة العقود" },
+] as const;
+
 const linkClass =
   "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
 
@@ -28,6 +35,7 @@ export function Header() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [oppsOpen, setOppsOpen] = useState(false);
 
   const displayName =
     (user?.user_metadata as { full_name?: string } | undefined)?.full_name ||
@@ -64,48 +72,83 @@ export function Header() {
               <ChevronDown className="h-4 w-4" aria-hidden />
             </Link>
             {servicesOpen && (
-              <div className="absolute end-0 top-full w-96 pt-2">
+              <div className="absolute end-0 top-full w-[26rem] pt-2">
                 <div className="max-h-[75vh] overflow-y-auto rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
                   {serviceCategories.map((c) => (
-                    <Link
-                      key={c.slug}
-                      to="/services/$category"
-                      params={{ category: c.slug }}
-                      className="block rounded-2xl px-4 py-3 transition-colors hover:bg-secondary"
-                    >
-                      <span className="block text-sm font-bold">
-                        {c.order}: {c.title}
-                      </span>
-                      {!c.groups && (
-                        <span className="mt-0.5 block text-xs text-muted-foreground">
-                          {c.items.length} خدمة متاحة
-                        </span>
-                      )}
-                      {c.groups && (
-                        <span className="mt-2 block space-y-2 border-s-2 border-border ps-3">
-                          {c.groups.map((g) => (
-                            <span key={g.title} className="block">
-                              <span className="block text-xs font-bold">{g.title}</span>
-                              {g.items.map((it) => (
-                                <span key={it} className="block text-xs text-muted-foreground">
-                                  — {it}
-                                </span>
-                              ))}
-                            </span>
-                          ))}
-                        </span>
-                      )}
-                    </Link>
+                    <div key={c.slug} className="rounded-2xl px-3 py-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <Link
+                          to="/services/$category"
+                          params={{ category: c.slug }}
+                          className="text-sm font-bold hover:text-primary dark:hover:text-gold"
+                          onClick={() => setServicesOpen(false)}
+                        >
+                          {c.order}: {c.title}
+                        </Link>
+                        <Link
+                          to="/services/$category"
+                          params={{ category: c.slug }}
+                          search={{ service: "all" }}
+                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-gold"
+                          onClick={() => setServicesOpen(false)}
+                        >
+                          اختيار الكل
+                        </Link>
+                      </div>
+                      <div className="mt-1.5 flex flex-col border-s-2 border-border ps-2">
+                        {c.items.map((it) => (
+                          <Link
+                            key={it}
+                            to="/services/$category"
+                            params={{ category: c.slug }}
+                            search={{ service: it }}
+                            className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                            onClick={() => setServicesOpen(false)}
+                          >
+                            {it}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                   <Link
                     to="/catering"
-                    className="block rounded-2xl px-4 py-3 transition-colors hover:bg-secondary"
+                    className="block rounded-2xl px-3 py-3 transition-colors hover:bg-secondary"
+                    onClick={() => setServicesOpen(false)}
                   >
                     <span className="block text-sm font-bold">06: مشاريع الاعاشة</span>
                     <span className="mt-0.5 block text-xs text-muted-foreground">
                       سقيا ماء – وجبات جاهزة ساخنة – وجبات جافة
                     </span>
                   </Link>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setOppsOpen(true)}
+            onMouseLeave={() => setOppsOpen(false)}
+          >
+            <Link to="/community" className={`${linkClass} inline-flex items-center gap-1`}>
+              فرص أوبن لوب
+              <ChevronDown className="h-4 w-4" aria-hidden />
+            </Link>
+            {oppsOpen && (
+              <div className="absolute end-0 top-full w-72 pt-2">
+                <div className="rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
+                  {opportunityLinks.map((o) => (
+                    <Link
+                      key={o.label}
+                      to={o.to}
+                      {...(o.hash ? { hash: o.hash } : {})}
+                      className="block rounded-2xl px-4 py-2.5 text-sm font-bold transition-colors hover:bg-secondary"
+                      onClick={() => setOppsOpen(false)}
+                    >
+                      {o.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
@@ -189,6 +232,16 @@ export function Header() {
               >
                 — مشاريع الاعاشة
               </Link>
+            </div>
+            <Link to="/community" className={linkClass} onClick={() => setOpen(false)}>
+              فرص أوبن لوب
+            </Link>
+            <div className="mb-1 flex flex-col ps-4">
+              {opportunityLinks.map((o) => (
+                <Link key={o.label} to={o.to} {...(o.hash ? { hash: o.hash } : {})} className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70" onClick={() => setOpen(false)}>
+                  — {o.label}
+                </Link>
+              ))}
             </div>
             {afterServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>

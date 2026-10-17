@@ -140,7 +140,7 @@ function CommunityPage() {
       </section>
 
       {/* Support services pricing */}
-      <section className="border-t border-slate-200 py-14">
+      <section id="support-services" className="scroll-mt-28 border-t border-slate-200 py-14">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl" style={{ color: NAVY }}>
             الخدمات المساندة وحوكمة العقود

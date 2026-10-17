@@ -87,7 +87,7 @@ export function HeroSlider() {
       />
 
       <div className="mx-auto max-w-7xl px-4 py-24 text-ink-foreground sm:px-6 lg:px-8 lg:py-40 min-h-[80vh] flex flex-col justify-center">
-        <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
+        <span className="inline-flex self-start items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
           <Sparkles className="h-4 w-4" aria-hidden />
           شريك القطاع غير الربحي نحو رؤية السعودية 2030
         </span>

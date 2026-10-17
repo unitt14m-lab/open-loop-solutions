@@ -29,7 +29,7 @@ const opportunityLinks = [
 ] as const;
 
 const linkClass =
-  "rounded-full px-3 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
+  "whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-semibold text-primary-foreground/80 transition-colors hover:bg-primary-foreground/12 hover:text-primary-foreground";
 
 export function Header() {
   const { user } = useAuth();
@@ -165,7 +165,7 @@ export function Header() {
             </Link>
           ))}
 
-          <Link to="/services" className="ms-2 rounded-full border border-primary-foreground/30 px-4 py-2 text-sm font-bold transition-colors hover:bg-primary-foreground/15">
+          <Link to="/services" className="ms-2 hidden whitespace-nowrap rounded-full border border-primary-foreground/30 px-4 xl:inline-flex py-2 text-sm font-bold transition-colors hover:bg-primary-foreground/15">
             اطلب الخدمة
           </Link>
           <ThemeToggle className="ms-2" />

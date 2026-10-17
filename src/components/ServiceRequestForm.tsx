@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -20,20 +20,38 @@ const schema = z.object({
     .regex(/^[0-9+\s-]+$/, "رقم الجوال يجب أن يحتوي أرقاماً فقط"),
 });
 
+export const SELECT_ALL = "all";
+
 export function ServiceRequestForm({
   categoryTitle,
   items,
   idPrefix,
+  preselect,
 }: {
   categoryTitle: string;
   items: string[];
   idPrefix: string;
+  preselect?: string;
 }) {
   const { user } = useAuth();
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(() =>
+    preselect === SELECT_ALL ? [...items] : preselect && items.includes(preselect) ? [preselect] : [],
+  );
   const [busy, setBusy] = useState(false);
   const [values, setValues] = useState({ name: "", org: "", phone: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!preselect) return;
+    const t = setTimeout(
+      () => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      150,
+    );
+    return () => clearTimeout(t);
+  }, [preselect]);
+
+  const allSelected = items.length > 0 && selected.length === items.length;
+  const toggleAll = () => setSelected(allSelected ? [] : [...items]);
 
   const toggle = (item: string) =>
     setSelected((s) => (s.includes(item) ? s.filter((i) => i !== item) : [...s, item]));
@@ -98,7 +116,18 @@ export function ServiceRequestForm({
         اختر الخدمات التي تحتاجها ضمن {categoryTitle}، وسيصلك فريقنا بعد مراجعة الطلب.
       </p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <label
+        htmlFor={`${idPrefix}-select-all`}
+        className="mt-6 flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 transition-colors hover:bg-primary/10"
+      >
+        <Checkbox id={`${idPrefix}-select-all`} checked={allSelected} onCheckedChange={toggleAll} />
+        <span className="text-sm font-extrabold">اختيار الكل</span>
+        <span className="ms-auto text-xs text-muted-foreground">
+          {selected.length} / {items.length}
+        </span>
+      </label>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => {
           const id = `${idPrefix}-${item}`;
           return (

@@ -8,6 +8,7 @@ import { MarketplaceForms, type MarketplaceTab } from "@/components/MarketplaceF
 
 import { RfqBoard } from "@/components/RfqBoard";
 import { Button } from "@/components/ui/button";
+import { ROLE_CARDS, SUPPORT_PRICING, SUPPORT_SCOPE } from "@/data/legal";
 
 export const Route = createFileRoute("/community")({
   staticData: { sitemap: true },
@@ -31,20 +32,6 @@ export const Route = createFileRoute("/community")({
   component: CommunityPage,
 });
 
-const STEPS = [
-  {
-    title: "طرح الفرصة / الطلب",
-    body: "تقوم الجمعية أو المؤسسة التابعة لها بطرح طلب عرض سعر (RFQ) لمشروع، توريد، أو خدمة.",
-  },
-  {
-    title: "تقديم العروض",
-    body: "يطّلع مقدمو الخدمة / الموردون المعتمدون على الطلبات ويقدمون عروض أسعارهم إلكترونياً وبكل سهولة.",
-  },
-  {
-    title: "الترسية والتواصل",
-    body: "التقييم والمفاضلة بين العروض واختيار العرض الأنسب وإتمام التعميد.",
-  },
-];
 
 const NAVY = "#0F2331";
 const OFF_WHITE = "#F8FAFC";
@@ -73,6 +60,26 @@ function CommunityPage() {
             التابعة للجمعيات الأهلية، ومقدمي الخدمة / الموردين؛ بحيث تمكّن من الاطلاع وتقديم عروض الأسعار
             إلكترونياً، وتتيح للجمعيات ومؤسساتها طرح طلبات عروض الأسعار فيما بينهم.
           </p>
+        </div>
+      </section>
+
+      {/* How Open Loop opportunities work */}
+      <section className="py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-2xl font-extrabold sm:text-3xl" style={{ color: NAVY }}>
+            كيف تعمل فرص أوبن لوب
+          </h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {ROLE_CARDS.map((card, i) => (
+              <article key={card.title} className="rounded-2xl border border-slate-200 bg-white p-7">
+                <span className="text-3xl font-extrabold text-slate-300">{i + 1}</span>
+                <h3 className="mt-4 text-lg font-extrabold" style={{ color: NAVY }}>
+                  {card.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-500">{card.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -115,23 +122,6 @@ function CommunityPage() {
         </div>
       </section>
 
-      {/* How it works — numbered text cards */}
-      <section className="border-t border-slate-200 py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-6 md:grid-cols-3">
-            {STEPS.map((step, i) => (
-              <article key={step.title} className="rounded-2xl border border-slate-200 bg-white p-7">
-                <span className="text-3xl font-extrabold text-slate-300">{i + 1}</span>
-                <h3 className="mt-4 text-lg font-extrabold" style={{ color: NAVY }}>
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-500">{step.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* RFQ board */}
       <section id="rfq-board" className="border-t border-slate-200 py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -146,6 +136,45 @@ function CommunityPage() {
               <RfqBoard />
             </AuthGate>
           </div>
+        </div>
+      </section>
+
+      {/* Support services pricing */}
+      <section className="border-t border-slate-200 py-14">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-extrabold sm:text-3xl" style={{ color: NAVY }}>
+            الخدمات المساندة وحوكمة العقود
+          </h2>
+          <div className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full text-start text-sm">
+              <thead className="bg-slate-50 text-xs font-extrabold text-slate-600">
+                <tr>
+                  <th className="p-4 text-start">قيمة المنافسة</th>
+                  <th className="p-4 text-start">رسوم الخدمات المساندة (غير شامل الضريبة)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {SUPPORT_PRICING.map((row) => (
+                  <tr key={row.range} className="border-t border-slate-200 align-top">
+                    <td className="p-4 font-bold">
+                      {row.range}
+                      <p className="mt-1 text-xs font-semibold text-slate-500">{row.note}</p>
+                    </td>
+                    <td className="p-4 text-lg font-extrabold" style={{ color: NAVY }}>{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="mt-8 text-lg font-extrabold" style={{ color: NAVY }}>الخدمات المساندة</h3>
+          <ol className="mt-4 grid gap-3 sm:grid-cols-2">
+            {SUPPORT_SCOPE.map((item, i) => (
+              <li key={item} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm font-bold">
+                <span className="me-2 text-slate-400">{i + 1}.</span>
+                {item}
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 

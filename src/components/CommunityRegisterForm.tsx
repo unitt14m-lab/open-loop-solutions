@@ -16,6 +16,7 @@ import {
   fetchMyEntity,
 } from "@/lib/community";
 import { logAudit, logTermsAcceptance } from "@/lib/marketplace";
+import { ENTITY_DOCUMENTS } from "@/data/legal";
 
 const OTHER_FIELD = "أخرى";
 
@@ -53,6 +54,7 @@ export function CommunityRegisterForm() {
   const [fieldValue, setFieldValue] = useState("");
   const [otherField, setOtherField] = useState("");
   const [agree, setAgree] = useState(false);
+  const [docs, setDocs] = useState<Record<string, File | null>>({});
 
   const myEntity = useQuery({
     queryKey: ["community-entity", user?.id],
@@ -85,6 +87,11 @@ export function CommunityRegisterForm() {
         setErrors((previous) => ({ ...previous, terms: "يجب الموافقة على الشروط والأحكام" }));
         throw new Error("validation");
       }
+      const missing = ENTITY_DOCUMENTS.find((d) => !docs[d.key]);
+      if (missing) {
+        setErrors((previous) => ({ ...previous, docs: `يرجى إرفاق: ${missing.label}` }));
+        throw new Error("validation");
+      }
       const fd = new FormData(form);
       const rawField = String(fd.get("field") ?? "");
       const parsed = schema.safeParse({
@@ -114,6 +121,20 @@ export function CommunityRegisterForm() {
         .select("id")
         .single();
       if (error) throw error;
+      for (const d of ENTITY_DOCUMENTS) {
+        const file = docs[d.key]!;
+        const path = `${user!.id}/org/${data.id}/${d.key}-${Date.now()}-${file.name}`;
+        const up = await supabase.storage.from("community-files").upload(path, file);
+        if (up.error) throw up.error;
+        const ins = await supabase.from("organization_documents").insert({
+          entity_id: data.id,
+          owner_id: user!.id,
+          doc_type: d.key,
+          file_path: path,
+          file_name: file.name,
+        });
+        if (ins.error) throw ins.error;
+      }
       await logTermsAcceptance({
         userId: user!.id,
         acceptanceType: "project_owner",
@@ -267,6 +288,21 @@ export function CommunityRegisterForm() {
           />
         </Field>
       )}
+
+      <div className="md:col-span-2 space-y-3 rounded-2xl border border-slate-200 p-5">
+        <p className="text-sm font-extrabold">المستندات المطلوبة (ملفات خاصة لا تُنشر)</p>
+        {ENTITY_DOCUMENTS.map((d) => (
+          <div key={d.key}>
+            <Label className="mb-2 block text-xs font-bold">{d.label}</Label>
+            <Input
+              type="file"
+              accept=".pdf,.png,.jpg,.jpeg"
+              onChange={(e) => setDocs((prev) => ({ ...prev, [d.key]: e.target.files?.[0] ?? null }))}
+            />
+          </div>
+        ))}
+        {errors["docs"] && <p className="text-xs font-bold text-destructive">{errors["docs"]}</p>}
+      </div>
 
       <TermsAgreement sets={["entity", "register"]}
         checked={agree}

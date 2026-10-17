@@ -77,21 +77,10 @@ function CategoryPage() {
                 );
               })}
             </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {category.items.map((item: string) => (
-                <div key={item} className="card-elevated flex items-start gap-3 p-6">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
-                    <Check className="h-4 w-4" aria-hidden />
-                  </span>
-                  <p className="min-w-0 text-sm font-bold leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
-          )}
+          ) : null}
 
 
-          <div id="request" className="mt-12 scroll-mt-28">
+          <div id="request" className={`scroll-mt-28 ${category.details ? "mt-12" : ""}`}>
             <ServiceRequestForm
               key={service ?? "none"}
               categoryTitle={category.title}

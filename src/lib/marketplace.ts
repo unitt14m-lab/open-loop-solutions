@@ -38,10 +38,13 @@ export const LEGAL_DISCLAIMER =
 
 export const OPPORTUNITY_STATUS: Record<string, { label: string; tone: string }> = {
   draft: { label: "مسودة", tone: "bg-muted text-foreground" },
-  pending: { label: "بانتظار اعتماد الإدارة", tone: "bg-amber-500/20 text-amber-700 dark:text-amber-300" },
+  pending: { label: "قيد المراجعة", tone: "bg-amber-500/20 text-amber-700 dark:text-amber-300" },
   published: { label: "منشورة", tone: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" },
+  closed: { label: "مغلقة", tone: "bg-muted text-foreground" },
+  awarded: { label: "تم الترسية", tone: "bg-primary/15 text-primary dark:text-gold" },
+  cancelled: { label: "ملغاة", tone: "bg-destructive/20 text-destructive" },
+  in_progress: { label: "قيد التنفيذ", tone: "bg-sky-500/20 text-sky-700 dark:text-sky-300" },
   rejected: { label: "مرفوضة", tone: "bg-destructive/20 text-destructive" },
-  closed: { label: "مغلقة / تم التعميد", tone: "bg-primary/15 text-primary dark:text-gold" },
 };
 
 export const ACCOUNT_STATUS: Record<string, { label: string; tone: string }> = {
@@ -115,8 +118,7 @@ export async function fetchRfqs() {
   const { data, error } = await supabase
     .from("rfqs")
     .select("*")
-    .eq("is_open", true)
-    .eq("status", "published")
+    .in("status", ["published", "closed", "awarded"])
     .order("deadline", { ascending: true });
   if (error) throw error;
   return (data ?? []) as unknown as Rfq[];

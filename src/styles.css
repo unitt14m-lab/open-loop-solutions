@@ -290,6 +290,12 @@
     0 10px 32px -8px rgb(224 159 72 / 65%);
 }
 
+@utility glow-mist {
+  box-shadow:
+    0 0 0 1px rgb(140 197 188 / 55%),
+    0 10px 32px -8px rgb(140 197 188 / 70%);
+}
+
 .marquee-container {
   position: relative;
   width: 100%;

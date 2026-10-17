@@ -107,7 +107,7 @@ export function HeroSlider() {
               onClick={() => setActive(i)}
               aria-label={`الشريحة ${i + 1}`}
               className={`h-2 rounded-full transition-all ${
-                i === active ? "w-10 bg-gold" : "w-4 bg-primary-foreground/40"
+                i === active ? "w-10 bg-mist" : "w-4 bg-primary-foreground/40"
               }`}
             />
           ))}

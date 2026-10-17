@@ -119,7 +119,7 @@ export function ServicesShowcase() {
                     aria-label={`الصفحة ${i + 1}`}
                     onClick={() => setPage(i)}
                     className={`h-2.5 rounded-full transition-all ${
-                      i === page ? "w-7 bg-primary dark:bg-gold" : "w-2.5 bg-muted-foreground/40"
+                      i === page ? "w-7 bg-primary dark:bg-mist" : "w-2.5 bg-muted-foreground/40"
                     }`}
                   />
                 ))}

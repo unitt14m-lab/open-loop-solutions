@@ -142,7 +142,6 @@ function AwardDialog({
   const [file, setFile] = useState<File | null>(null);
 
   const settings = useQuery({ queryKey: ["platform-settings"], queryFn: fetchSettings });
-  const percent = Number(settings.data?.["commission"]?.["percent"] ?? 1);
   const maxMb = Number(settings.data?.["uploads"]?.["max_mb"] ?? 10);
   const numericAmount = Number(amount.replace(/[^0-9.]/g, "")) || 0;
 
@@ -187,7 +186,7 @@ function AwardDialog({
       });
     },
     onSuccess: () => {
-      toast.success("تم تسجيل العقد واحتساب نسبة الوساطة تلقائياً");
+      toast.success("تم تسجيل العقد بنجاح");
       queryClient.invalidateQueries({ queryKey: ["my-rfqs"] });
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
       setAmount("");

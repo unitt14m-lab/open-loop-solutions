@@ -107,7 +107,7 @@ function AdminPanel() {
                     </p>
                     <h2 className="mt-1 text-base font-extrabold leading-snug">{r.title}</h2>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {new Date(r.created_at).toLocaleString("ar-SA")}
+                      {new Date(r.created_at).toLocaleString("ar-SA-u-nu-latn")}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">

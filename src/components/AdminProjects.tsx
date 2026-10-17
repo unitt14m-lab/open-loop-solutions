@@ -198,7 +198,7 @@ export function AdminProjects() {
                 <div className="min-w-0">
                   <h3 className="text-base font-extrabold">{a.projects?.title ?? "مشروع"}</h3>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {new Date(a.created_at).toLocaleString("ar-SA")}
+                    {new Date(a.created_at).toLocaleString("ar-SA-u-nu-latn")}
                   </p>
                 </div>
                 <Select value={a.status} onValueChange={(v) => updateApplication(a.id, v)}>

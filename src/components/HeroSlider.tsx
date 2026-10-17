@@ -1,17 +1,33 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import heroImage from "@/assets/hero.jpg";
-import heroMarketing from "@/assets/hero-marketing.jpg";
-import heroRelief from "@/assets/hero-relief.jpg";
+import crownPrince from "@/assets/hero-crown-prince.jpg.asset.json";
+import wise from "@/assets/hero-wise.jpg.asset.json";
+import tabahoth from "@/assets/hero-tabahoth.jpg.asset.json";
 
 /**
- * Image-only banner slides. To add/replace a banner: import the image
- * (or use an .asset.json `.url`) and add an entry here.
+ * Image-only banner slides. Each banner already carries its own design and
+ * text, so nothing is overlaid on top of it and nothing is cropped.
+ * To add/replace/remove a banner: change an entry in this list.
  */
-const slides: { image: string; alt: string }[] = [
-  { image: heroImage, alt: "فريق أوبن لوب أثناء جلسة عمل استشارية" },
-  { image: heroMarketing, alt: "جلسة تخطيط استراتيجي وتسويق رقمي" },
-  { image: heroRelief, alt: "توزيع ميداني لمشاريع الإعاشة والسلال الغذائية" },
+const slides: { image: string; alt: string; width: number; height: number }[] = [
+  {
+    image: crownPrince.url,
+    alt: "بانر عزّنا بطبعنا — الأمير ولي العهد محمد بن سلمان",
+    width: 800,
+    height: 451,
+  },
+  {
+    image: wise.url,
+    alt: "بانر الإِنسَانُ أَوَّلًا — وايز 12، مؤسسة قطر، 24-25 نوفمبر 2025",
+    width: 1199,
+    height: 675,
+  },
+  {
+    image: tabahoth.url,
+    alt: "بانر الهوية البصرية تباحُثْ Tabahoth — الفكر حين يُمارَس",
+    width: 800,
+    height: 449,
+  },
 ];
 
 export function HeroSlider() {
@@ -32,10 +48,11 @@ export function HeroSlider() {
             key={s.image}
             src={s.image}
             alt={s.alt}
-            width={1920}
-            height={1088}
+            width={s.width}
+            height={s.height}
             loading={i === 0 ? "eager" : "lazy"}
-            className={`col-start-1 row-start-1 block h-auto w-full object-cover transition-opacity duration-1000 lg:max-h-[80vh] ${
+            decoding="async"
+            className={`col-start-1 row-start-1 block h-auto w-full object-cover transition-opacity duration-1000 ${
               i === active ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
             aria-hidden={i !== active}

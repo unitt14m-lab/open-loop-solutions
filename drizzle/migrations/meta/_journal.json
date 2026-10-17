@@ -22,6 +22,13 @@
       "when": 1789891140266,
       "tag": "0002_add_portfolio_icon_type",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792267404113,
+      "tag": "0003_disable_contract_commission",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { STATUS_DEFINITIONS, TOP_NOTICE } from "@/data/legal";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -19,7 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { REGIONS } from "@/lib/community";
 import {
-  ENTITY_KINDS,
+  OPPORTUNITY_STATUS,
   RFQ_CATEGORIES,
   fetchMySupplier,
   fetchRfqs,
@@ -47,7 +48,8 @@ export function RfqBoard() {
   const [q, setQ] = useState("");
   const [category, setCategory] = useState("");
   const [region, setRegion] = useState("");
-  const [kind, setKind] = useState("");
+  const [status, setStatus] = useState("");
+  const [closing, setClosing] = useState("");
   const [active, setActive] = useState<Rfq | null>(null);
 
   const rfqs = useQuery({ queryKey: ["rfqs"], queryFn: fetchRfqs });
@@ -64,13 +66,25 @@ export function RfqBoard() {
       (r) =>
         (!category || r.category === category) &&
         (!region || r.region === region) &&
-        (!kind || r.entity_kind === kind) &&
+        (!status || boardStatus(r) === status) &&
+        (!closing || withinDays(r.deadline, Number(closing))) &&
         (!term || r.title.includes(term) || r.entity_name.includes(term))
     );
-  }, [rfqs.data, q, category, region, kind]);
+  }, [rfqs.data, q, category, region, status, closing]);
 
   return (
     <div>
+      <div className="mb-6 rounded-2xl border-2 border-gold bg-gold/10 p-5 text-sm font-bold leading-relaxed">
+        <p>{TOP_NOTICE}</p>
+        <dl className="mt-4 grid gap-2 text-xs sm:grid-cols-2">
+          {STATUS_DEFINITIONS.map((d) => (
+            <div key={d.key}>
+              <dt className="inline font-extrabold">{d.label}: </dt>
+              <dd className="inline font-semibold text-slate-600">{d.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
       {user && !supplier.isLoading && !canQuote && (
         <p className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-xs font-bold leading-relaxed text-amber-700 dark:text-amber-300">
           {supplier.data
@@ -79,7 +93,7 @@ export function RfqBoard() {
         </p>
       )}
 
-      <div className="rounded-2xl border border-slate-200 bg-white grid gap-4 p-5 md:grid-cols-4">
+      <div className="rounded-2xl border border-slate-200 bg-white grid gap-4 p-5 md:grid-cols-5">
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -97,11 +111,17 @@ export function RfqBoard() {
             <option key={r} value={r}>{r}</option>
           ))}
         </select>
-        <select value={kind} onChange={(e) => setKind(e.target.value)} className={selectClass}>
-          <option value="">كل أنواع أصحاب المشاريع</option>
-          {ENTITY_KINDS.map((k) => (
-            <option key={k} value={k}>{k}</option>
-          ))}
+        <select value={closing} onChange={(e) => setClosing(e.target.value)} className={selectClass}>
+          <option value="">كل تواريخ الإغلاق</option>
+          <option value="7">تغلق خلال 7 أيام</option>
+          <option value="30">تغلق خلال 30 يوماً</option>
+          <option value="90">تغلق خلال 90 يوماً</option>
+        </select>
+        <select value={status} onChange={(e) => setStatus(e.target.value)} className={selectClass}>
+          <option value="">كل الحالات</option>
+          <option value="published">منشورة</option>
+          <option value="closed">مغلقة</option>
+          <option value="awarded">تم الترسية</option>
         </select>
       </div>
 
@@ -117,24 +137,31 @@ export function RfqBoard() {
       ) : (
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {list.map((rfq) => {
-            const expired = isExpired(rfq.deadline);
+            const st = boardStatus(rfq);
+            const expired = st !== "published";
             return (
               <article
                 key={rfq.id}
                 className="rounded-2xl border border-slate-200 bg-white flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center justify-between gap-2 text-[11px] font-bold text-slate-500">
+                  <span dir="ltr">#{rfq.id.slice(0, 8).toUpperCase()}</span>
+                  <span className={`inline-flex rounded-full px-3 py-1 font-extrabold ${OPPORTUNITY_STATUS[st]?.tone ?? ""}`}>
+                    {OPPORTUNITY_STATUS[st]?.label ?? st}
+                  </span>
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className="inline-flex w-fit items-center rounded-full border border-slate-300 px-3 py-1 text-xs font-extrabold text-slate-600">
                     {rfq.category}
                   </span>
                   <span
                     className={`inline-flex rounded-full px-3 py-1 text-[11px] font-extrabold ${
-                      expired
-                        ? "bg-destructive/20 text-destructive"
-                        : "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300"
+                      rfq.requires_openloop_review
+                        ? "bg-primary text-primary-foreground"
+                        : "border border-slate-300 text-slate-500"
                     }`}
                   >
-                    {expired ? "منتهية" : "مفتوحة للعروض"}
+                    {rfq.requires_openloop_review ? "تحت إدارة أوبن لوب" : "غير مُدارة من أوبن لوب"}
                   </span>
                 </div>
                 <h3 className="mt-4 text-base font-extrabold leading-relaxed">{rfq.title}</h3>
@@ -142,8 +169,11 @@ export function RfqBoard() {
                   {rfq.description}
                 </p>
                 <dl className="mt-4 space-y-2 text-xs font-bold text-slate-500">
-                  <div>
-                    <span>{rfq.entity_name} — {rfq.entity_kind}</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span>{rfq.entity_name}</span>
+                    <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-extrabold text-emerald-700 dark:text-emerald-300">
+                      ✓ جهة موثقة
+                    </span>
                   </div>
                   {rfq.region && (
                     <div>
@@ -153,13 +183,14 @@ export function RfqBoard() {
                   <div>
                     <span>ينتهي التقديم: {formatDeadline(rfq.deadline)}</span>
                   </div>
+                  <Countdown deadline={rfq.deadline} />
                 </dl>
                 <Button
                   className="mt-6 w-full rounded-full font-bold"
                   onClick={() => setActive(rfq)}
                   disabled={!user || expired || !canQuote}
                 >
-                  {expired ? "انتهت مدة التقديم" : "تقديم عرض سعر"}
+                  {expired ? (OPPORTUNITY_STATUS[st]?.label ?? "مغلقة") : "تقديم عرض سعر"}
                 </Button>
               </article>
             );
@@ -270,7 +301,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
           <FormField label="تفاصيل العرض" error={errors["note"]}>
             <Textarea name="note" rows={4} defaultValue={draft["note"] ?? ""} maxLength={1000} />
           </FormField>
-          <TermsAgreement
+          <TermsAgreement sets={["supplier"]}
             checked={agree}
             onChange={(v) => {
               setAgree(v);
@@ -301,6 +332,38 @@ export function FormField({
       <Label className="mb-2 block text-xs font-bold">{label}</Label>
       {children}
       {error && <p className="mt-1.5 text-xs font-bold text-destructive">{error}</p>}
+    </div>
+  );
+}
+
+function boardStatus(r: Rfq) {
+  if (r.status === "published" && (isExpired(r.deadline) || !r.is_open)) return "closed";
+  return r.status;
+}
+
+function withinDays(deadline: string, days: number) {
+  const diff = new Date(deadline).getTime() - Date.now();
+  return diff >= 0 && diff <= days * 86_400_000;
+}
+
+function Countdown({ deadline }: { deadline: string }) {
+  const [now, setNow] = useState<number | null>(null);
+  useEffect(() => {
+    setNow(Date.now());
+    const t = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(t);
+  }, []);
+  if (now === null) return null;
+  const end = new Date(deadline);
+  end.setHours(23, 59, 59, 999);
+  const diff = end.getTime() - now;
+  if (diff <= 0) return <div className="text-destructive">انتهى موعد التقديم</div>;
+  const d = Math.floor(diff / 86_400_000);
+  const h = Math.floor((diff % 86_400_000) / 3_600_000);
+  const m = Math.floor((diff % 3_600_000) / 60_000);
+  return (
+    <div className="rounded-xl bg-secondary/60 px-3 py-2 text-foreground">
+      متبقٍ: {d} يوم {h} ساعة {m} دقيقة
     </div>
   );
 }

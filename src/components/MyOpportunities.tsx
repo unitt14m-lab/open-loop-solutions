@@ -142,7 +142,6 @@ function AwardDialog({
   const [file, setFile] = useState<File | null>(null);
 
   const settings = useQuery({ queryKey: ["platform-settings"], queryFn: fetchSettings });
-  const percent = Number(settings.data?.["commission"]?.["percent"] ?? 1);
   const maxMb = Number(settings.data?.["uploads"]?.["max_mb"] ?? 10);
   const numericAmount = Number(amount.replace(/[^0-9.]/g, "")) || 0;
 
@@ -187,7 +186,7 @@ function AwardDialog({
       });
     },
     onSuccess: () => {
-      toast.success("تم تسجيل العقد واحتساب نسبة الوساطة تلقائياً");
+      toast.success("تم تسجيل العقد بنجاح");
       queryClient.invalidateQueries({ queryKey: ["my-rfqs"] });
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
       setAmount("");
@@ -221,8 +220,7 @@ function AwardDialog({
             />
           </FormField>
           <p className="rounded-2xl bg-secondary/60 p-4 text-xs font-bold leading-relaxed">
-            نسبة الوساطة المحتسبة تلقائياً: {percent}% ={" "}
-            {formatMoney((numericAmount * percent) / 100)} ريال. يُغلق الطلب بعد التعميد.
+            يُغلق الطلب بعد التعميد.
           </p>
           <Button
             className="rounded-full font-bold"

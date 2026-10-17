@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
 import { useAuth } from "@/lib/auth";
 import { ThemeToggle } from "./ThemeToggle";
+import { NoticeBanner } from "./NoticeBanner";
 
 const beforeServices = [
   { to: "/", label: "الرئيسية" },
@@ -156,6 +157,7 @@ export function Header() {
         </button>
         </div>
       </div>
+      <NoticeBanner />
 
       {open && (
         <div className="border-t border-primary-foreground/15 bg-primary lg:hidden">

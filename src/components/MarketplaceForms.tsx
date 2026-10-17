@@ -267,12 +267,12 @@ function RfqForm() {
             value={requiresReview ? "true" : "false"}
           />
           <span>
-            أرغب بطلب خدمة فُرص Open Loop لدراسة وتحليل العروض المتقدمة وترشيح أفضل 3 عروض.
+            أرغب بطلب خدمة فُرص Open Loop لدراسة العروض وترشيح الأفضل
           </span>
         </label>
       </div>
 
-      <TermsAgreement
+      <TermsAgreement sets={["entity", "register"]}
         checked={agree}
         onChange={(v) => {
           setAgree(v);
@@ -414,7 +414,7 @@ function SupplierForm() {
           <Textarea name="about" rows={4} defaultValue={supplier?.about ?? ""} maxLength={1000} />
         </FormField>
       </div>
-      <TermsAgreement
+      <TermsAgreement sets={["supplier", "register"]}
         checked={agree}
         onChange={(v) => {
           setAgree(v);

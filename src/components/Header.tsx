@@ -165,6 +165,9 @@ export function Header() {
             </Link>
           ))}
 
+          <Link to="/services" className="ms-2 rounded-full border border-primary-foreground/30 px-4 py-2 text-sm font-bold transition-colors hover:bg-primary-foreground/15">
+            اطلب الخدمة
+          </Link>
           <ThemeToggle className="ms-2" />
 
           <Button

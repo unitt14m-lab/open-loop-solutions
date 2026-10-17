@@ -31,7 +31,7 @@ export function ServiceRequestForm({
   categoryTitle: string;
   items: string[];
   idPrefix: string;
-  preselect?: string;
+  preselect?: string | undefined;
 }) {
   const { user } = useAuth();
   const [selected, setSelected] = useState<string[]>(() =>

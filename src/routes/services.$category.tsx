@@ -11,7 +11,7 @@ import { serviceCategories } from "@/data/site";
 export const Route = createFileRoute("/services/$category")({
   staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): { service?: string | undefined } => ({
-    service: typeof s.service === "string" ? s.service : undefined,
+    service: typeof s["service"] === "string" ? s["service"] : undefined,
   }),
   loader: ({ params }) => {
     const category = serviceCategories.find((c) => c.slug === params.category);

@@ -43,7 +43,7 @@ export function Header() {
     "";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-primary-foreground/10 bg-primary/85 text-primary-foreground shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-primary/75">
+    <header className="sticky top-0 z-50 border-b border-primary-foreground/10 bg-primary text-primary-foreground shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <div className="order-2 min-w-0">
           <Logo light />
@@ -165,9 +165,6 @@ export function Header() {
             </Link>
           ))}
 
-          <Link to="/services" className="ms-2 hidden whitespace-nowrap rounded-full border border-primary-foreground/30 px-4 xl:inline-flex py-2 text-sm font-bold transition-colors hover:bg-primary-foreground/15">
-            اطلب الخدمة
-          </Link>
           <ThemeToggle className="ms-2" />
 
           <Button

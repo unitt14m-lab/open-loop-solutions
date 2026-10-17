@@ -5,7 +5,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { SectionHeading } from "@/components/Sections";
 import { PackagesCarousel } from "@/components/PackagesCarousel";
 import { PartnersMarquee } from "@/components/PartnersMarquee";
-import { ServiceTabs, HowWeWork, HomeFaq } from "@/components/HomeSections";
+import { ServicesShowcase } from "@/components/ServicesShowcase";
 import { JoinBanner } from "@/components/Footer";
 import { packages } from "@/data/site";
 
@@ -83,9 +83,7 @@ function Index() {
       </section>
 
       {/* SERVICES SHOWCASE */}
-      <ServiceTabs />
-
-      <HowWeWork />
+      <ServicesShowcase />
 
       {/* PACKAGES */}
       <section id="packages" className="section-pad bg-surface">
@@ -143,9 +141,7 @@ function Index() {
         </div>
       </section>
 
-      <HomeFaq />
-
-      <div className="pt-4">
+      <div className="pt-16">
         <JoinBanner />
       </div>
     </>

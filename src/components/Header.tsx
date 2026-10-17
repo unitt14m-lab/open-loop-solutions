@@ -233,6 +233,16 @@ export function Header() {
                 — مشاريع الاعاشة
               </Link>
             </div>
+            <Link to="/community" className={linkClass} onClick={() => setOpen(false)}>
+              فرص أوبن لوب
+            </Link>
+            <div className="mb-1 flex flex-col ps-4">
+              {opportunityLinks.map((o) => (
+                <Link key={o.label} to={o.to} hash={o.hash} className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70" onClick={() => setOpen(false)}>
+                  — {o.label}
+                </Link>
+              ))}
+            </div>
             {afterServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}

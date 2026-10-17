@@ -1,64 +1,22 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { Download, ArrowLeft, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero.jpg";
 import heroMarketing from "@/assets/hero-marketing.jpg";
 import heroRelief from "@/assets/hero-relief.jpg";
 
-type Slide = {
-  image: string;
-  alt: string;
-  text: string;
-  actions: React.ReactNode;
-};
-
-const slides: Slide[] = [
-  {
-    image: heroImage,
-    alt: "فريق أوبن لوب أثناء جلسة عمل استشارية",
-    text: "أوبن لوب: مؤسسة تسويق واستشارات تمكّن القطاع غير الربحي من الاستدامة وبناء الأثر، وفق رؤية 2030.",
-    actions: (
-      <>
-        <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
-          <a href="/open-loop-profile.pdf" target="_blank" rel="noopener noreferrer">
-            <Download className="h-5 w-5" aria-hidden />
-            حمل الملف التعريفي
-          </a>
-        </Button>
-        <Button asChild size="lg" variant="secondary" className="rounded-full px-7 text-base font-bold">
-          <Link to="/booking">احجز استشارتك</Link>
-        </Button>
-      </>
-    ),
-  },
-  {
-    image: heroMarketing,
-    alt: "جلسة تخطيط استراتيجي وتسويق رقمي",
-    text: "حلول تسويقية واستشارية متكاملة لرفع إيرادات وحوكمة الجمعيات والكيانات الأهلية.",
-    actions: (
-      <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
-        <Link to="/services">
-          استكشف خدماتنا
-          <ArrowLeft className="h-5 w-5" aria-hidden />
-        </Link>
-      </Button>
-    ),
-  },
-  {
-    image: heroRelief,
-    alt: "توزيع ميداني لمشاريع الإعاشة والسلال الغذائية",
-    text: "مشاريع الإعاشة والحلول الميدانية (إفطار صائم، سقيا ماء، وسلال غذائية) بأعلى معايير السلامة.",
-    actions: (
-      <Button asChild size="lg" className="rounded-full px-7 text-base font-bold">
-        <a href="#catering">اطلب الخدمة الآن</a>
-      </Button>
-    ),
-  },
+/**
+ * Image-only banner slides. To add/replace a banner: import the image
+ * (or use an .asset.json `.url`) and add an entry here.
+ */
+const slides: { image: string; alt: string }[] = [
+  { image: heroImage, alt: "فريق أوبن لوب أثناء جلسة عمل استشارية" },
+  { image: heroMarketing, alt: "جلسة تخطيط استراتيجي وتسويق رقمي" },
+  { image: heroRelief, alt: "توزيع ميداني لمشاريع الإعاشة والسلال الغذائية" },
 ];
 
 export function HeroSlider() {
   const [active, setActive] = useState(0);
+  const go = (d: number) => setActive((i) => (i + d + slides.length) % slides.length);
 
   useEffect(() => {
     const id = setInterval(() => setActive((i) => (i + 1) % slides.length), 7000);
@@ -66,53 +24,43 @@ export function HeroSlider() {
   }, []);
 
   return (
-    <section className="relative isolate overflow-hidden">
-      {slides.map((s, i) => (
-        <img
-          key={s.image}
-          src={s.image}
-          alt={s.alt}
-          width={1920}
-          height={1088}
-          loading={i === 0 ? "eager" : "lazy"}
-          className={`absolute inset-0 -z-10 h-full w-full object-cover transition-opacity duration-1000 ${
-            i === active ? "opacity-100" : "opacity-0"
-          }`}
-          aria-hidden={i !== active}
-        />
-      ))}
-      <div
-        className="absolute inset-0 -z-10 bg-gradient-to-l from-ink/95 via-ink/85 to-ink/60"
-        aria-hidden
-      />
-
-      <div className="mx-auto max-w-7xl px-4 py-24 text-ink-foreground sm:px-6 lg:px-8 lg:py-36">
-        <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-xs font-bold backdrop-blur">
-          <Sparkles className="h-4 w-4" aria-hidden />
-          شريك القطاع غير الربحي نحو رؤية السعودية 2030
-        </span>
-
-        <div key={active} className="animate-fade-in">
-          <h1 className="mt-6 max-w-3xl text-right text-[clamp(1.35rem,4vw,2.75rem)] font-extrabold leading-[1.35] lg:leading-[1.3]">
-            {slides[active]?.text}
-          </h1>
-          <div className="mt-9 flex flex-wrap gap-3">{slides[active]?.actions}</div>
-        </div>
-
-        <div className="mt-12 flex items-center gap-2">
-          {slides.map((s, i) => (
-            <button
-              key={s.image}
-              type="button"
-              onClick={() => setActive(i)}
-              aria-label={`الشريحة ${i + 1}`}
-              className={`h-2 rounded-full transition-all ${
-                i === active ? "w-10 bg-mist" : "w-4 bg-primary-foreground/40"
-              }`}
-            />
-          ))}
-        </div>
+    <section className="relative overflow-hidden bg-background" aria-roledescription="carousel">
+      <h1 className="sr-only">أوبن لوب — تسويق واستشارات للقطاع غير الربحي</h1>
+      <div className="grid">
+        {slides.map((s, i) => (
+          <img
+            key={s.image}
+            src={s.image}
+            alt={s.alt}
+            width={1920}
+            height={1088}
+            loading={i === 0 ? "eager" : "lazy"}
+            className={`col-start-1 row-start-1 block h-auto w-full object-cover transition-opacity duration-1000 lg:max-h-[80vh] ${
+              i === active ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+            aria-hidden={i !== active}
+          />
+        ))}
       </div>
+
+      {slides.length > 1 && (
+        <>
+          <button type="button" onClick={() => go(-1)} aria-label="السابق"
+            className="absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur transition hover:bg-background sm:block">
+            <ChevronRight className="h-5 w-5" />
+          </button>
+          <button type="button" onClick={() => go(1)} aria-label="التالي"
+            className="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-background/70 p-2 text-foreground backdrop-blur transition hover:bg-background sm:block">
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+            {slides.map((s, i) => (
+              <button key={s.image} type="button" onClick={() => setActive(i)} aria-label={`الشريحة ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${i === active ? "w-8 bg-mist" : "w-3 bg-background/70"}`} />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

@@ -270,7 +270,7 @@ function QuoteDialog({ rfq, onClose }: { rfq: Rfq | null; onClose: () => void })
           <FormField label="تفاصيل العرض" error={errors["note"]}>
             <Textarea name="note" rows={4} defaultValue={draft["note"] ?? ""} maxLength={1000} />
           </FormField>
-          <TermsAgreement
+          <TermsAgreement sets={["supplier"]}
             checked={agree}
             onChange={(v) => {
               setAgree(v);

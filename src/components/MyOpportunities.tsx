@@ -221,8 +221,7 @@ function AwardDialog({
             />
           </FormField>
           <p className="rounded-2xl bg-secondary/60 p-4 text-xs font-bold leading-relaxed">
-            نسبة الوساطة المحتسبة تلقائياً: {percent}% ={" "}
-            {formatMoney((numericAmount * percent) / 100)} ريال. يُغلق الطلب بعد التعميد.
+            يُغلق الطلب بعد التعميد.
           </p>
           <Button
             className="rounded-full font-bold"

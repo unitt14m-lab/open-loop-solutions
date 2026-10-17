@@ -31,7 +31,7 @@ export function AdminMarketplace() {
       <Tabs defaultValue="approvals" className="mt-6">
         <TabsList className="flex flex-wrap">
           <TabsTrigger value="approvals">الاعتمادات</TabsTrigger>
-          <TabsTrigger value="commissions">العمولات</TabsTrigger>
+          
           <TabsTrigger value="reports">التقارير</TabsTrigger>
           <TabsTrigger value="settings">الإعدادات</TabsTrigger>
         </TabsList>

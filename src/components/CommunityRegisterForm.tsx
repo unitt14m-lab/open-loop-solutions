@@ -268,7 +268,7 @@ export function CommunityRegisterForm() {
         </Field>
       )}
 
-      <TermsAgreement
+      <TermsAgreement sets={["entity", "register"]}
         checked={agree}
         onChange={(value) => {
           setAgree(value);

@@ -1,4 +1,6 @@
 import { useState, type ReactNode } from "react";
+import { Declarations } from "@/components/Declarations";
+import type { DeclarationSet } from "@/data/legal";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
@@ -47,12 +49,15 @@ export function TermsAgreement({
   checked,
   onChange,
   error,
+  sets,
 }: {
   checked: boolean;
   onChange: (v: boolean) => void;
   error?: string | undefined;
+  sets?: DeclarationSet[];
 }) {
   const [bump, setBump] = useState(0);
+  if (sets) return <Declarations sets={sets} onChange={onChange} error={error} resetKey={checked ? 0 : 1} />;
   return (
     <div className="md:col-span-2">
       <label className="flex cursor-pointer items-start gap-3 rounded-2xl bg-secondary/60 p-4 text-sm font-bold">

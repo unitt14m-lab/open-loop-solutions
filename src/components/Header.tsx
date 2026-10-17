@@ -24,7 +24,7 @@ const afterServices = [
 const opportunityLinks = [
   { to: "/community", hash: "rfq-board", label: "تصفح الفرص" },
   { to: "/community", hash: "marketplace-forms", label: "طرح فرصة جديدة" },
-  { to: "/packages", hash: undefined, label: "باقة التسويق المجاني" },
+  { to: "/packages", hash: "", label: "باقة التسويق المجاني" },
   { to: "/community", hash: "support-services", label: "الخدمات المساندة وحوكمة العقود" },
 ] as const;
 
@@ -142,7 +142,7 @@ export function Header() {
                     <Link
                       key={o.label}
                       to={o.to}
-                      hash={o.hash}
+                      {...(o.hash ? { hash: o.hash } : {})}
                       className="block rounded-2xl px-4 py-2.5 text-sm font-bold transition-colors hover:bg-secondary"
                       onClick={() => setOppsOpen(false)}
                     >
@@ -238,7 +238,7 @@ export function Header() {
             </Link>
             <div className="mb-1 flex flex-col ps-4">
               {opportunityLinks.map((o) => (
-                <Link key={o.label} to={o.to} hash={o.hash} className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70" onClick={() => setOpen(false)}>
+                <Link key={o.label} to={o.to} {...(o.hash ? { hash: o.hash } : {})} className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70" onClick={() => setOpen(false)}>
                   — {o.label}
                 </Link>
               ))}

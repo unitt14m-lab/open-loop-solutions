@@ -3,6 +3,15 @@ import { Instagram, Mail, Phone, MapPin, Twitter, HeartHandshake } from "lucide-
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/site";
+import { LEGAL_ENTITY } from "@/data/legal";
+
+const importantLinks = [
+  { to: "/terms", label: "الشروط والأحكام العامة" },
+  { to: "/competition-terms", label: "شروط وأحكام المنافسات" },
+  { to: "/privacy", label: "سياسة الخصوصية وفق نظام حماية البيانات الشخصية" },
+  { to: "/refund-policy", label: "سياسة الإلغاء والاسترجاع لرسوم الخدمات" },
+  { to: "/faq", label: "الأسئلة الشائعة" },
+] as const;
 
 function TikTok(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -47,7 +56,7 @@ export function JoinBanner() {
 export function Footer() {
   return (
     <footer className="border-t border-primary-foreground/10 bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-1">
           <Logo light />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-primary-foreground/75">
@@ -120,6 +129,19 @@ export function Footer() {
         </div>
 
         <div>
+          <h3 className="text-sm font-extrabold">روابط مهمة</h3>
+          <ul className="mt-4 space-y-2 text-sm text-primary-foreground/75">
+            {importantLinks.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className="transition-colors hover:text-gold">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
           <h3 className="text-sm font-extrabold">تواصل معنا</h3>
           <ul className="mt-4 space-y-3 text-sm text-primary-foreground/75">
             <li className="flex items-center gap-2">
@@ -136,7 +158,7 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0 text-gold" />
-              الطائف، المملكة العربية السعودية
+              {LEGAL_ENTITY.address}
             </li>
           </ul>
         </div>
@@ -145,9 +167,9 @@ export function Footer() {
       <div className="border-t border-primary-foreground/15">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 text-xs text-primary-foreground/75 sm:px-6 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
           <dl className="grid gap-2 sm:grid-cols-3">
-            <div><dt className="font-extrabold text-primary-foreground">السجل التجاري</dt><dd className="mt-1" dir="ltr">—</dd></div>
-            <div><dt className="font-extrabold text-primary-foreground">الرقم الضريبي</dt><dd className="mt-1" dir="ltr">—</dd></div>
-            <div><dt className="font-extrabold text-primary-foreground">العنوان الوطني</dt><dd className="mt-1">الطائف، المملكة العربية السعودية</dd></div>
+            <div><dt className="font-extrabold text-primary-foreground">الكيان القانوني</dt><dd className="mt-1">{LEGAL_ENTITY.name}</dd></div>
+            <div><dt className="font-extrabold text-primary-foreground">السجل التجاري</dt><dd className="mt-1">[ {LEGAL_ENTITY.cr} ]</dd></div>
+            <div><dt className="font-extrabold text-primary-foreground">العنوان</dt><dd className="mt-1">{LEGAL_ENTITY.address}</dd></div>
           </dl>
           <div className="flex items-center gap-3 rounded-2xl border border-dashed border-primary-foreground/25 px-4 py-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary-foreground/10 text-[10px] font-extrabold">شعار</span>

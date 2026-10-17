@@ -17,11 +17,16 @@ import { Route as BookingRouteImport } from './routes/booking'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CateringRouteImport } from './routes/catering'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CompetitionTermsRouteImport } from './routes/competition-terms'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
@@ -66,6 +71,16 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompetitionTermsRoute = CompetitionTermsRouteImport.update({
+  id: '/competition-terms',
+  path: '/competition-terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
@@ -81,6 +96,16 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -89,6 +114,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -120,11 +150,16 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
+  '/competition-terms': typeof CompetitionTermsRoute
+  '/faq': typeof FaqRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -138,10 +173,15 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
+  '/competition-terms': typeof CompetitionTermsRoute
+  '/faq': typeof FaqRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -157,11 +197,16 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/catering': typeof CateringRoute
   '/community': typeof CommunityRoute
+  '/competition-terms': typeof CompetitionTermsRoute
+  '/faq': typeof FaqRoute
   '/library': typeof LibraryRoute
   '/packages': typeof PackagesRoute
   '/portfolio': typeof PortfolioRoute
+  '/privacy': typeof PrivacyRoute
+  '/refund-policy': typeof RefundPolicyRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/services/$category': typeof ServicesCategoryRoute
@@ -177,11 +222,16 @@ export interface FileRouteTypes {
     | '/careers'
     | '/catering'
     | '/community'
+    | '/competition-terms'
+    | '/faq'
     | '/library'
     | '/packages'
     | '/portfolio'
+    | '/privacy'
+    | '/refund-policy'
     | '/services'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin'
     | '/dashboard'
     | '/services/$category'
@@ -195,10 +245,15 @@ export interface FileRouteTypes {
     | '/careers'
     | '/catering'
     | '/community'
+    | '/competition-terms'
+    | '/faq'
     | '/library'
     | '/packages'
     | '/portfolio'
+    | '/privacy'
+    | '/refund-policy'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin'
     | '/dashboard'
     | '/services/$category'
@@ -213,11 +268,16 @@ export interface FileRouteTypes {
     | '/careers'
     | '/catering'
     | '/community'
+    | '/competition-terms'
+    | '/faq'
     | '/library'
     | '/packages'
     | '/portfolio'
+    | '/privacy'
+    | '/refund-policy'
     | '/services'
     | '/sitemap.xml'
+    | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/services/$category'
@@ -233,11 +293,16 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   CateringRoute: typeof CateringRoute
   CommunityRoute: typeof CommunityRoute
+  CompetitionTermsRoute: typeof CompetitionTermsRoute
+  FaqRoute: typeof FaqRoute
   LibraryRoute: typeof LibraryRoute
   PackagesRoute: typeof PackagesRoute
   PortfolioRoute: typeof PortfolioRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -298,6 +363,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/competition-terms': {
+      id: '/competition-terms'
+      path: '/competition-terms'
+      fullPath: '/competition-terms'
+      preLoaderRoute: typeof CompetitionTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -319,6 +398,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -331,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -400,11 +500,16 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   CateringRoute: CateringRoute,
   CommunityRoute: CommunityRoute,
+  CompetitionTermsRoute: CompetitionTermsRoute,
+  FaqRoute: FaqRoute,
   LibraryRoute: LibraryRoute,
   PackagesRoute: PackagesRoute,
   PortfolioRoute: PortfolioRoute,
+  PrivacyRoute: PrivacyRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

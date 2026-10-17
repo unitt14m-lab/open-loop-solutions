@@ -72,7 +72,7 @@ function Index() {
           <Button
             asChild
             size="lg"
-            className="mt-8 rounded-full bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90 dark:bg-gold dark:text-gold-foreground dark:hover:bg-gold/90"
+            className="mt-8 rounded-full bg-primary px-8 text-base font-bold text-primary-foreground hover:bg-primary/90 dark:bg-mist dark:text-mist-foreground dark:hover:bg-mist/90"
           >
             <Link to="/about">
               اقرأ قصتنا

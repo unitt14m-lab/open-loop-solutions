@@ -38,7 +38,7 @@ export function AuthGate({
         <div className="glass-panel border-dashed p-8 text-center">
           <LogIn className="mx-auto h-6 w-6 text-gold" aria-hidden />
           <p className="mt-3 text-sm font-bold text-white">{message}</p>
-          <Button asChild className="glow-gold mt-4 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90">
+          <Button asChild className="glow-mist mt-4 rounded-full bg-mist font-bold text-mist-foreground hover:bg-mist/90">
             <Link to="/auth" search={{ redirect: undefined }}>تسجيل الدخول / إنشاء حساب</Link>
           </Button>
         </div>

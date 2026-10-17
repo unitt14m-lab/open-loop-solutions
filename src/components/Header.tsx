@@ -80,7 +80,7 @@ export function Header() {
                         <Link
                           to="/services/$category"
                           params={{ category: c.slug }}
-                          className="text-sm font-bold hover:text-primary dark:hover:text-gold"
+                          className="text-sm font-bold hover:text-primary dark:hover:text-mist"
                           onClick={() => setServicesOpen(false)}
                         >
                           {c.order}: {c.title}
@@ -89,7 +89,7 @@ export function Header() {
                           to="/services/$category"
                           params={{ category: c.slug }}
                           search={{ service: "all" }}
-                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-gold"
+                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-mist"
                           onClick={() => setServicesOpen(false)}
                         >
                           اختيار الكل
@@ -170,7 +170,7 @@ export function Header() {
           <Button
             asChild
             size="sm"
-            className="ms-2 rounded-full bg-gold px-5 font-bold text-gold-foreground hover:bg-gold/90"
+            className="ms-2 rounded-full bg-mist px-5 font-bold text-mist-foreground hover:bg-mist/90"
           >
             <Link {...(user ? { to: "/dashboard" as const } : { to: "/auth" as const, search: { redirect: undefined } })}>
               {user ? (
@@ -250,7 +250,7 @@ export function Header() {
             ))}
             <Button
               asChild
-              className="mt-2 rounded-full bg-gold font-bold text-gold-foreground hover:bg-gold/90"
+              className="mt-2 rounded-full bg-mist font-bold text-mist-foreground hover:bg-mist/90"
             >
               <Link
                 {...(user ? { to: "/dashboard" as const } : { to: "/auth" as const, search: { redirect: undefined } })}

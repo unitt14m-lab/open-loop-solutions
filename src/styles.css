@@ -78,14 +78,14 @@
    navy #17374A · petrol #2F5257 · terracotta #C34A36 · amber #E09F48 · charcoal #4E5052 */
 
 :root {
-  --type-h1: clamp(40px, 5vw, 48px);
-  --type-h2: 32px;
-  --type-h3: clamp(24px, 3vw, 28px);
-  --type-h4: 20px;
-  --type-body: 16px;
-  --type-helper: 14px;
-  --type-button: 16px;
-  --type-detail: 12px;
+  --type-h1: clamp(28px, 4vw, 34px);
+  --type-h2: 24px;
+  --type-h3: 20px;
+  --type-h4: 17px;
+  --type-body: 14px;
+  --type-helper: 13px;
+  --type-button: 14px;
+  --type-detail: 11px;
   --radius: 1rem;
   --background: #f8fafc;
   --foreground: #17374a;
@@ -283,9 +283,6 @@ button span, [data-slot="button"] span {
   font-size: inherit;
 }
 
-@media (min-width: 1280px) {
-  :root { --type-body: 18px; }
-}
 
 @utility surface-ink {
   background-image: var(--gradient-ink);

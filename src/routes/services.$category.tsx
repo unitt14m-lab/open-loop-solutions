@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Check, FilePlus2, FileX2, ReceiptText } from "lucide-react";
+import { FilePlus2, FileX2, ReceiptText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { JoinBanner } from "@/components/Footer";
 import { ServiceRequestForm } from "@/components/ServiceRequestForm";

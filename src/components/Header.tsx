@@ -36,6 +36,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [oppsOpen, setOppsOpen] = useState(false);
+  const [expandedCats, setExpandedCats] = useState<Record<string, boolean>>({});
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  const toggleCat = (slug: string) =>
+    setExpandedCats((s) => ({ ...s, [slug]: !s[slug] }));
 
   const displayName =
     (user?.user_metadata as { full_name?: string } | undefined)?.full_name ||
@@ -74,43 +79,62 @@ export function Header() {
             {servicesOpen && (
               <div className="absolute end-0 top-full w-[26rem] pt-2">
                 <div className="max-h-[75vh] overflow-y-auto rounded-3xl border border-border bg-popover p-2 text-popover-foreground shadow-xl">
-                  {serviceCategories.map((c) => (
-                    <div key={c.slug} className="rounded-2xl px-3 py-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <Link
-                          to="/services/$category"
-                          params={{ category: c.slug }}
-                          className="text-sm font-bold hover:text-primary dark:hover:text-primary-foreground"
-                          onClick={() => setServicesOpen(false)}
-                        >
-                          {c.order}: {c.title}
-                        </Link>
-                        <Link
-                          to="/services/$category"
-                          params={{ category: c.slug }}
-                          search={{ service: "all" }}
-                          className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-primary-foreground"
-                          onClick={() => setServicesOpen(false)}
-                        >
-                          اختيار الكل
-                        </Link>
-                      </div>
-                      <div className="mt-1.5 flex flex-col border-s-2 border-border ps-2">
-                        {c.items.map((it) => (
+                  {serviceCategories.map((c) => {
+                    const expanded = !!expandedCats[c.slug];
+                    return (
+                      <div key={c.slug} className="rounded-2xl px-3 py-2">
+                        <div className="flex items-center justify-between gap-2">
                           <Link
-                            key={it}
                             to="/services/$category"
                             params={{ category: c.slug }}
-                            search={{ service: it }}
-                            className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                            className="text-sm font-bold hover:text-primary dark:hover:text-primary-foreground"
                             onClick={() => setServicesOpen(false)}
                           >
-                            {it}
+                            {c.order}: {c.title}
                           </Link>
-                        ))}
+                          <div className="flex shrink-0 items-center gap-1.5">
+                            <Link
+                              to="/services/$category"
+                              params={{ category: c.slug }}
+                              search={{ service: "all" }}
+                              className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary hover:bg-primary hover:text-primary-foreground dark:text-primary-foreground"
+                              onClick={() => setServicesOpen(false)}
+                            >
+                              اختيار الكل
+                            </Link>
+                            <button
+                              type="button"
+                              aria-expanded={expanded}
+                              aria-label={`عرض خدمات ${c.title}`}
+                              onClick={() => toggleCat(c.slug)}
+                              className="grid h-7 w-7 place-items-center rounded-full border border-border text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                            >
+                              <ChevronDown
+                                className={`h-4 w-4 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+                                aria-hidden
+                              />
+                            </button>
+                          </div>
+                        </div>
+                        {expanded && (
+                          <div className="mt-1.5 flex flex-col border-s-2 border-border ps-2">
+                            {c.items.map((it) => (
+                              <Link
+                                key={it}
+                                to="/services/$category"
+                                params={{ category: c.slug }}
+                                search={{ service: it }}
+                                className="rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                                onClick={() => setServicesOpen(false)}
+                              >
+                                {it}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                   <Link
                     to="/catering"
                     className="block rounded-2xl px-3 py-3 transition-colors hover:bg-secondary"
@@ -204,35 +228,82 @@ export function Header() {
 
       {open && (
         <div className="border-t border-primary-foreground/15 bg-primary lg:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
+          <div className="mx-auto flex max-h-[75vh] max-w-7xl flex-col gap-1 overflow-y-auto px-4 py-4 sm:px-6">
             {beforeServices.map((l) => (
               <Link key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
                 {l.label}
               </Link>
             ))}
-            <Link to="/services" className={linkClass} onClick={() => setOpen(false)}>
+
+            <button
+              type="button"
+              aria-expanded={mobileServicesOpen}
+              onClick={() => setMobileServicesOpen((v) => !v)}
+              className={`${linkClass} flex items-center justify-between`}
+            >
               الخدمات
-            </Link>
-            <div className="mb-1 flex flex-col ps-4">
-              {serviceCategories.map((c) => (
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                aria-hidden
+              />
+            </button>
+            {mobileServicesOpen && (
+              <div className="mb-1 flex flex-col ps-3">
+                {serviceCategories.map((c) => {
+                  const expanded = !!expandedCats[`m-${c.slug}`];
+                  return (
+                    <div key={c.slug}>
+                      <div className="flex items-center justify-between gap-2">
+                        <Link
+                          to="/services/$category"
+                          params={{ category: c.slug }}
+                          className="rounded-full px-3 py-1.5 text-sm font-semibold text-primary-foreground/80"
+                          onClick={() => setOpen(false)}
+                        >
+                          {c.title}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-expanded={expanded}
+                          aria-label={`عرض خدمات ${c.title}`}
+                          onClick={() => toggleCat(`m-${c.slug}`)}
+                          className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-primary-foreground/25 text-primary-foreground/70"
+                        >
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+                            aria-hidden
+                          />
+                        </button>
+                      </div>
+                      {expanded && (
+                        <div className="mb-1 flex flex-col border-s border-primary-foreground/20 ps-5">
+                          {c.items.map((it) => (
+                            <Link
+                              key={it}
+                              to="/services/$category"
+                              params={{ category: c.slug }}
+                              search={{ service: it }}
+                              className="rounded-full px-3 py-1.5 text-xs text-primary-foreground/65"
+                              onClick={() => setOpen(false)}
+                            >
+                              {it}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
                 <Link
-                  key={c.slug}
-                  to="/services/$category"
-                  params={{ category: c.slug }}
-                  className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70"
+                  to="/catering"
+                  className="rounded-full px-3 py-1.5 text-sm font-semibold text-primary-foreground/80"
                   onClick={() => setOpen(false)}
                 >
-                  — {c.title}
+                  مشاريع الاعاشة
                 </Link>
-              ))}
-              <Link
-                to="/catering"
-                className="rounded-full px-3 py-1.5 text-sm text-primary-foreground/70"
-                onClick={() => setOpen(false)}
-              >
-                — مشاريع الاعاشة
-              </Link>
-            </div>
+              </div>
+            )}
+
             <Link to="/community" className={linkClass} onClick={() => setOpen(false)}>
               فرص أوبن لوب
             </Link>
